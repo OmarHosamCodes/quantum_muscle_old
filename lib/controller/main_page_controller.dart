@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../view/screens/testpage.dart';
+import 'package:quantum_muscle/view/screens/food/food.dart';
+import 'package:quantum_muscle/view/screens/messages/messages.dart';
+import 'package:quantum_muscle/view/screens/settings/settings.dart';
+import 'package:quantum_muscle/view/screens/workouts/workouts.dart';
 
 class MainPageController extends GetxController {
   static List<Widget> children = <Widget>[
-    const TestPage(
-      index: 0,
-    ),
-    const TestPage(
-      index: 1,
-    ),
-    const TestPage(
-      index: 2,
-    ),
-    const TestPage(
-      index: 3,
-    )
+    const FoodPage(),
+    const WorkoutsPage(),
+    const MessagesPage(),
+    const SettingsPage()
   ];
 
   var selectedIndex = 0.obs;

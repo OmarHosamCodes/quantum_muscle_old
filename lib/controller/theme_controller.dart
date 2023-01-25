@@ -3,43 +3,32 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ThemeController extends GetxController {
-  static ThemeData darkTheme = ThemeData.dark().copyWith(
-    textTheme: TextTheme(
-        bodyLarge: TextStyle(fontSize: 100.sp, color: Colors.white),
-        bodyMedium: TextStyle(fontSize: 50.sp, color: Colors.grey.shade600),
-        bodySmall: TextStyle(fontSize: 25.sp, color: Colors.white)),
-    inputDecorationTheme: InputDecorationTheme(
-      labelStyle: Get.textTheme.bodySmall,
-      hintStyle: Get.textTheme.bodySmall,
-      errorStyle: Get.textTheme.bodySmall,
-      helperStyle: Get.textTheme.bodySmall,
-      prefixStyle: Get.textTheme.bodySmall,
-      suffixStyle: Get.textTheme.bodySmall,
-      counterStyle: Get.textTheme.bodySmall,
-      floatingLabelStyle: Get.textTheme.bodySmall,
-      fillColor: Get.theme.scaffoldBackgroundColor,
-      iconColor: Get.theme.scaffoldBackgroundColor,
-      focusColor: Get.theme.scaffoldBackgroundColor,
-      hoverColor: Get.theme.scaffoldBackgroundColor,
-      prefixIconColor: Get.theme.scaffoldBackgroundColor,
-      suffixIconColor: Get.theme.scaffoldBackgroundColor,
-    ),
-  );
+
   static ThemeData lightTheme = ThemeData.light().copyWith(
     scaffoldBackgroundColor: Colors.grey[300],
     appBarTheme: AppBarTheme(color: Colors.grey.shade500, centerTitle: true),
     focusColor: Get.theme.scaffoldBackgroundColor,
     errorColor: Colors.red.shade700,
     primaryColor: Colors.teal,
-    colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.green.shade200),
+    colorScheme:
+        ColorScheme.fromSwatch().copyWith(secondary: Colors.green.shade200),
     textTheme: TextTheme(
+      titleSmall: TextStyle(
+                  color: Colors.grey.shade700,
+                  fontSize: 16,
+                ),
+      titleMedium: const TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+        fontSize: 16,
+      ),
       headlineLarge: TextStyle(fontSize: 70.sp, color: Colors.black),
       headlineMedium:
           TextStyle(fontSize: 50.sp, color: Get.theme.scaffoldBackgroundColor),
       headlineSmall:
           TextStyle(fontSize: 25.sp, color: Get.theme.scaffoldBackgroundColor),
       bodyLarge: TextStyle(fontSize: 100.sp, color: Colors.black),
-      bodyMedium: TextStyle(fontSize: 50.sp, color: Colors.grey.shade800),
+      bodyMedium: TextStyle(fontSize: 40.sp, color: Colors.grey.shade800),
       bodySmall: TextStyle(fontSize: 25.sp, color: Colors.black),
     ),
     inputDecorationTheme: InputDecorationTheme(
@@ -57,13 +46,10 @@ class ThemeController extends GetxController {
       hoverColor: Get.theme.scaffoldBackgroundColor,
       prefixIconColor: Get.theme.scaffoldBackgroundColor,
       suffixIconColor: Get.theme.scaffoldBackgroundColor,
-      focusedBorder:  OutlineInputBorder(
-        borderSide: BorderSide(
-          color: Get.theme.focusColor,
-          width: 2
-        ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Get.theme.focusColor, width: 2),
       ),
-      border:  OutlineInputBorder(
+      border: OutlineInputBorder(
         borderSide: BorderSide(
           color: Get.theme.focusColor,
         ),
@@ -80,6 +66,5 @@ class ThemeController extends GetxController {
             MaterialStatePropertyAll(Get.theme.scaffoldBackgroundColor),
       ),
     ),
-    
   );
 }

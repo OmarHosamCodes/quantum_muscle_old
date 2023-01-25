@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quantum_muscle/constants/routes_constants.dart';
-
 import '../../model/auth/user_model.dart';
 
 class SignupController extends GetxController {
-  final FirebaseAuth firebaseAuthInstants = FirebaseAuth.instance;
-  FirebaseFirestore firebaseFirestoreInstants = FirebaseFirestore.instance;
+  final firebaseAuthInstants = FirebaseAuth.instance;
+  final firebaseFirestoreInstants = FirebaseFirestore.instance;
+  final firebaseStorage = FirebaseStorage.instance;
 
   void signUserUp(
       String email, String password, String userName, String errorMessage) {
@@ -15,30 +17,25 @@ class SignupController extends GetxController {
       firebaseAuthInstants
           .createUserWithEmailAndPassword(email: email, password: password)
           .whenComplete(() => afterSignUp(userName))
-          .whenComplete(() => Get.toNamed(RoutesConstants.homePage));
+          .whenComplete(
+        () {
+          Get.offNamedUntil(
+            RoutesConstants.mainPage,
+            (route) => false,
+          );
+          Get.snackbar("Success", "Register Is Successfully");
+        },
+      );
     } on FirebaseAuthException catch (e) {
-      switch (e.code) {
-        case "invalid-email":
-          errorMessage = "Your email address appears to be malformed.";
-          break;
-        case "wrong-password":
-          errorMessage = "Your password is wrong.";
-          break;
-        case "user-not-found":
-          errorMessage = "User with this email doesn't exist.";
-          break;
-        case "user-disabled":
-          errorMessage = "User with this email has been disabled.";
-          break;
-        case "too-many-requests":
-          errorMessage = "Too many requests";
-          break;
-        case "operation-not-allowed":
-          errorMessage = "Signing in with Email and Password is not enabled.";
-          break;
-        default:
-          errorMessage = "An undefined Error happened.";
-      }
+      Get.dialog(Dialog(
+        backgroundColor: Get.theme.primaryColor,
+        elevation: 0,
+        insetAnimationDuration: 300.milliseconds,
+        child: Text(
+          e.toString(),
+          style: Get.textTheme.bodyMedium,
+        ),
+      ));
     }
   }
 

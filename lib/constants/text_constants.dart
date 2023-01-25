@@ -1,8 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 class LoginConstants {
-  static const WELCOMEBACKTOP = "Welcome Back!"; //
-  static const WELCOMEBACKBOTTOM = "Please Login To Continue"; //
+  static const WELCOMEBACK = "Welcome back you've been missed!"; //
   static const LOGIN = "Login"; //
   static const EMAIL = 'Email'; //
   static const PASSWORD = 'Password'; //
@@ -22,7 +21,17 @@ class SignupConstants {
   static const LOGIN = 'Login'; //
   static const SIGNUP = 'Signup'; //
 }
+
+class ForgetPasswordConstants {
+  static const FORGOTPASSWORD = 'Forgot Password';
+  static const NOPROBLEM = 'No Problem';
+  static const ENTEREMAIL = 'Enter Email';
+  static const NEWPASSWORD = 'New Password'; 
+  static const SENDEMAIL = 'Send Email';
+  static const RESEND = 'Resend';
+
+}
+
 class PublicConstants {
   static const EMPTY = '';
-  
 }
