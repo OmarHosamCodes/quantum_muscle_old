@@ -3,11 +3,12 @@ import 'package:quantum_muscle/constants/routes_constants.dart';
 import 'package:quantum_muscle/view/screens/auth/login.dart';
 import 'package:quantum_muscle/view/screens/auth/signup.dart';
 import 'package:quantum_muscle/view/screens/home/home.dart';
+import 'package:quantum_muscle/view/screens/main/main_page.dart';
 
 final List<GetPage> appRoutes = <GetPage>[
   GetPage(
     name: RoutesConstants.loginPage,
-    page: () =>    LoginPage(),
+    page: () => LoginPage(),
     transition: Transition.circularReveal,
     transitionDuration: const Duration(
       milliseconds: 300,
@@ -15,7 +16,7 @@ final List<GetPage> appRoutes = <GetPage>[
   ),
   GetPage(
     name: RoutesConstants.signupPage,
-    page: () =>  SignupPage(),
+    page: () => SignupPage(),
     transition: Transition.circularReveal,
     transitionDuration: const Duration(
       milliseconds: 500,
@@ -23,10 +24,14 @@ final List<GetPage> appRoutes = <GetPage>[
   ),
   GetPage(
     name: RoutesConstants.homePage,
-    page: () => HomePage(),
+    page: () => const HomePage(),
     transition: Transition.cupertino,
     transitionDuration: const Duration(
       milliseconds: 500,
     ),
+  ),
+  GetPage(
+    name: RoutesConstants.mainPage,
+    page: () => MainPage(),
   ),
 ];

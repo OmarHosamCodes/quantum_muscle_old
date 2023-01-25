@@ -22,3 +22,7 @@ class SignupConstants {
   static const LOGIN = 'Login'; //
   static const SIGNUP = 'Signup'; //
 }
+class PublicConstants {
+  static const EMPTY = '';
+  
+}

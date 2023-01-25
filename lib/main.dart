@@ -12,7 +12,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
 
   runApp(const MyApp());
 }
@@ -26,7 +25,7 @@ class MyApp extends StatelessWidget {
       designSize: const Size(1080, 1920),
       builder: (_, child) {
         return GetMaterialApp(
-          initialRoute: RoutesConstants.loginPage,
+          initialRoute: RoutesConstants.mainPage,
           debugShowCheckedModeBanner: false,
           theme: ThemeController.lightTheme,
           getPages: appRoutes,
