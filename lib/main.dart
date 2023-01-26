@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:quantum_muscle/controller/theme_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'constants/routes_constants.dart';
@@ -12,6 +13,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await GetStorage.init();
   runApp(const MyApp());
 }
 
@@ -27,6 +29,8 @@ class MyApp extends StatelessWidget {
           initialRoute: RoutesConstants.mainPage,
           debugShowCheckedModeBanner: false,
           theme: ThemeController.lightTheme,
+          darkTheme: ThemeController.darkTheme,
+          themeMode: ThemeController().getThemeMode(),
           getPages: appRoutes,
         );
       },

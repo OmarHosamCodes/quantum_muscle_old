@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:quantum_muscle/constants/routes_constants.dart';
+import 'package:quantum_muscle/main.dart';
 import 'package:quantum_muscle/view/screens/auth/forget_password.dart';
 import 'package:quantum_muscle/view/screens/auth/login.dart';
 import 'package:quantum_muscle/view/screens/auth/signup.dart';
@@ -26,5 +27,9 @@ final List<GetPage> appRoutes = <GetPage>[
     name: RoutesConstants.forgetPasswordPage,
     page: () => ForgetPasswordPage(),
     transition: Transition.circularReveal,
+  ),
+  GetPage(
+    name: RoutesConstants.myApp,
+    page: () => const MyApp(),
   ),
 ];

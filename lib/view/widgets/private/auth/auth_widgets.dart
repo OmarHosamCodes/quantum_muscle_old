@@ -75,7 +75,7 @@ class QFTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextFormField(
-        style: Get.textTheme.bodyMedium,
+        style: Get.textTheme.titleSmall,
         cursorColor: Colors.grey,
         controller: controller,
         obscureText: obscureText,
@@ -90,7 +90,7 @@ class QFTextField extends StatelessWidget {
           fillColor: Colors.grey.shade200,
           filled: true,
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey[500], fontSize: 40.sp),
+          hintStyle: Get.textTheme.titleSmall,
         ),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: validator,

@@ -3,7 +3,6 @@ class UserModel {
   String? email;
   String? userName;
 
-
   UserModel({this.uid, this.email, this.userName});
 
   // receiving data from server
@@ -12,7 +11,6 @@ class UserModel {
       uid: map['uid'],
       email: map['email'],
       userName: map['userName'],
-      
     );
   }
 
@@ -22,7 +20,6 @@ class UserModel {
       'uid': uid,
       'email': email,
       'userName': userName,
-     
     };
   }
 }

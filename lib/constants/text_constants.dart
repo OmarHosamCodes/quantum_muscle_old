@@ -38,3 +38,8 @@ class PublicConstants {
   static const EMPTY = '';
   static const ERROR = 'Somthing Went Wrong';
 }
+
+class WorkoutsConstants {
+  static const WORKOUTNAME = 'Workout Name';
+  static const CREATE = 'Create';
+}

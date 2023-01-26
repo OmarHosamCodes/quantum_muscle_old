@@ -4,4 +4,5 @@ class RoutesConstants {
   static const homePage = '/home-page';
   static const mainPage = '/main-page';
   static const forgetPasswordPage = '/forget-password-page';
+  static const myApp = '/my-app';
 }

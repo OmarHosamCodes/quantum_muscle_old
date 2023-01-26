@@ -8,9 +8,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quantum_muscle/view/screens/auth/error.dart';
 import 'package:quantum_muscle/view/screens/auth/login.dart';
 
+final PageController pageController = PageController();
+
 class MainPage extends StatelessWidget {
   MainPage({super.key});
-  final PageController pageController = PageController();
   final controller = Get.put(MainPageController());
   final firebaseAuthInstants = FirebaseAuth.instance;
 
@@ -24,7 +25,7 @@ class MainPage extends StatelessWidget {
             () => Scaffold(
               resizeToAvoidBottomInset: false,
               extendBodyBehindAppBar: true,
-              extendBody: true,
+              extendBody: false,
               bottomNavigationBar: SafeArea(
                 child: GNav(
                   onTabChange: (index) {
@@ -39,22 +40,25 @@ class MainPage extends StatelessWidget {
                   curve: Curves.linear,
                   duration: 900.milliseconds,
                   gap: 8,
-                  color: Colors.black,
                   activeColor: Colors.teal,
                   iconSize: 30,
                   padding: EdgeInsets.only(
                       left: 70.0.w, right: 70.0.w, bottom: 100.0.h),
-                  tabs: const [
+                  tabs: [
                     GButton(
+                      iconColor: Get.theme.iconTheme.color,
                       icon: EvaIcons.homeOutline,
                     ),
                     GButton(
+                      iconColor: Get.theme.iconTheme.color,
                       icon: EvaIcons.gridOutline,
                     ),
                     GButton(
+                      iconColor: Get.theme.iconTheme.color,
                       icon: EvaIcons.messageSquareOutline,
                     ),
                     GButton(
+                      iconColor: Get.theme.iconTheme.color,
                       icon: EvaIcons.settings2Outline,
                     ),
                   ],
