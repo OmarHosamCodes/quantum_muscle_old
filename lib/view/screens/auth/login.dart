@@ -13,7 +13,6 @@ class LoginPage extends StatelessWidget {
   final TextEditingController emailAddressController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,10 +85,12 @@ class LoginPage extends StatelessWidget {
               // log in button
               QFButton(
                 text: LoginConstants.LOGIN,
-                onTap: () => LogInController().logUserIn(
-                  emailAddressController.text,
-                  passwordController.text,
-                ),
+                onTap: () {
+                  LogInController().logUserIn(
+                    emailAddressController.text,
+                    passwordController.text,
+                  );
+                },
               ),
               SizedBox(height: 50.h),
               const Spacer(),

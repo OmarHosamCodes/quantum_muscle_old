@@ -11,31 +11,24 @@ class SignupController extends GetxController {
   final firebaseFirestoreInstants = FirebaseFirestore.instance;
   final firebaseStorage = FirebaseStorage.instance;
 
-  void signUserUp(
-      String email, String password, String userName, String errorMessage) {
+  Future signUserUp(
+    String email,
+    String password,
+    String userName,
+    GlobalKey<FormState> formKey,
+  ) async {
+    final isValid = formKey.currentState!.validate();
+    if (!isValid) return;
+
     try {
-      firebaseAuthInstants
+      await firebaseAuthInstants
           .createUserWithEmailAndPassword(email: email, password: password)
           .whenComplete(() => afterSignUp(userName))
+          .whenComplete(() => Get.toNamed(RoutesConstants.mainPage))
           .whenComplete(
-        () {
-          Get.offNamedUntil(
-            RoutesConstants.mainPage,
-            (route) => false,
-          );
-          Get.snackbar("Success", "Register Is Successfully");
-        },
-      );
+              () => Get.snackbar("Success", "Register Is Successfully"));
     } on FirebaseAuthException catch (e) {
-      Get.dialog(Dialog(
-        backgroundColor: Get.theme.primaryColor,
-        elevation: 0,
-        insetAnimationDuration: 300.milliseconds,
-        child: Text(
-          e.toString(),
-          style: Get.textTheme.bodyMedium,
-        ),
-      ));
+      Get.snackbar("Error", e.message!);
     }
   }
 

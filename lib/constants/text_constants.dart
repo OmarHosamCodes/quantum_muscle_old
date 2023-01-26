@@ -20,18 +20,21 @@ class SignupConstants {
   static const AMEMBER = 'A member?'; //
   static const LOGIN = 'Login'; //
   static const SIGNUP = 'Signup'; //
+  static const VALIDEMAIL = 'Enter Valid Email';
+  static const VALIDPASSWORD = 'Enter Valid Password';
+  static const VALIDUSERNAME = 'Enter Valid Username';
 }
 
 class ForgetPasswordConstants {
   static const FORGOTPASSWORD = 'Forgot Password';
   static const NOPROBLEM = 'No Problem';
   static const ENTEREMAIL = 'Enter Email';
-  static const NEWPASSWORD = 'New Password'; 
+  static const NEWPASSWORD = 'New Password';
   static const SENDEMAIL = 'Send Email';
   static const RESEND = 'Resend';
-
 }
 
 class PublicConstants {
   static const EMPTY = '';
+  static const ERROR = 'Somthing Went Wrong';
 }

@@ -18,3 +18,4 @@ class MainPageController extends GetxController {
     selectedIndex.value = index;
   }
 }
+// 

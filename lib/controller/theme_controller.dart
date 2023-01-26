@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ThemeController extends GetxController {
-
   static ThemeData lightTheme = ThemeData.light().copyWith(
     scaffoldBackgroundColor: Colors.grey[300],
     appBarTheme: AppBarTheme(color: Colors.grey.shade500, centerTitle: true),
@@ -14,9 +13,9 @@ class ThemeController extends GetxController {
         ColorScheme.fromSwatch().copyWith(secondary: Colors.green.shade200),
     textTheme: TextTheme(
       titleSmall: TextStyle(
-                  color: Colors.grey.shade700,
-                  fontSize: 16,
-                ),
+        color: Colors.grey.shade700,
+        fontSize: 16,
+      ),
       titleMedium: const TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.bold,

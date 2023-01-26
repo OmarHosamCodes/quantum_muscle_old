@@ -25,8 +25,10 @@ class RowedText extends StatelessWidget {
 class QFButton extends StatelessWidget {
   final Function()? onTap;
   final String text;
+  final Widget? child;
 
-  const QFButton({super.key, required this.onTap, required this.text});
+  const QFButton(
+      {super.key, required this.onTap, required this.text, this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +42,11 @@ class QFButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: Center(
-          child: Text(
-            text,
-            style: Get.textTheme.titleMedium,
-          ),
+          child: child ??
+              Text(
+                text,
+                style: Get.textTheme.titleMedium,
+              ),
         ),
       ),
     );
@@ -57,20 +60,21 @@ class QFTextField extends StatelessWidget {
   final String hintText;
   final bool obscureText;
   final bool hasNext;
+  final String? Function(String?)? validator;
 
-  const QFTextField({
-    super.key,
-    required this.controller,
-    required this.hintText,
-    required this.obscureText,
-    required this.hasNext,
-  });
+  const QFTextField(
+      {super.key,
+      required this.controller,
+      required this.hintText,
+      required this.obscureText,
+      required this.hasNext,
+      this.validator});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: TextField(
+      child: TextFormField(
         style: Get.textTheme.bodyMedium,
         cursorColor: Colors.grey,
         controller: controller,
@@ -88,6 +92,8 @@ class QFTextField extends StatelessWidget {
           hintText: hintText,
           hintStyle: TextStyle(color: Colors.grey[500], fontSize: 40.sp),
         ),
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: validator,
       ),
     );
   }
@@ -95,3 +101,14 @@ class QFTextField extends StatelessWidget {
 
 /////////////////////////////////////////////////////////////////////////
 
+class QFProgressIndicator extends StatelessWidget {
+  const QFProgressIndicator({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return CircularProgressIndicator(
+      color: Get.theme.scaffoldBackgroundColor,
+      strokeWidth: 3.w,
+    );
+  }
+}

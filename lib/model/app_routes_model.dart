@@ -24,7 +24,7 @@ final List<GetPage> appRoutes = <GetPage>[
   ),
   GetPage(
     name: RoutesConstants.forgetPasswordPage,
-    page: () =>  ForgetPasswordPage(),
+    page: () => ForgetPasswordPage(),
     transition: Transition.circularReveal,
   ),
 ];
