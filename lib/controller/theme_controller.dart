@@ -6,7 +6,7 @@ import 'package:quantum_muscle/view/screens/main/main_page.dart';
 
 import '../constants/routes_constants.dart';
 
-class ThemeController extends GetxController {
+class ThemeController {
   static ThemeData lightTheme = ThemeData.light().copyWith(
     useMaterial3: true,
     scaffoldBackgroundColor: Colors.grey[300],
@@ -14,6 +14,9 @@ class ThemeController extends GetxController {
     errorColor: Colors.red.shade700,
     primaryColor: Colors.teal,
     iconTheme: const IconThemeData(color: Colors.black),
+    cardTheme: const CardTheme(
+      color: Colors.teal,
+    ),
     colorScheme:
         ColorScheme.fromSwatch().copyWith(secondary: Colors.green.shade200),
     textTheme: TextTheme(
@@ -28,6 +31,7 @@ class ThemeController extends GetxController {
           TextStyle(fontSize: 50.sp, color: Get.theme.scaffoldBackgroundColor),
       headlineSmall:
           TextStyle(fontSize: 25.sp, color: Get.theme.scaffoldBackgroundColor),
+      // labelMedium: TextStyle(fontSize: 30.sp, color: ),
       bodyLarge: TextStyle(fontSize: 100.sp, color: Colors.black),
       bodyMedium: TextStyle(fontSize: 40.sp, color: Colors.grey.shade800),
       bodySmall: TextStyle(fontSize: 25.sp, color: Colors.black),
@@ -75,6 +79,9 @@ class ThemeController extends GetxController {
     errorColor: Colors.red.shade700,
     primaryColor: Colors.teal,
     iconTheme: const IconThemeData(color: Colors.white),
+    cardTheme: const CardTheme(
+      color: Colors.teal,
+    ),
     colorScheme:
         ColorScheme.fromSwatch().copyWith(secondary: Colors.green.shade200),
     textTheme: TextTheme(

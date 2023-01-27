@@ -30,10 +30,8 @@ class MainPage extends StatelessWidget {
                 child: GNav(
                   onTabChange: (index) {
                     controller.onTabTapped(index);
-                    pageController.animateToPage(
+                    pageController.jumpToPage(
                       index,
-                      duration: 300.milliseconds,
-                      curve: Curves.ease,
                     );
                   },
                   selectedIndex: controller.selectedIndex.value,

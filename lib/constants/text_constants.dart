@@ -42,4 +42,5 @@ class PublicConstants {
 class WorkoutsConstants {
   static const WORKOUTNAME = 'Workout Name';
   static const CREATE = 'Create';
+  static const NODATA = 'No Data';
 }
