@@ -1,36 +1,24 @@
-// ignore_for_file: must_be_immutable, avoid_function_literals_in_foreach_calls
+// ignore_for_file: must_be_immutable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
-import 'package:quantum_muscle/constants/routes_constants.dart';
 import 'package:quantum_muscle/constants/text_constants.dart';
 import 'package:quantum_muscle/controller/workouts/workouts_controller.dart';
-import 'package:quantum_muscle/view/widgets/private/auth/auth_widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quantum_muscle/view/widgets/public/progress_indicator_widget.dart';
 
-class WorkoutsPage extends HookWidget {
+import '../../widgets/public/button_widget.dart';
+import '../../widgets/public/text_field_widget.dart';
+import 'exercises.dart';
+
+class WorkoutsPage extends StatelessWidget {
   WorkoutsPage({super.key});
   final workoutNameController = TextEditingController();
   final controller = WorkoutsController();
   User? user = FirebaseAuth.instance.currentUser;
-
-  List<String> docIDs = [];
-  Future getDocId() async {
-    docIDs.clear();
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user!.uid)
-        .collection('workouts')
-        .get()
-        .then(
-          (snapshot) => snapshot.docs
-              .forEach((document) => docIDs.add(document.reference.id)),
-        );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,11 +44,10 @@ class WorkoutsPage extends HookWidget {
                   height: 30.h,
                 ),
                 QFButton(
-                    onTap: () {
-                      controller.createWorkout(workoutNameController.text);
+                    onTap: () async {
+                      controller.createWorkout(workoutNameController.text, 0);
                       Get.back();
                       workoutNameController.clear();
-                      getDocId();
                     },
                     text: WorkoutsConstants.CREATE),
               ],
@@ -70,35 +57,56 @@ class WorkoutsPage extends HookWidget {
         backgroundColor: Get.theme.primaryColor,
         child: const Icon(EvaIcons.plus),
       ),
-      body: FutureBuilder(
-        future: getDocId(),
-        builder: (context, snapshot) => GridView.builder(
-          shrinkWrap: true,
-          itemCount: docIDs.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-          ),
-          padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 30.h),
-          itemBuilder: (ctx, i) {
-            return SafeArea(
-              child: GestureDetector(
-                onTap: () => Get.toNamed(RoutesConstants.exercisesPage),
-                child: Card(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        docIDs[i],
-                        style: Get.textTheme.headlineMedium,
-                      ),
-                    ],
-                  ),
-                ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(user!.uid)
+            .collection('workouts')
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasData) {
+            return GridView.builder(
+              shrinkWrap: true,
+              itemCount: snapshot.data!.docs.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
               ),
+              padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 30.h),
+              itemBuilder: (ctx, i) {
+                DocumentSnapshot doc = snapshot.data!.docs[i];
+
+                return SafeArea(
+                  child: GestureDetector(
+                    onTap: () => Get.to(() => const ExercisesPage(),
+                        transition: Transition.fadeIn,
+                        duration: 200.milliseconds,
+                        arguments: [
+                          user!.uid,
+                          doc.reference.id,
+                          i.toString(),
+                        ]),
+                    child: Card(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            doc.reference.id,
+                            style: Get.textTheme.headlineMedium,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
             );
-          },
-        ),
+          } else if (snapshot.hasError) {
+            return const Text(PublicConstants.NODATA);
+          } else {
+            return const QFProgressIndicator();
+          }
+        },
       ),
     );
   }

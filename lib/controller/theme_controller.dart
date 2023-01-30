@@ -3,8 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:quantum_muscle/view/screens/main/main_page.dart';
-
-import '../constants/routes_constants.dart';
+import '../constants/text_constants.dart';
 
 class ThemeController {
   static ThemeData lightTheme = ThemeData.light().copyWith(
@@ -137,16 +136,16 @@ class ThemeController {
     ),
   );
 
-  final _getStorage = GetStorage();
+  final getStorage = GetStorage();
 
-  final _darkThemeKey = ('isDarkTheme');
+  final darkThemeKey = ('isDarkTheme');
 
   void saveThemeData(bool isDarkMode) {
-    _getStorage.write(_darkThemeKey, isDarkMode);
+    getStorage.write(darkThemeKey, isDarkMode);
   }
 
   bool isSavedDarkMode() {
-    return _getStorage.read(_darkThemeKey) ?? false;
+    return getStorage.read(darkThemeKey) ?? false;
   }
 
   ThemeMode getThemeMode() {
@@ -157,9 +156,9 @@ class ThemeController {
     Get.changeThemeMode(isSavedDarkMode() ? ThemeMode.light : ThemeMode.dark);
     saveThemeData(!isSavedDarkMode());
     Get.offAndToNamed(
-      RoutesConstants.mainPage,
+      RoutesConstants.MAINPAGE,
       result: (route) => false,
     );
-    pageController.jumpToPage(0);
+    pageController.jumpToPage(1);
   }
 }

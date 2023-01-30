@@ -3,14 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:quantum_muscle/constants/routes_constants.dart';
+import '../../constants/text_constants.dart';
 import '../../model/auth/user_model.dart';
 
 class SignupController extends GetxController {
-  final firebaseAuthInstants = FirebaseAuth.instance;
-  final firebaseFirestoreInstants = FirebaseFirestore.instance;
+  final firebaseAuth = FirebaseAuth.instance;
+  final firebaseFirestore = FirebaseFirestore.instance;
   final firebaseStorage = FirebaseStorage.instance;
-
   Future signUserUp(
     String email,
     String password,
@@ -21,33 +20,29 @@ class SignupController extends GetxController {
     if (!isValid) return;
 
     try {
-      await firebaseAuthInstants
+      await firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password)
-          .whenComplete(() => afterSignUp(userName))
-          .whenComplete(() => Get.toNamed(RoutesConstants.mainPage))
-          .whenComplete(
-              () => Get.snackbar("Success", "Register Is Successfully"));
+          .then((_) => afterSignUp(userName))
+          .then((_) => Get.toNamed(RoutesConstants.MAINPAGE))
+          .then((_) => Get.snackbar("Success", "Register Is Successfully"));
     } on FirebaseAuthException catch (e) {
       Get.snackbar("Error", e.message!);
     }
   }
 
   afterSignUp(String userName) async {
-    User? user = firebaseAuthInstants.currentUser;
+    User? user = firebaseAuth.currentUser;
 
     UserModel userModel = UserModel();
 
-    // writing all the values
     if (user != null) {
       userModel.email = user.email;
       userModel.uid = user.uid;
       userModel.userName = userName;
-      await firebaseFirestoreInstants
+      await firebaseFirestore
           .collection("users")
           .doc(user.uid)
           .set(userModel.toMap());
-    } else {
-      print("error");
     }
   }
 }

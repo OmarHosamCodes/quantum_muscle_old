@@ -1,11 +1,12 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:quantum_muscle/constants/routes_constants.dart';
 import 'package:quantum_muscle/constants/text_constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quantum_muscle/controller/AuthControllers/login_controller.dart';
-import 'package:quantum_muscle/view/widgets/private/auth/auth_widgets.dart';
+import '../../widgets/public/button_widget.dart';
+import '../../widgets/public/rowed_text_widget.dart';
+import '../../widgets/public/text_field_widget.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -67,7 +68,7 @@ class LoginPage extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () =>
-                          Get.toNamed(RoutesConstants.forgetPasswordPage),
+                          Get.toNamed(RoutesConstants.FORGETPASSWORDPAGE),
                       child: RowedText(
                         mainAxisAlignment: MainAxisAlignment.end,
                         child: Text(
@@ -97,7 +98,7 @@ class LoginPage extends StatelessWidget {
 
               // not a member? register now
               GestureDetector(
-                onTap: () => Get.toNamed(RoutesConstants.signupPage),
+                onTap: () => Get.toNamed(RoutesConstants.SIGNUPPAGE),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

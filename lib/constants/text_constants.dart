@@ -1,5 +1,14 @@
 // ignore_for_file: constant_identifier_names
 
+class RoutesConstants {
+  static const LOGINPAGE = '/log-in';
+  static const SIGNUPPAGE = '/sign-up';
+  static const HOMEPAGE = '/home-page';
+  static const MAINPAGE = '/main-page';
+  static const FORGETPASSWORDPAGE = '/forget-password-page';
+  static const EXERCISESPAGE = '/exercises-page';
+}
+
 class LoginConstants {
   static const WELCOMEBACK = "Welcome back you've been missed!"; //
   static const LOGIN = "Login"; //
@@ -37,10 +46,23 @@ class ForgetPasswordConstants {
 class PublicConstants {
   static const EMPTY = '';
   static const ERROR = 'Somthing Went Wrong';
+  static const NODATA = 'No Data';
 }
 
 class WorkoutsConstants {
   static const WORKOUTNAME = 'Workout Name';
   static const CREATE = 'Create';
-  static const NODATA = 'No Data';
+}
+
+class ExercisesConstants {
+  static const ENTERINFO = 'Enter Information';
+  static const SAVE = 'Save';
+  static const WEIGHTS = 'Weights';
+  static const REPS = 'Reps';
+  static const CREATE = 'Create';
+  static const CHOOSEOPTION = 'Choose An Option';
+  static const OPENCAMERA = 'Open Camera';
+  static const OPENGALLERY = 'Open Gallery';
+  static const NAME = 'Name';
+  static const TARGET = 'Target';
 }

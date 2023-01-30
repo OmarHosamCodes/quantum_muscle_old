@@ -7,18 +7,19 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quantum_muscle/view/screens/auth/error.dart';
 import 'package:quantum_muscle/view/screens/auth/login.dart';
+import 'package:quantum_muscle/view/widgets/public/progress_indicator_widget.dart';
 
-final PageController pageController = PageController();
+final PageController pageController = PageController(initialPage: 1);
 
 class MainPage extends StatelessWidget {
   MainPage({super.key});
   final controller = Get.put(MainPageController());
-  final firebaseAuthInstants = FirebaseAuth.instance;
+  final firebaseAuth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
-      stream: firebaseAuthInstants.authStateChanges(),
+      stream: firebaseAuth.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Obx(
@@ -38,22 +39,18 @@ class MainPage extends StatelessWidget {
                   curve: Curves.linear,
                   duration: 900.milliseconds,
                   gap: 8,
-                  activeColor: Colors.teal,
+                  activeColor: Get.theme.primaryColor,
                   iconSize: 30,
                   padding: EdgeInsets.only(
                       left: 70.0.w, right: 70.0.w, bottom: 100.0.h),
                   tabs: [
                     GButton(
                       iconColor: Get.theme.iconTheme.color,
-                      icon: EvaIcons.homeOutline,
+                      icon: EvaIcons.archiveOutline,
                     ),
                     GButton(
                       iconColor: Get.theme.iconTheme.color,
                       icon: EvaIcons.gridOutline,
-                    ),
-                    GButton(
-                      iconColor: Get.theme.iconTheme.color,
-                      icon: EvaIcons.messageSquareOutline,
                     ),
                     GButton(
                       iconColor: Get.theme.iconTheme.color,
@@ -71,9 +68,10 @@ class MainPage extends StatelessWidget {
           );
         } else if (snapshot.hasError) {
           return const ErrorPage();
-        } else {
-          return LoginPage();
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: QFProgressIndicator());
         }
+        return LoginPage();
       },
     );
   }

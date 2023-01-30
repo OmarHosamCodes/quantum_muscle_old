@@ -1,11 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
-import '../../constants/routes_constants.dart';
+import '../../constants/text_constants.dart';
 
 class LogInController {
-  // final TextEditingController emailAddressController = TextEditingController();
-  // final TextEditingController passwordController = TextEditingController();
   final firebaseAuthInstants = FirebaseAuth.instance;
 
   Future logUserIn(String email, String password) async {
@@ -15,8 +13,8 @@ class LogInController {
             email: email,
             password: password,
           )
-          .whenComplete(() => Get.toNamed(RoutesConstants.mainPage))
-          .whenComplete(() => Get.snackbar("Success", "Login Is Successfully"));
+          .then((_) => Get.toNamed(RoutesConstants.MAINPAGE))
+          .then((_) => Get.snackbar("Success", "Login Is Successfully"));
     } on FirebaseAuthException catch (e) {
       Get.snackbar("Error", e.toString());
     }

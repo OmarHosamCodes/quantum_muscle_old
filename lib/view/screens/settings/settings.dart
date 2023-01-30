@@ -8,25 +8,33 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final firebaseAuth = FirebaseAuth.instance;
+
     return Scaffold(
       body: SafeArea(
-          child: ListView(
-        children:  [
-          ListTile(
-            title:  Text("DarkMode", style: Get.textTheme.bodyMedium,),
-            onTap: () => ThemeController().changeTheme(),
-          ),
-          const Spacer(),
-          ListTile(
-            title: Text(
-              "Logout",
-              style: Get.textTheme.bodyMedium,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            ListTile(
+              title: Text(
+                "DarkMode",
+                style: Get.textTheme.bodyMedium,
+              ),
+              onTap: () => ThemeController().changeTheme(),
             ),
-            onTap: () => FirebaseAuth.instance.signOut(),
-          ),
-
-        ],
-      )),
+            ListTile(
+              title: Text(
+                "Logout",
+                style: Get.textTheme.bodyMedium,
+              ),
+              onTap: () => FirebaseAuth.instance.signOut(),
+            ),
+            ListTile(
+              title: Text(firebaseAuth.currentUser!.email!),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

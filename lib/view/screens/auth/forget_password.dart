@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:quantum_muscle/constants/text_constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quantum_muscle/controller/AuthControllers/forget_password_controller.dart';
-
-import '../../widgets/private/auth/auth_widgets.dart';
+import '../../widgets/public/button_widget.dart';
+import '../../widgets/public/text_field_widget.dart';
 
 class ForgetPasswordPage extends StatelessWidget {
   ForgetPasswordPage({super.key});
