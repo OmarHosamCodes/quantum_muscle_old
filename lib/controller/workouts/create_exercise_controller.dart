@@ -13,7 +13,6 @@ class CreateExerciseController {
       String exerciseTarget, File imageFile) async {
     User? user = firebaseAuth.currentUser;
     ExerciseModel exerciseModel = ExerciseModel();
-    ///////////////////////////////////////////////////////////////
 
     if (user != null) {
       exerciseModel.exerciseName = exerciseName;
@@ -34,7 +33,7 @@ class CreateExerciseController {
               "$workoutName$exerciseName$exerciseTarget${exerciseModel.timeNow}");
       UploadTask uploadeTask = storageReference.putFile(imageFile);
       await uploadeTask
-          .then((p0) async => exerciseModel.exerciseImage =
+          .then((_) async => exerciseModel.exerciseImage =
               await storageReference.getDownloadURL())
           .whenComplete(
             () async => await firebaseFirestore

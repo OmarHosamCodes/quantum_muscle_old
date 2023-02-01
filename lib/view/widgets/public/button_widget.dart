@@ -23,7 +23,7 @@ class QFButton extends StatelessWidget {
           child: child ??
               Text(
                 text!,
-                style: Get.textTheme.titleMedium,
+                style: Get.textTheme.headlineMedium,
               ),
         ),
       ),

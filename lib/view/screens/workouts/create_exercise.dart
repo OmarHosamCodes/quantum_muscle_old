@@ -13,21 +13,18 @@ import 'package:quantum_muscle/view/widgets/public/text_field_widget.dart';
 import '../../../constants/text_constants.dart';
 import '../../../controller/workouts/create_exercise_controller.dart';
 
-class CreateWorkoutPage extends StatefulWidget {
-  const CreateWorkoutPage({super.key});
+class CreateExercisePage extends StatefulWidget {
+  const CreateExercisePage({super.key});
 
   @override
-  State<CreateWorkoutPage> createState() => _CreateWorkoutPageState();
+  State<CreateExercisePage> createState() => _CreateExercisePageState();
 }
 
-class _CreateWorkoutPageState extends State<CreateWorkoutPage> {
+class _CreateExercisePageState extends State<CreateExercisePage> {
   final nameController = TextEditingController();
-
   final targetController = TextEditingController();
-
   late File imagePicked;
-
-  bool imageselected = false;
+  bool isImagePicked = false;
 
   Future<void> openGallery() async {
     ImagePicker picker = ImagePicker();
@@ -39,7 +36,7 @@ class _CreateWorkoutPageState extends State<CreateWorkoutPage> {
     if (pickedFile != null) {
       setState(() {
         imagePicked = File(pickedFile.path);
-        imageselected = true;
+        isImagePicked = true;
       });
       Get.back();
     }
@@ -58,7 +55,7 @@ class _CreateWorkoutPageState extends State<CreateWorkoutPage> {
         Get.back();
         setState(() {
           imagePicked = File(pickedFile.path);
-          imageselected = true;
+          isImagePicked = true;
         });
       }
     } else {
@@ -72,6 +69,7 @@ class _CreateWorkoutPageState extends State<CreateWorkoutPage> {
       barrierDismissible: false,
       Dialog(
         backgroundColor: Colors.transparent,
+        elevation: 0,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -84,13 +82,13 @@ class _CreateWorkoutPageState extends State<CreateWorkoutPage> {
               height: 30.h,
             ),
             QFSuperButton(
-              text: ExercisesConstants.OPENCAMERA,
+              text: PublicConstants.OPENCAMERA,
               onTap: () => openCamera(),
               icon: EvaIcons.battery,
             ),
             SizedBox(height: 25.h),
             QFSuperButton(
-              text: ExercisesConstants.OPENGALLERY,
+              text: PublicConstants.OPENGALLERY,
               onTap: () => openGallery(),
               icon: EvaIcons.folder,
             ),
@@ -104,7 +102,7 @@ class _CreateWorkoutPageState extends State<CreateWorkoutPage> {
   }
 
   Widget showImage() {
-    if (imageselected) {
+    if (isImagePicked) {
       return GestureDetector(
         child: Image.file(imagePicked),
         onTap: () => openDialog(),
@@ -126,35 +124,30 @@ class _CreateWorkoutPageState extends State<CreateWorkoutPage> {
     final String workoutName = arguments[1];
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       body: SafeArea(
-        minimum: EdgeInsets.only(
-          top: 100.h,
-          // left: 50.w,
-          // right: 50.w,
-        ),
-        child: Center(
+        child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
                 padding: EdgeInsets.only(
-                  left: 50.w,
-                  right: 50.w,
+                  left: 65.w,
+                  right: 65.w,
                 ),
                 child: Container(
-                  height: 200,
-                  width: double.infinity,
+                  height: 400.h,
+                  width: 400.w,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(15.r),
                       border:
-                          Border.all(width: 1, color: Get.theme.primaryColor),
+                          Border.all(width: 2, color: Get.theme.primaryColor),
                       color: Colors.transparent),
                   child: showImage(),
                 ),
               ),
               SizedBox(
-                height: 150.h,
+                height: 50.h,
               ),
               QFTextField(
                   controller: nameController,
@@ -168,17 +161,45 @@ class _CreateWorkoutPageState extends State<CreateWorkoutPage> {
                 hasNext: false,
               ),
               SizedBox(
-                height: 300.h,
+                height: 750.h,
               ),
               QFButton(
-                onTap: () => CreateExerciseController()
-                    .createExercise(workoutName, index, nameController.text,
-                        targetController.text, imagePicked)
-                    .then((value) => Get.back()),
-                text: ExercisesConstants.CREATE,
-              ),
-              SizedBox(
-                height: 100.h,
+                onTap: () {
+                  if (isImagePicked) {
+                    Get.rawSnackbar(
+                      snackStyle: SnackStyle.GROUNDED,
+                      title: PublicConstants.LOADING,
+                      message: PublicConstants.PLEASEWAIT,
+                      backgroundColor: Get.theme.primaryColor.withOpacity(.3),
+                      showProgressIndicator: true,
+                      duration: 1.days,
+                    );
+                    CreateExerciseController()
+                        .createExercise(workoutName, index, nameController.text,
+                            targetController.text, imagePicked)
+                        .then((_) {
+                          nameController.clear();
+                          targetController.clear();
+                        })
+                        .then((_) => Get.closeAllSnackbars())
+                        .then((_) => Get.rawSnackbar(
+                              snackStyle: SnackStyle.GROUNDED,
+                              title: PublicConstants.SUCCESS,
+                              message: PublicConstants.GOBACK,
+                              backgroundColor:
+                                  Get.theme.primaryColor.withOpacity(.3),
+                              duration: 3.seconds,
+                            ));
+                  } else {
+                    Get.rawSnackbar(
+                      snackStyle: SnackStyle.GROUNDED,
+                      title: PublicConstants.ERROR,
+                      message: PublicConstants.CHOOSEIMAGE,
+                      backgroundColor: Get.theme.primaryColor.withOpacity(.3),
+                    );
+                  }
+                },
+                text: PublicConstants.CREATE,
               ),
             ],
           ),

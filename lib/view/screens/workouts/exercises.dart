@@ -4,7 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:quantum_muscle/constants/text_constants.dart';
-import 'package:quantum_muscle/view/screens/workouts/create_exercise.dart';
+import 'package:quantum_muscle/view/widgets/public/button_widget.dart';
 import 'package:quantum_muscle/view/widgets/public/progress_indicator_widget.dart';
 import 'package:quantum_muscle/view/widgets/public/text_field_widget.dart';
 import '../../widgets/public/rowed_text_widget.dart';
@@ -26,14 +26,15 @@ class ExercisesPage extends HookWidget {
       extendBodyBehindAppBar: true,
       floatingActionButton: FloatingActionButton.extended(
         label: Text(
-          ExercisesConstants.CREATE,
-          style: Get.textTheme.titleMedium,
+          PublicConstants.CREATE,
+          style: Get.textTheme.headlineMedium,
         ),
         backgroundColor: Get.theme.primaryColor,
         onPressed: () {
-          Get.to(const CreateWorkoutPage(),
-              arguments: [arguments[2], arguments[1]],
-              transition: Transition.fade);
+          Get.toNamed(
+            RoutesConstants.CREATEEXERCISEPAGE,
+            arguments: [arguments[2], arguments[1]],
+          );
         },
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -45,7 +46,7 @@ class ExercisesPage extends HookWidget {
             .collection(index)
             .orderBy('timeNow', descending: false)
             .snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        builder: (context, snapshot) {
           if (snapshot.hasData) {
             return GridView.builder(
               padding: const EdgeInsets.only(
@@ -128,102 +129,107 @@ class ExercisesPage extends HookWidget {
                                 GestureDetector(
                                   onTap: () {
                                     Get.bottomSheet(
-                                      BottomSheet(
-                                        backgroundColor: Colors.transparent,
-                                        onClosing: () {},
-                                        builder: (setsContext) {
-                                          return Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(70.r),
-                                              color: Get.theme.primaryColor
-                                                  .withOpacity(.3),
-                                            ),
-                                            child: SizedBox(
-                                              height: 800.h,
-                                              width: 500.w,
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Text(
-                                                    ExercisesConstants
-                                                        .ENTERINFO,
-                                                    style: Get.textTheme
-                                                        .headlineMedium,
-                                                  ),
-                                                  SizedBox(
-                                                    height: 30.h,
-                                                  ),
-                                                  QFTextField(
-                                                    controller:
-                                                        weightsController,
-                                                    hintText: ExercisesConstants
-                                                        .WEIGHTS,
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                  ),
-                                                  SizedBox(height: 25.h),
-                                                  QFTextField(
-                                                    controller: repsController,
-                                                    hintText:
-                                                        ExercisesConstants.REPS,
-                                                    hasNext: false,
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                  ),
-                                                  SizedBox(
-                                                    height: 10.h,
-                                                  ),
-                                                  MaterialButton(
-                                                    child: Text(
-                                                      ExercisesConstants.SAVE,
+                                        BottomSheet(
+                                          backgroundColor: Colors.transparent,
+                                          onClosing: () {},
+                                          builder: (setsContext) {
+                                            return Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(70.r),
+                                                color: Get.theme.primaryColor
+                                                    .withOpacity(.3),
+                                              ),
+                                              child: SizedBox(
+                                                height: 800.h,
+                                                width: double.infinity,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      ExercisesConstants
+                                                          .ENTERINFO,
                                                       style: Get.textTheme
                                                           .headlineMedium,
                                                     ),
-                                                    onPressed: () async {
-                                                      final update = {
-                                                        'sets': {
-                                                          setsMap.keys
-                                                                  .elementAt(
-                                                                      setsIndex)
-                                                                  .toString():
-                                                              "${weightsController.text} x ${repsController.text}",
-                                                        }
-                                                      };
+                                                    SizedBox(
+                                                      height: 30.h,
+                                                    ),
+                                                    QFTextField(
+                                                      controller:
+                                                          weightsController,
+                                                      hintText:
+                                                          ExercisesConstants
+                                                              .WEIGHTS,
+                                                      keyboardType:
+                                                          TextInputType.number,
+                                                    ),
+                                                    SizedBox(height: 25.h),
+                                                    QFTextField(
+                                                      controller:
+                                                          repsController,
+                                                      hintText:
+                                                          ExercisesConstants
+                                                              .REPS,
+                                                      hasNext: false,
+                                                      keyboardType:
+                                                          TextInputType.number,
+                                                    ),
+                                                    SizedBox(
+                                                      height: 25.h,
+                                                    ),
+                                                    QFButton(
+                                                      child: Text(
+                                                        PublicConstants.SAVE,
+                                                        style: Get.textTheme
+                                                            .headlineMedium,
+                                                      ),
+                                                      onTap: () async {
+                                                        final update = {
+                                                          'sets': {
+                                                            setsMap.keys
+                                                                    .elementAt(
+                                                                        setsIndex)
+                                                                    .toString():
+                                                                "${weightsController.text} x ${repsController.text}",
+                                                          }
+                                                        };
 
-                                                      try {
-                                                        await setsDocRef
-                                                            .set(
-                                                          update,
-                                                          SetOptions(
-                                                            merge: true,
-                                                          ),
-                                                        )
-                                                            .whenComplete(() {
-                                                          Get.back();
-                                                          weightsController
-                                                              .clear();
-                                                          repsController
-                                                              .clear();
-                                                        });
-                                                      } catch (e) {
-                                                        Get.snackbar(
-                                                            "Network Error", '',
-                                                            duration: 100
-                                                                .milliseconds);
-                                                      }
-                                                    },
-                                                  ),
-                                                ],
+                                                        try {
+                                                          await setsDocRef
+                                                              .set(
+                                                            update,
+                                                            SetOptions(
+                                                              merge: true,
+                                                            ),
+                                                          )
+                                                              .whenComplete(() {
+                                                            Get.back();
+                                                            weightsController
+                                                                .clear();
+                                                            repsController
+                                                                .clear();
+                                                          });
+                                                        } catch (e) {
+                                                          Get.snackbar(
+                                                              "Network Error",
+                                                              '',
+                                                              duration: 100
+                                                                  .milliseconds);
+                                                        }
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    );
+                                            );
+                                          },
+                                        ),
+                                        backgroundColor: Colors.transparent,
+                                        elevation: 0);
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),

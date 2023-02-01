@@ -2,14 +2,30 @@ class UserModel {
   String? uid;
   String? email;
   String? userName;
+  String? userImage;
+  String? userBio;
+  String? userWeight;
+  String? userHeight;
 
-  UserModel({this.uid, this.email, this.userName});
+  UserModel({
+    this.uid,
+    this.email,
+    this.userName,
+    this.userImage,
+    this.userBio,
+    this.userWeight,
+    this.userHeight,
+  });
 
   factory UserModel.fromMap(map) {
     return UserModel(
       uid: map['uid'],
       email: map['email'],
       userName: map['userName'],
+      userImage: map['userImage'],
+      userBio: map['userBio'],
+      userWeight: map['userWeight'],
+      userHeight: map['userHeight'],
     );
   }
 
@@ -18,6 +34,10 @@ class UserModel {
       'uid': uid,
       'email': email,
       'userName': userName,
+      'userImage': userImage,
+      'userBio': userBio,
+      'userWeight': userWeight,
+      'userHeight': userHeight
     };
   }
 }

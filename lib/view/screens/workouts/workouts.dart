@@ -1,9 +1,9 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:quantum_muscle/constants/text_constants.dart';
 import 'package:quantum_muscle/controller/workouts/workouts_controller.dart';
@@ -12,22 +12,23 @@ import 'package:quantum_muscle/view/widgets/public/progress_indicator_widget.dar
 
 import '../../widgets/public/button_widget.dart';
 import '../../widgets/public/text_field_widget.dart';
-import 'exercises.dart';
 
-class WorkoutsPage extends StatelessWidget {
-  WorkoutsPage({super.key});
-  final workoutNameController = TextEditingController();
-  final controller = WorkoutsController();
-  User? user = FirebaseAuth.instance.currentUser;
+class WorkoutsPage extends HookWidget {
+  const WorkoutsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final workoutNameController = useTextEditingController();
+    User? user = FirebaseAuth.instance.currentUser;
+    final controller = WorkoutsController();
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Get.theme.primaryColor,
         onPressed: () => Get.dialog(
           barrierDismissible: false,
           Dialog(
             backgroundColor: Colors.transparent,
+            elevation: 0,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -45,68 +46,100 @@ class WorkoutsPage extends StatelessWidget {
                 ),
                 QFButton(
                     onTap: () async {
-                      controller.createWorkout(workoutNameController.text, 0);
+                      controller.createWorkout(workoutNameController.text);
                       Get.back();
                       workoutNameController.clear();
                     },
-                    text: WorkoutsConstants.CREATE),
+                    text: PublicConstants.CREATE),
               ],
             ),
           ),
         ),
-        backgroundColor: Get.theme.primaryColor,
         child: const Icon(EvaIcons.plus),
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('users')
-            .doc(user!.uid)
-            .collection('workouts')
-            .snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasData) {
-            return GridView.builder(
-              shrinkWrap: true,
-              itemCount: snapshot.data!.docs.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-              ),
-              padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 30.h),
-              itemBuilder: (ctx, i) {
-                DocumentSnapshot doc = snapshot.data!.docs[i];
+      body: SafeArea(
+        child: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('users')
+              .doc(user!.uid)
+              .collection('workouts')
+              .orderBy('isPinned', descending: true)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (ctx, i) {
+                    DocumentSnapshot doc = snapshot.data!.docs[i];
 
-                return SafeArea(
-                  child: GestureDetector(
-                    onTap: () => Get.to(() => const ExercisesPage(),
-                        transition: Transition.fadeIn,
-                        duration: 200.milliseconds,
-                        arguments: [
-                          user!.uid,
-                          doc.reference.id,
-                          i.toString(),
-                        ]),
-                    child: Card(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                    return Slidable(
+                      startActionPane:
+                          ActionPane(motion: const ScrollMotion(), children: [
+                        SlidableAction(
+                          onPressed: (ctx) =>
+                              controller.deleteWorkout(doc['workoutName']),
+                          backgroundColor: Colors.redAccent,
+                          icon: EvaIcons.trash,
+                        )
+                      ]),
+                      endActionPane: ActionPane(
+                        motion: const ScrollMotion(),
                         children: [
-                          Text(
-                            doc.reference.id,
-                            style: Get.textTheme.headlineMedium,
+                          SlidableAction(
+                            onPressed: (ctx) => doc['isPinned']
+                                ? controller
+                                    .pinWorkoutTofalse(doc['workoutName'])
+                                : controller
+                                    .pinWorkoutToTrue(doc['workoutName']),
+                            backgroundColor: Colors.brown,
+                            icon: EvaIcons.pin,
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                );
-              },
-            );
-          } else if (snapshot.hasError) {
-            return const Text(PublicConstants.NODATA);
-          } else {
-            return const QFProgressIndicator();
-          }
-        },
+                      child: GestureDetector(
+                        onTap: () => Get.toNamed(
+                          RoutesConstants.EXERCISESPAGE,
+                          arguments: [
+                            user.uid,
+                            doc.reference.id,
+                            i.toString(),
+                          ],
+                        ),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 25.w),
+                          width: double.infinity,
+                          height: 200.h,
+                          decoration: BoxDecoration(
+                              color: Get.theme.primaryColor,
+                              border: doc['isPinned']
+                                  ? Border.all(
+                                      width: 3, color: Colors.tealAccent)
+                                  : null),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                doc['workoutName'],
+                                style: Get.textTheme.headlineMedium,
+                              ),
+                              const Icon(
+                                EvaIcons.arrowRight,
+                                color: Colors.white,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  });
+            } else if (snapshot.hasError) {
+              return const Center(child: Text(PublicConstants.NODATA));
+            } else {
+              return const Center(child: QFProgressIndicator());
+            }
+          },
+        ),
       ),
     );
   }

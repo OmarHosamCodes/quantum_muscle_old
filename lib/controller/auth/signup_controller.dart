@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../constants/text_constants.dart';
+import 'package:quantum_muscle/constants/text_constants.dart';
 import '../../model/auth/user_model.dart';
 
 class SignupController extends GetxController {
@@ -22,11 +22,32 @@ class SignupController extends GetxController {
     try {
       await firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password)
-          .then((_) => afterSignUp(userName))
-          .then((_) => Get.toNamed(RoutesConstants.MAINPAGE))
-          .then((_) => Get.snackbar("Success", "Register Is Successfully"));
+          .then((_) {
+        if (firebaseAuth.currentUser != null) {
+          afterSignUp(userName);
+          Get.snackbar(PublicConstants.SUCCESS, "Register Is Successfully");
+        } else {
+          return;
+        }
+      });
     } on FirebaseAuthException catch (e) {
-      Get.snackbar("Error", e.message!);
+      String? errorMessage;
+      switch (e.code) {
+        case 'ERROR_INVALID_EMAIL':
+          errorMessage = 'Invalid email address';
+          break;
+        case 'ERROR_USER_NOT_FOUND':
+          errorMessage = 'User not found';
+          break;
+        // ...
+        default:
+          errorMessage = 'An error occurred, please try again later';
+          break;
+      }
+      Get.rawSnackbar(
+        title: PublicConstants.ERROR,
+        message: errorMessage,
+      );
     }
   }
 
@@ -39,6 +60,10 @@ class SignupController extends GetxController {
       userModel.email = user.email;
       userModel.uid = user.uid;
       userModel.userName = userName;
+      userModel.userBio = null;
+      userModel.userImage = null;
+      userModel.userWeight = null;
+      userModel.userHeight = null;
       await firebaseFirestore
           .collection("users")
           .doc(user.uid)
