@@ -1,11 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:quantum_muscle/controller/theme/theme_controller.dart';
-import 'package:quantum_muscle/view/widgets/public/rowed_text_widget.dart';
-
-import '../../../constants/text_constants.dart';
+import '../../../library.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});

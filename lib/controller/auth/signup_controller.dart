@@ -1,15 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:quantum_muscle/constants/text_constants.dart';
-import '../../model/auth/user_model.dart';
+import '../../library.dart';
 
 class SignupController extends GetxController {
   final firebaseAuth = FirebaseAuth.instance;
   final firebaseFirestore = FirebaseFirestore.instance;
   final firebaseStorage = FirebaseStorage.instance;
+  bool isObscure = true;
   Future signUserUp(
     String email,
     String password,
@@ -69,5 +64,11 @@ class SignupController extends GetxController {
           .doc(user.uid)
           .set(userModel.toMap());
     }
+  }
+
+  showPass(bool obscure) {
+    obscure = isObscure;
+    isObscure = !obscure;
+    update();
   }
 }

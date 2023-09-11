@@ -1,13 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:quantum_muscle/constants/text_constants.dart';
-import 'package:quantum_muscle/view/widgets/public/button_widget.dart';
-import 'package:quantum_muscle/view/widgets/public/progress_indicator_widget.dart';
-import 'package:quantum_muscle/view/widgets/public/text_field_widget.dart';
-import '../../widgets/public/rowed_text_widget.dart';
+import '../../../library.dart';
 
 class ExercisesPage extends HookWidget {
   const ExercisesPage({super.key});

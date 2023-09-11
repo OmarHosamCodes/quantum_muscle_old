@@ -1,12 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:quantum_muscle/view/screens/main/main_page.dart';
+import '../../library.dart';
 
 class ThemeController {
   static ThemeData lightTheme = ThemeData.light().copyWith(
-    useMaterial3: true,
     scaffoldBackgroundColor: Colors.grey[300],
     focusColor: Get.theme.scaffoldBackgroundColor,
     primaryColor: Colors.teal,
@@ -104,7 +99,6 @@ class ThemeController {
         .copyWith(error: Colors.red.shade700),
   );
   static ThemeData darkTheme = ThemeData.dark().copyWith(
-    useMaterial3: true,
     scaffoldBackgroundColor: Colors.grey[900],
     focusColor: Get.theme.scaffoldBackgroundColor,
     primaryColor: Colors.teal,

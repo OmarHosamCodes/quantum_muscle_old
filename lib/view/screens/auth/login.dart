@@ -1,16 +1,9 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:get/get.dart';
-import 'package:quantum_muscle/constants/text_constants.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:quantum_muscle/controller/auth/login_controller.dart';
-import '../../widgets/public/button_widget.dart';
-import '../../widgets/public/rowed_text_widget.dart';
-import '../../widgets/public/text_field_widget.dart';
+import '../../../library.dart';
 
 class LoginPage extends HookWidget {
-  const LoginPage({super.key});
+  const LoginPage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +30,6 @@ class LoginPage extends HookWidget {
                 LoginConstants.WELCOMEBACK,
                 style: Get.textTheme.titleSmall,
               ),
-
               SizedBox(height: 25.h),
 
               // email textfield
@@ -110,9 +102,10 @@ class LoginPage extends HookWidget {
                     Text(
                       LoginConstants.REGISTER,
                       style: Get.textTheme.bodyMedium!.copyWith(
-                          color: Get.textTheme.bodyMedium!.color!
-                              .withAlpha(5)
-                              .withOpacity(.7)),
+                        color: Get.textTheme.bodyMedium!.color!
+                            .withAlpha(5)
+                            .withOpacity(.7),
+                      ),
                     ),
                   ],
                 ),

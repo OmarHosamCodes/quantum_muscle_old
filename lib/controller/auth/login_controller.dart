@@ -1,7 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/get.dart';
-
-import '../../constants/text_constants.dart';
+import '../../library.dart';
 
 class LogInController {
   final firebaseAuth = FirebaseAuth.instance;

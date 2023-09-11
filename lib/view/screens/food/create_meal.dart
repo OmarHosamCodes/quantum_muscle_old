@@ -1,17 +1,6 @@
 import 'dart:io';
 
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:quantum_muscle/controller/food/create_meal_controller.dart';
-
-import '../../../constants/text_constants.dart';
-import '../../widgets/private/workouts/workouts_widgets.dart';
-import '../../widgets/public/button_widget.dart';
-import '../../widgets/public/text_field_widget.dart';
+import '../../../library.dart';
 
 class CreateMealPage extends StatefulWidget {
   const CreateMealPage({super.key});
@@ -200,10 +189,11 @@ class _CreateMealPageState extends State<CreateMealPage> {
                     );
                     CreateMealController()
                         .createMeal(mealName, index, nameController.text,
-                            ingredientsController.text, imagePicked).then((_) {
-                              nameController.clear();
-                              ingredientsController.clear();
-                            })
+                            ingredientsController.text, imagePicked)
+                        .then((_) {
+                          nameController.clear();
+                          ingredientsController.clear();
+                        })
                         .then((_) => Get.closeAllSnackbars())
                         .then((_) => Get.rawSnackbar(
                               snackStyle: SnackStyle.GROUNDED,

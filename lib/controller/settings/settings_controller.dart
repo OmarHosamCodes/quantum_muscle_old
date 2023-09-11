@@ -1,4 +1,4 @@
-import 'package:get/get.dart';
+import '../../library.dart';
 
 class SettingsController extends GetxController {
   bool isThemeChanged = false;

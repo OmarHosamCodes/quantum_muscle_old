@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import '../../../library.dart';
 
 class QFButton extends StatelessWidget {
   final Function()? onTap;

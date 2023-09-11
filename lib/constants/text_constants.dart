@@ -4,7 +4,7 @@ class RoutesConstants {
   static const LOGINPAGE = '/log-in';
   static const SIGNUPPAGE = '/sign-up';
   static const HOMEPAGE = '/home-page';
-  static const MASTERPAGE = '/master-page';
+  static const MASTERPAGE = '/';
   static const FORGETPASSWORDPAGE = '/forget-password-page';
   static const EXERCISESPAGE = '/exercises-page';
   static const CREATEEXERCISEPAGE = '/create-exercises-page';

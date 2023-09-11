@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:quantum_muscle/model/workouts/workout_model.dart';
+import '../../library.dart';
 
 class WorkoutsController {
   final firebaseFirestore = FirebaseFirestore.instance;

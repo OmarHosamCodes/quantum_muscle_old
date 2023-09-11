@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:quantum_muscle/view/widgets/public/button_widget.dart';
+import '../../../../library.dart';
 
 class QFSuperButton extends StatelessWidget {
   const QFSuperButton({super.key, this.text, this.onTap, this.icon});

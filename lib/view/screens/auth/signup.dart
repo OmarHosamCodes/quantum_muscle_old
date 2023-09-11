@@ -1,13 +1,4 @@
-import 'package:email_validator/email_validator.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import '../../../constants/text_constants.dart';
-import '../../../controller/auth/signup_controller.dart';
-import '../../widgets/public/button_widget.dart';
-import '../../widgets/public/text_field_widget.dart';
+import '../../../library.dart';
 
 class SignupPage extends HookWidget {
   const SignupPage({super.key});

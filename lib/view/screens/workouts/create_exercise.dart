@@ -1,17 +1,6 @@
 import 'dart:io';
 
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:quantum_muscle/view/widgets/private/workouts/workouts_widgets.dart';
-import 'package:quantum_muscle/view/widgets/public/button_widget.dart';
-import 'package:quantum_muscle/view/widgets/public/text_field_widget.dart';
-
-import '../../../constants/text_constants.dart';
-import '../../../controller/workouts/create_exercise_controller.dart';
+import '../../../library.dart';
 
 class CreateExercisePage extends StatefulWidget {
   const CreateExercisePage({super.key});

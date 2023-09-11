@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:quantum_muscle/view/screens/food/meal_groups.dart';
-import 'package:quantum_muscle/view/screens/settings/settings.dart';
-import 'package:quantum_muscle/view/screens/workouts/workouts.dart';
+import '../../library.dart';
 
 class MainPageController extends GetxController {
   static List<Widget> children = <Widget>[

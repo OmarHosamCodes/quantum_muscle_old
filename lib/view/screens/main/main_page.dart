@@ -1,21 +1,22 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:quantum_muscle/controller/main/main_page_controller.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:quantum_muscle/view/screens/auth/login.dart';
-import 'package:quantum_muscle/view/widgets/public/progress_indicator_widget.dart';
+import '../../../library.dart';
 
 final PageController pageController = PageController(initialPage: 1);
 
-class MainPage extends StatelessWidget {
-  const MainPage({super.key});
+class MainPage extends HookWidget {
+  const MainPage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     final firebaseAuth = FirebaseAuth.instance;
+    useEffect(() {
+      if (!kIsWeb) {
+        return FlutterNativeSplash.remove;
+      } else {
+        return null;
+      }
+    });
     return StreamBuilder<User?>(
       stream: firebaseAuth.authStateChanges(),
       builder: (context, snapshot) {
