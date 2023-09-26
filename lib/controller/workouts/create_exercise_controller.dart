@@ -29,19 +29,26 @@ class CreateExerciseController {
           .child(
               "$workoutName$exerciseName$exerciseTarget${exerciseModel.timeNow}");
       UploadTask uploadeTask = storageReference.putFile(imageFile);
-      await uploadeTask
-          .then((_) async => exerciseModel.exerciseImage =
-              await storageReference.getDownloadURL())
-          .whenComplete(
-            () async => await firebaseFirestore
-                .collection('users')
-                .doc(user.uid)
-                .collection('workouts')
-                .doc(workoutName)
-                .collection(index)
-                .doc(exerciseModel.exerciseName)
-                .set(exerciseModel.toMap()),
-          );
+      try {
+        await uploadeTask
+            .then((_) async => exerciseModel.exerciseImage =
+                await storageReference.getDownloadURL())
+            .whenComplete(
+              () async => await firebaseFirestore
+                  .collection('users')
+                  .doc(user.uid)
+                  .collection('workouts')
+                  .doc(workoutName)
+                  .collection(index)
+                  .doc(exerciseModel.exerciseName)
+                  .set(exerciseModel.toMap()),
+            );
+      } catch (e) {
+        Get.rawSnackbar(
+          title: PublicConstants.ERROR,
+          message: e.toString(),
+        );
+      }
     }
   }
 }

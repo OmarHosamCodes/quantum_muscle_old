@@ -83,7 +83,7 @@ class SignupPage extends HookWidget {
                 const Spacer(),
                 // not a member? register now
                 GestureDetector(
-                  onTap: () => Get.toNamed(RoutesConstants.LOGINPAGE),
+                  onTap: () => Get.back(),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

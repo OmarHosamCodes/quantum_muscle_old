@@ -23,20 +23,26 @@ class CreateMealController {
           .child("FoodImages")
           .child("$mealGroupName$mealName${mealModel.timeNow}");
       UploadTask uploadeTask = storageReference.putFile(imageFile);
-
-      await uploadeTask
-          .then((_) async =>
-              mealModel.mealImage = await storageReference.getDownloadURL())
-          .whenComplete(
-            () async => await firebaseFirestore
-                .collection('users')
-                .doc(user.uid)
-                .collection("food")
-                .doc(mealGroupName)
-                .collection(index)
-                .doc(mealModel.mealName)
-                .set(mealModel.toMap()),
-          );
+      try {
+        await uploadeTask
+            .then((_) async =>
+                mealModel.mealImage = await storageReference.getDownloadURL())
+            .whenComplete(
+              () async => await firebaseFirestore
+                  .collection('users')
+                  .doc(user.uid)
+                  .collection("food")
+                  .doc(mealGroupName)
+                  .collection(index)
+                  .doc(mealModel.mealName)
+                  .set(mealModel.toMap()),
+            );
+      } catch (e) {
+        Get.rawSnackbar(
+          title: PublicConstants.ERROR,
+          message: e.toString(),
+        );
+      }
     }
   }
 }

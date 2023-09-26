@@ -67,6 +67,7 @@ class WorkoutsPage extends HookWidget {
 
                   return GetBuilder<WorkoutsController>(
                     init: WorkoutsController(),
+                    autoRemove: false,
                     builder: (controller) {
                       return GestureDetector(
                         onTap: () => Get.toNamed(
@@ -77,7 +78,7 @@ class WorkoutsPage extends HookWidget {
                             i.toString(),
                           ],
                         ),
-                        onLongPress: () => controller.expandContainer(),
+                        onLongPress: () => controller.changeControllerSize(),
                         child: Padding(
                           padding: EdgeInsets.only(bottom: 30.h),
                           child: AnimatedContainer(
@@ -113,25 +114,35 @@ class WorkoutsPage extends HookWidget {
                                 ),
                                 Visibility(
                                   visible: controller.isContainerExpanded,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                  child: Column(
                                     children: [
-                                      QFButton(
-                                        onTap: () => controller
-                                            .deleteWorkout(doc['workoutName']),
-                                        child: const Icon(EvaIcons.trash),
+                                      SizedBox(
+                                        height: 100.h,
                                       ),
-                                      QFButton(
-                                        onTap: () => doc['isPinned']
-                                            ? controller.pinWorkoutTofalse(
-                                                doc['workoutName'])
-                                            : controller.pinWorkoutToTrue(
-                                                doc['workoutName']),
-                                        child: Icon(
-                                          EvaIcons.pinOutline,
-                                          size: 50.w,
-                                        ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () =>
+                                                controller.deleteWorkout(
+                                                    doc['workoutName']),
+                                            child: const Icon(EvaIcons.trash),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () => doc['isPinned']
+                                                ? controller.pinWorkoutTofalse(
+                                                    doc['workoutName'])
+                                                : controller.pinWorkoutToTrue(
+                                                    doc['workoutName']),
+                                            child: const Icon(
+                                              EvaIcons.pinOutline,
+                                              // size: 50.w,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ).animate().fadeIn(

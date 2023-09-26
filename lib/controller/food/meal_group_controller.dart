@@ -13,40 +13,60 @@ class MealGroupController extends GetxController {
     if (user != null) {
       mealGroupModel.mealGroupName = mealGroupName;
       mealGroupModel.isPinned = false;
-
-      await firebaseFirestore
-          .collection('users')
-          .doc(user!.uid)
-          .collection('food')
-          .doc(mealGroupName)
-          .set(mealGroupModel.toMap());
-      Get.back();
+      try {
+        await firebaseFirestore
+            .collection('users')
+            .doc(user!.uid)
+            .collection('food')
+            .doc(mealGroupName)
+            .set(mealGroupModel.toMap());
+        Get.back();
+      } catch (e) {
+        Get.rawSnackbar(
+          title: PublicConstants.ERROR,
+          message: e.toString(),
+        );
+      }
     }
   }
 
   Future deleteMealGroup(String mealGroupName) async {
     if (user != null) {
-      await firebaseFirestore
-          .collection("users")
-          .doc(user!.uid)
-          .collection('food')
-          .doc(mealGroupName)
-          .delete();
-      expandContainer();
+      try {
+        await firebaseFirestore
+            .collection("users")
+            .doc(user!.uid)
+            .collection('food')
+            .doc(mealGroupName)
+            .delete();
+        changeContainerSize();
+      } catch (e) {
+        Get.rawSnackbar(
+          title: PublicConstants.ERROR,
+          message: e.toString(),
+        );
+      }
     }
   }
 
   Future pinMealGroupToTrue(String mealGroupName) async {
     if (user != null) {
-      await firebaseFirestore
-          .collection("users")
-          .doc(user!.uid)
-          .collection('food')
-          .doc(mealGroupName)
-          .update({
-        "isPinned": true,
-      });
-      expandContainer();
+      try {
+        await firebaseFirestore
+            .collection("users")
+            .doc(user!.uid)
+            .collection('food')
+            .doc(mealGroupName)
+            .update({
+          "isPinned": true,
+        });
+        changeContainerSize();
+      } catch (e) {
+        Get.rawSnackbar(
+          title: PublicConstants.ERROR,
+          message: e.toString(),
+        );
+      }
     }
   }
 
@@ -60,11 +80,11 @@ class MealGroupController extends GetxController {
           .update({
         "isPinned": false,
       });
-      expandContainer();
+      changeContainerSize();
     }
   }
 
-  expandContainer() {
+  changeContainerSize() {
     isContainerExpanded ? containerHeight = 200.h : containerHeight = 500.h;
 
     if (isContainerExpanded) {

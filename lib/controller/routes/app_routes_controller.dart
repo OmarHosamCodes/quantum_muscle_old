@@ -1,4 +1,4 @@
-import '../library.dart';
+import '../../library.dart';
 
 final List<GetPage> appRoutes = <GetPage>[
   GetPage(
@@ -22,7 +22,7 @@ final List<GetPage> appRoutes = <GetPage>[
   GetPage(
     name: RoutesConstants.FORGETPASSWORDPAGE,
     page: () => const ForgetPasswordPage(),
-    transition: Transition.fadeIn,
+    transition: Transition.rightToLeftWithFade,
     transitionDuration: 200.milliseconds,
   ),
   GetPage(

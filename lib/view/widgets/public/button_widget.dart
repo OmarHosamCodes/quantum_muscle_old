@@ -4,8 +4,15 @@ class QFButton extends StatelessWidget {
   final Function()? onTap;
   final String? text;
   final Widget? child;
+  final bool isAnotherOption;
 
-  const QFButton({super.key, required this.onTap, this.text, this.child});
+  const QFButton({
+    super.key,
+    required this.onTap,
+    this.text,
+    this.child,
+    this.isAnotherOption = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +22,9 @@ class QFButton extends StatelessWidget {
         padding: const EdgeInsets.all(25),
         margin: const EdgeInsets.symmetric(horizontal: 25),
         decoration: BoxDecoration(
-          color: Get.theme.primaryColor,
+          color: isAnotherOption
+              ? Get.theme.primaryColor.withOpacity(.3)
+              : Get.theme.primaryColor,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Center(

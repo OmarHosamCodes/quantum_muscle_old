@@ -20,6 +20,7 @@ class _SettingsPageState extends State<SettingsPage> {
           children: [
             GetBuilder<SettingsController>(
                 init: SettingsController(),
+                autoRemove: false,
                 builder: (controller) {
                   return Padding(
                     padding: const EdgeInsets.only(

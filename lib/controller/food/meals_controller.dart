@@ -23,18 +23,24 @@ class MealsController extends GetxController {
           .child("FoodImages")
           .child("$mealGroupName$mealName${mealModel.timeNow}");
       UploadTask uploadTask = storageReference.putFile(imageFile);
-
-      await uploadTask
-          .then((_) async =>
-              mealModel.mealImage = await storageReference.getDownloadURL())
-          .whenComplete(() async => await firebaseFirestore
-              .collection('users')
-              .doc(user.uid)
-              .collection('food')
-              .doc(mealGroupName)
-              .collection(index)
-              .doc(mealModel.mealName)
-              .set(mealModel.toMap()));
+      try {
+        await uploadTask
+            .then((_) async =>
+                mealModel.mealImage = await storageReference.getDownloadURL())
+            .whenComplete(() async => await firebaseFirestore
+                .collection('users')
+                .doc(user.uid)
+                .collection('food')
+                .doc(mealGroupName)
+                .collection(index)
+                .doc(mealModel.mealName)
+                .set(mealModel.toMap()));
+      } on FirebaseAuthException catch (e) {
+        Get.rawSnackbar(
+          title: PublicConstants.ERROR,
+          message: e.toString(),
+        );
+      }
     }
   }
 
@@ -42,14 +48,21 @@ class MealsController extends GetxController {
       String mealGroupName, String index, String mealName) async {
     User? user = firebaseAuth.currentUser;
     if (user != null) {
-      await firebaseFirestore
-          .collection("users")
-          .doc(user.uid)
-          .collection('food')
-          .doc(mealGroupName)
-          .collection(index)
-          .doc(mealGroupName)
-          .delete();
+      try {
+        await firebaseFirestore
+            .collection("users")
+            .doc(user.uid)
+            .collection('food')
+            .doc(mealGroupName)
+            .collection(index)
+            .doc(mealGroupName)
+            .delete();
+      } on FirebaseAuthException catch (e) {
+        Get.rawSnackbar(
+          title: PublicConstants.ERROR,
+          message: e.toString(),
+        );
+      }
     }
   }
 
@@ -58,21 +71,28 @@ class MealsController extends GetxController {
     User? user = firebaseAuth.currentUser;
 
     if (user != null) {
-      await firebaseFirestore
-          .collection("users")
-          .doc(user.uid)
-          .collection('food')
-          .doc(mealGroupName)
-          .collection(index)
-          .doc(mealGroupName)
-          .set(
-        {
-          "isEated": true,
-        },
-        SetOptions(
-          merge: true,
-        ),
-      );
+      try {
+        await firebaseFirestore
+            .collection("users")
+            .doc(user.uid)
+            .collection('food')
+            .doc(mealGroupName)
+            .collection(index)
+            .doc(mealGroupName)
+            .set(
+          {
+            "isEated": true,
+          },
+          SetOptions(
+            merge: true,
+          ),
+        );
+      } catch (e) {
+        Get.rawSnackbar(
+          title: PublicConstants.ERROR,
+          message: e.toString(),
+        );
+      }
     }
   }
 
@@ -81,21 +101,28 @@ class MealsController extends GetxController {
     User? user = firebaseAuth.currentUser;
 
     if (user != null) {
-      await firebaseFirestore
-          .collection("users")
-          .doc(user.uid)
-          .collection('food')
-          .doc(mealGroupName)
-          .collection(index)
-          .doc(mealGroupName)
-          .set(
-        {
-          "isEated": false,
-        },
-        SetOptions(
-          merge: true,
-        ),
-      );
+      try {
+        await firebaseFirestore
+            .collection("users")
+            .doc(user.uid)
+            .collection('food')
+            .doc(mealGroupName)
+            .collection(index)
+            .doc(mealGroupName)
+            .set(
+          {
+            "isEated": false,
+          },
+          SetOptions(
+            merge: true,
+          ),
+        );
+      } catch (e) {
+        Get.rawSnackbar(
+          title: PublicConstants.ERROR,
+          message: e.toString(),
+        );
+      }
     }
   }
 

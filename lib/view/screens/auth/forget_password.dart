@@ -7,6 +7,12 @@ class ForgetPasswordPage extends HookWidget {
   Widget build(BuildContext context) {
     final emailAddressController = useTextEditingController();
     return Scaffold(
+      appBar: AppBar(
+        leading: GestureDetector(
+          onTap: () => Get.back(),
+          child: const Icon(EvaIcons.arrowLeft),
+        ),
+      ),
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Center(
@@ -38,6 +44,7 @@ class ForgetPasswordPage extends HookWidget {
               SizedBox(height: 30.h),
               GetBuilder<ForgetPasswordController>(
                 init: ForgetPasswordController(),
+                autoRemove: false,
                 builder: (controller) => QFButton(
                   text: controller.isEmailSent
                       ? controller.countDown.toString()

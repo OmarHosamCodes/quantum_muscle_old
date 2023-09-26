@@ -9,6 +9,11 @@ class ThemeController {
     cardTheme: const CardTheme(
       color: Color.fromRGBO(98, 0, 238, .6),
     ),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+    ),
     textTheme: TextTheme(
       titleSmall: TextStyle(
         color: const Color.fromRGBO(158, 158, 158, 1),
@@ -105,6 +110,11 @@ class ThemeController {
     iconTheme: const IconThemeData(color: Colors.white),
     cardTheme: const CardTheme(
       color: Color.fromRGBO(98, 0, 238, .6),
+    ),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      scrolledUnderElevation: 0,
     ),
     textTheme: TextTheme(
       titleSmall: TextStyle(

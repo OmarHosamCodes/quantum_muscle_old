@@ -16,6 +16,7 @@ class MainPage extends StatelessWidget {
         if (snapshot.hasData) {
           return GetBuilder(
             init: MainPageController(),
+            autoRemove: false,
             builder: (controller) => Scaffold(
               resizeToAvoidBottomInset: false,
               extendBodyBehindAppBar: true,

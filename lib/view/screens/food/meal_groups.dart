@@ -64,9 +64,9 @@ class MealGroupsPage extends HookWidget {
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (ctx, i) {
                   DocumentSnapshot doc = snapshot.data!.docs[i];
-
                   return GetBuilder<MealGroupController>(
                     init: MealGroupController(),
+                    autoRemove: false,
                     builder: (controller) {
                       return GestureDetector(
                         onTap: () => Get.toNamed(
@@ -77,7 +77,7 @@ class MealGroupsPage extends HookWidget {
                             i.toString(),
                           ],
                         ),
-                        onLongPress: () => controller.expandContainer(),
+                        onLongPress: () => controller.changeContainerSize(),
                         child: Padding(
                           padding: EdgeInsets.only(bottom: 30.h),
                           child: AnimatedContainer(
@@ -113,31 +113,41 @@ class MealGroupsPage extends HookWidget {
                                 ),
                                 Visibility(
                                   visible: controller.isContainerExpanded,
-                                  child: Row(
-                                    // mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                  child: Column(
                                     children: [
-                                      QFButton(
-                                        onTap: () => controller.deleteMealGroup(
-                                            doc['mealGroupName']),
-                                        child: const Icon(EvaIcons.trash),
+                                      SizedBox(
+                                        height: 100.h,
                                       ),
-                                      // const SizedBox(),
-                                      QFButton(
-                                        onTap: () => doc['isPinned']
-                                            ? controller.pinMealGroupTofalse(
-                                                doc['mealGroupName'])
-                                            : controller.pinMealGroupToTrue(
-                                                doc['mealGroupName']),
-                                        child: Icon(
-                                          EvaIcons.pinOutline,
-                                          size: 50.w,
-                                        ),
-                                      ),
+                                      Row(
+                                        // mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () =>
+                                                controller.deleteMealGroup(
+                                                    doc['mealGroupName']),
+                                            child: const Icon(EvaIcons.trash),
+                                          ),
+                                          // const SizedBox(),
+                                          GestureDetector(
+                                            onTap: () => doc['isPinned']
+                                                ? controller
+                                                    .pinMealGroupTofalse(
+                                                        doc['mealGroupName'])
+                                                : controller.pinMealGroupToTrue(
+                                                    doc['mealGroupName']),
+                                            child: const Icon(
+                                              EvaIcons.pinOutline,
+                                            ),
+                                          ),
+                                        ],
+                                      ).animate().fadeIn(
+                                          delay: GetNumUtils(50).milliseconds),
                                     ],
-                                  ).animate().fadeIn(
-                                      delay: GetNumUtils(50).milliseconds),
+                                  ),
                                 )
                               ],
                             ),

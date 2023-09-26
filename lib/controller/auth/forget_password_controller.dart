@@ -15,30 +15,17 @@ class ForgetPasswordController extends GetxController {
         message: PublicConstants.SENT,
       );
       isEmailSent = true;
-      decrement();
+      startTimer();
     } on FirebaseAuthException catch (e) {
-      String? errorMessage;
-      switch (e.code) {
-        case 'ERROR_INVALID_EMAIL':
-          errorMessage = 'Invalid email address';
-          break;
-        case 'ERROR_USER_NOT_FOUND':
-          errorMessage = 'User not found';
-          break;
-        default:
-          errorMessage = 'An error occurred, please try again later';
-          break;
-      }
       Get.rawSnackbar(
         title: PublicConstants.ERROR,
-        message: errorMessage,
+        message: e.message,
       );
     }
-
     update();
   }
 
-  decrement() {
+  startTimer() {
     // ignore: unused_local_variable
     Timer timer = Timer.periodic(1.seconds, (internalTimer) {
       if (countDown == 0) {

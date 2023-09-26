@@ -35,12 +35,11 @@ export 'controller/food/create_meal_controller.dart';
 export 'controller/auth/forget_password_controller.dart';
 export 'controller/auth/login_controller.dart';
 export 'controller/auth/signup_controller.dart';
-export 'controller/ui/resposive_controller.dart';
 export 'controller/settings/settings_controller.dart';
 
 //* Models
 
-export 'model/app_routes_model.dart';
+export 'controller/routes/app_routes_controller.dart';
 export 'model/auth/user_model.dart';
 export 'model/food/meal_model.dart';
 export 'model/food/meal_group_model.dart';

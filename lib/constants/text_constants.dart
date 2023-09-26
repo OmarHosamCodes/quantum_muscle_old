@@ -67,6 +67,7 @@ class PublicConstants {
   static const SAVE = 'Save';
   static const CONFIRMDELETE = 'Are You Sure You Want To Delete?';
   static const DELETE = 'Delete';
+  static const CANCEL = 'Cancel';
 }
 
 class WorkoutsConstants {

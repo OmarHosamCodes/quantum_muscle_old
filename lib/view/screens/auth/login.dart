@@ -90,7 +90,9 @@ class LoginPage extends HookWidget {
 
               // not a member? register now
               GestureDetector(
-                onTap: () => Get.toNamed(RoutesConstants.SIGNUPPAGE),
+                onTap: () {
+                  Get.toNamed(RoutesConstants.SIGNUPPAGE);
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
