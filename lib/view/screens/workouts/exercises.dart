@@ -20,6 +20,7 @@ class ExercisesPage extends HookWidget {
           PublicConstants.CREATE,
           style: Get.textTheme.headlineMedium,
         ),
+        icon: const Icon(EvaIcons.fileAdd),
         backgroundColor: Get.theme.primaryColor,
         onPressed: () {
           Get.toNamed(
@@ -80,12 +81,12 @@ class ExercisesPage extends HookWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20.r),
                             child: doc['exerciseImage'] != null
-                                ? Image.network(
-                                    doc['exerciseImage'],
-                                    height: 250.h,
-                                    width: 250.w,
-                                    cacheHeight: 250.h.toInt(),
-                                    cacheWidth: 250.w.toInt(),
+                                ? Image(
+                                    image: CachedNetworkImageProvider(
+                                      doc['exerciseImage'],
+                                    ),
+                                    height: 500.h,
+                                    width: 500.w,
                                     filterQuality: FilterQuality.high,
                                     fit: BoxFit.contain,
                                   )

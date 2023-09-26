@@ -2,9 +2,7 @@ import 'library.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  if (!kIsWeb) {
-    FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  }
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -13,9 +11,20 @@ void main() async {
   runApp(const MyApp());
 }
 
-//flutter clean ; flutter pub get ; clear
-class MyApp extends StatelessWidget {
+//flutter clean ; flutter pub get ; clear ; flutter build apk --release
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    FlutterNativeSplash.remove();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +38,7 @@ class MyApp extends StatelessWidget {
           debugShowMaterialGrid: false,
           theme: ThemeController.lightTheme,
           darkTheme: ThemeController.darkTheme,
-          themeMode: ThemeController().getThemeMode(),
+          themeMode: SettingsController().getThemeMode(),
           getPages: appRoutes,
         );
       },

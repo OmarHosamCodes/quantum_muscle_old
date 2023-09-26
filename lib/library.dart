@@ -36,6 +36,7 @@ export 'controller/auth/forget_password_controller.dart';
 export 'controller/auth/login_controller.dart';
 export 'controller/auth/signup_controller.dart';
 export 'controller/ui/resposive_controller.dart';
+export 'controller/settings/settings_controller.dart';
 
 //* Models
 
@@ -60,7 +61,6 @@ export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:get/get.dart';
 export 'package:get_storage/get_storage.dart';
 export 'package:firebase_core/firebase_core.dart';
-export 'package:quick_actions/quick_actions.dart';
 export 'package:cloud_firestore/cloud_firestore.dart';
 export 'package:eva_icons_flutter/eva_icons_flutter.dart';
 export 'package:flutter_hooks/flutter_hooks.dart';
@@ -70,3 +70,4 @@ export 'package:google_nav_bar/google_nav_bar.dart';
 export 'package:email_validator/email_validator.dart';
 export 'package:firebase_storage/firebase_storage.dart';
 export 'package:flutter/foundation.dart';
+export 'package:cached_network_image/cached_network_image.dart';

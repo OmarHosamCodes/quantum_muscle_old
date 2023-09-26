@@ -19,8 +19,8 @@ class _CreateExercisePageState extends State<CreateExercisePage> {
     ImagePicker picker = ImagePicker();
     var pickedFile = await picker.pickImage(
         source: ImageSource.gallery,
-        maxWidth: 250,
-        maxHeight: 250,
+        maxWidth: 1280,
+        maxHeight: 720,
         imageQuality: 100);
     if (pickedFile != null) {
       setState(() {
@@ -37,8 +37,8 @@ class _CreateExercisePageState extends State<CreateExercisePage> {
       ImagePicker picker = ImagePicker();
       var pickedFile = await picker.pickImage(
           source: ImageSource.camera,
-          maxWidth: 250,
-          maxHeight: 250,
+          maxWidth: 1280,
+          maxHeight: 720,
           imageQuality: 100);
       if (pickedFile != null) {
         Get.back();

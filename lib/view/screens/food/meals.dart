@@ -17,6 +17,7 @@ class MealsPage extends StatelessWidget {
           PublicConstants.CREATE,
           style: Get.textTheme.headlineMedium,
         ),
+        icon: const Icon(EvaIcons.fileAdd),
         backgroundColor: Get.theme.primaryColor,
         onPressed: () {
           Get.toNamed(
@@ -104,28 +105,26 @@ class MealsPage extends StatelessWidget {
                           elevation: 0);
                     },
                     child: Card(
-                      shape: doc["isEated"]
-                          ? Border.all(
-                              width: 3,
-                              color: Colors.tealAccent,
-                            )
-                          : null,
                       child: Column(
                         children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 20.w,
-                              vertical: 20.h,
-                            ),
-                            child: Container(
-                              height: 100,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.r),
-                                image: DecorationImage(
-                                  image: NetworkImage(doc['mealImage']),
-                                  filterQuality: FilterQuality.high,
-                                  fit: BoxFit.cover,
+                          Flexible(
+                            flex: 1,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20.w,
+                                vertical: 20.h,
+                              ),
+                              child: Container(
+                                height: 100,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  image: DecorationImage(
+                                    image: CachedNetworkImageProvider(
+                                        doc['mealImage']),
+                                    filterQuality: FilterQuality.high,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
@@ -133,23 +132,8 @@ class MealsPage extends StatelessWidget {
                           Flexible(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  const Spacer(),
-                                  Text(doc['mealName'],
-                                      style: Get.textTheme.headlineMedium),
-                                  const Spacer(),
-                                  doc['isEated']
-                                      ? const Icon(
-                                          EvaIcons.checkmarkSquare,
-                                          color: Colors.white,
-                                        )
-                                      : const Icon(
-                                          EvaIcons.squareOutline,
-                                          color: Colors.white,
-                                        ),
-                                ],
-                              ),
+                              child: Text(doc['mealName'],
+                                  style: Get.textTheme.headlineMedium),
                             ),
                           ),
                           Flexible(

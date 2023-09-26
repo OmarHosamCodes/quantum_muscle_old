@@ -4,7 +4,10 @@ class SignupController extends GetxController {
   final firebaseAuth = FirebaseAuth.instance;
   final firebaseFirestore = FirebaseFirestore.instance;
   final firebaseStorage = FirebaseStorage.instance;
-  bool isObscure = true;
+  UserModel userModel = UserModel();
+
+  late User? user = firebaseAuth.currentUser;
+
   Future signUserUp(
     String email,
     String password,
@@ -21,6 +24,7 @@ class SignupController extends GetxController {
         if (firebaseAuth.currentUser != null) {
           afterSignUp(userName);
           Get.snackbar(PublicConstants.SUCCESS, "Register Is Successfully");
+          Get.toNamed(RoutesConstants.MASTERPAGE);
         } else {
           return;
         }
@@ -47,13 +51,9 @@ class SignupController extends GetxController {
   }
 
   afterSignUp(String userName) async {
-    User? user = firebaseAuth.currentUser;
-
-    UserModel userModel = UserModel();
-
     if (user != null) {
-      userModel.email = user.email;
-      userModel.uid = user.uid;
+      userModel.email = user!.email;
+      userModel.uid = user!.uid;
       userModel.userName = userName;
       userModel.userBio = null;
       userModel.userImage = null;
@@ -61,14 +61,8 @@ class SignupController extends GetxController {
       userModel.userHeight = null;
       await firebaseFirestore
           .collection("users")
-          .doc(user.uid)
+          .doc(user!.uid)
           .set(userModel.toMap());
     }
-  }
-
-  showPass(bool obscure) {
-    obscure = isObscure;
-    isObscure = !obscure;
-    update();
   }
 }

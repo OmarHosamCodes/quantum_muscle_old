@@ -2,7 +2,7 @@ import '../../../library.dart';
 
 final PageController pageController = PageController(initialPage: 1);
 
-class MainPage extends HookWidget {
+class MainPage extends StatelessWidget {
   const MainPage({
     super.key,
   });
@@ -10,13 +10,6 @@ class MainPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final firebaseAuth = FirebaseAuth.instance;
-    useEffect(() {
-      if (!kIsWeb) {
-        return FlutterNativeSplash.remove;
-      } else {
-        return null;
-      }
-    });
     return StreamBuilder<User?>(
       stream: firebaseAuth.authStateChanges(),
       builder: (context, snapshot) {
@@ -43,17 +36,17 @@ class MainPage extends HookWidget {
                   iconSize: 30,
                   padding:
                       EdgeInsets.only(left: 70.w, right: 70.w, bottom: 100.h),
-                  tabs: [
+                  tabs: const [
                     GButton(
-                      iconColor: Get.theme.iconTheme.color,
+                      // iconColor: Get.theme.iconTheme.color,
                       icon: EvaIcons.archiveOutline,
                     ),
                     GButton(
-                      iconColor: Get.theme.iconTheme.color,
+                      // iconColor: Get.theme.iconTheme.color,
                       icon: EvaIcons.menu,
                     ),
                     GButton(
-                      iconColor: Get.theme.iconTheme.color,
+                      // iconColor: Get.theme.iconTheme.color,
                       icon: EvaIcons.settings2Outline,
                     ),
                   ],

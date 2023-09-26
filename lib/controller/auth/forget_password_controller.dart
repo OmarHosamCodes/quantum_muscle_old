@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import '../../library.dart';
 
 class ForgetPasswordController extends GetxController {
   final firebaseAuthInstants = FirebaseAuth.instance;
   bool isEmailSent = false;
+  int countDown = 30;
 
   resetPassword({required String email}) {
     try {
@@ -12,6 +15,7 @@ class ForgetPasswordController extends GetxController {
         message: PublicConstants.SENT,
       );
       isEmailSent = true;
+      decrement();
     } on FirebaseAuthException catch (e) {
       String? errorMessage;
       switch (e.code) {
@@ -35,7 +39,16 @@ class ForgetPasswordController extends GetxController {
   }
 
   decrement() {
-    isEmailSent = false;
-    update();
+    // ignore: unused_local_variable
+    Timer timer = Timer.periodic(1.seconds, (internalTimer) {
+      if (countDown == 0) {
+        internalTimer.cancel();
+        isEmailSent = false;
+        update();
+      } else {
+        countDown--;
+        update();
+      }
+    });
   }
 }

@@ -13,6 +13,9 @@ class ForgetPasswordPage extends HookWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(
+                height: 30.h,
+              ),
               Text(
                 ForgetPasswordConstants.FORGOTPASSWORD,
                 style: Get.textTheme.headlineLarge,
@@ -26,29 +29,21 @@ class ForgetPasswordPage extends HookWidget {
               ),
               SizedBox(height: 25.h),
               const Spacer(),
-              GetBuilder<ForgetPasswordController>(
-                init: ForgetPasswordController(),
-                builder: (controller) => Visibility(
-                  visible: !controller.isEmailSent,
-                  child: QFTextField(
-                    controller: emailAddressController,
-                    hintText: ForgetPasswordConstants.ENTEREMAIL,
-                    obscureText: false,
-                    hasNext: false,
-                  ),
-                ),
+              QFTextField(
+                controller: emailAddressController,
+                hintText: ForgetPasswordConstants.ENTEREMAIL,
+                obscureText: false,
+                hasNext: false,
               ),
               SizedBox(height: 30.h),
               GetBuilder<ForgetPasswordController>(
-                builder: (controller) => Visibility(
-                  visible: controller.isEmailSent,
-                  child: QFButton(
-                    text: controller.isEmailSent
-                        ? ForgetPasswordConstants.RESEND
-                        : ForgetPasswordConstants.ENTEREMAIL,
-                    onTap: () => controller.resetPassword(
-                      email: emailAddressController.text,
-                    ),
+                init: ForgetPasswordController(),
+                builder: (controller) => QFButton(
+                  text: controller.isEmailSent
+                      ? controller.countDown.toString()
+                      : ForgetPasswordConstants.SENDEMAIL,
+                  onTap: () => controller.resetPassword(
+                    email: emailAddressController.text,
                   ),
                 ),
               ),

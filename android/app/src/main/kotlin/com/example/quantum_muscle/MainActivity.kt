@@ -1,4 +1,4 @@
-package com.example.quantum_muscle
+package com.quantum_muscle
 
 import io.flutter.embedding.android.FlutterActivity
 
