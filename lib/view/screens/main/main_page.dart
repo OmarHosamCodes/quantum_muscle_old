@@ -39,15 +39,15 @@ class MainPage extends StatelessWidget {
                       EdgeInsets.only(left: 70.w, right: 70.w, bottom: 100.h),
                   tabs: const [
                     GButton(
-                      // iconColor: Get.theme.iconTheme.color,
+                      text: ClearRoutesConstants.MEALSPAGE,
                       icon: EvaIcons.archiveOutline,
                     ),
                     GButton(
-                      // iconColor: Get.theme.iconTheme.color,
+                      text: ClearRoutesConstants.WORKOUTSPAGE,
                       icon: EvaIcons.menu,
                     ),
                     GButton(
-                      // iconColor: Get.theme.iconTheme.color,
+                      text: ClearRoutesConstants.SETTINGSPAGE,
                       icon: EvaIcons.settings2Outline,
                     ),
                   ],

@@ -24,6 +24,13 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     FlutterNativeSplash.remove();
+    doOnce();
+  }
+
+  void doOnce() {
+    final _ = GetStorage();
+    _.writeIfNull("mealsView", 0);
+    _.writeIfNull("workoutsView", 0);
   }
 
   @override
@@ -36,6 +43,7 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           showPerformanceOverlay: false,
           debugShowMaterialGrid: false,
+          enableLog: false,
           theme: ThemeController.lightTheme,
           darkTheme: ThemeController.darkTheme,
           themeMode: SettingsController().getThemeMode(),

@@ -15,6 +15,12 @@ class RoutesConstants {
   static const MEALEXPANDEDPAGE = '/meal-expanded-page';
 }
 
+class ClearRoutesConstants {
+  static const WORKOUTSPAGE = 'Workouts';
+  static const MEALSPAGE = 'Meals';
+  static const SETTINGSPAGE = 'Settings';
+}
+
 class LoginConstants {
   static const WELCOMEBACK = "Welcome back you've been missed!";
   static const LOGIN = "Login";

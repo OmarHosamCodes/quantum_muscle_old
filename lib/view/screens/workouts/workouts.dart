@@ -76,6 +76,7 @@ class WorkoutsPage extends HookWidget {
                             user.uid,
                             doc.reference.id,
                             i.toString(),
+                            doc['workoutName'],
                           ],
                         ),
                         onLongPress: () => controller.changeControllerSize(),

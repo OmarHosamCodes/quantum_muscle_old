@@ -36,6 +36,7 @@ export 'controller/auth/forget_password_controller.dart';
 export 'controller/auth/login_controller.dart';
 export 'controller/auth/signup_controller.dart';
 export 'controller/settings/settings_controller.dart';
+export 'package:quantum_muscle/controller/food/meals_controller.dart';
 
 //* Models
 

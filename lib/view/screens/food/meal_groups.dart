@@ -75,6 +75,7 @@ class MealGroupsPage extends HookWidget {
                             user.uid,
                             doc.reference.id,
                             i.toString(),
+                            doc['mealGroupName'],
                           ],
                         ),
                         onLongPress: () => controller.changeContainerSize(),

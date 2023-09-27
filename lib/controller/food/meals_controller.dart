@@ -5,6 +5,9 @@ import '../../library.dart';
 class MealsController extends GetxController {
   final firebaseFirestore = FirebaseFirestore.instance;
   final firebaseAuth = FirebaseAuth.instance;
+  final getStorage = GetStorage();
+  late int viewIndex = getStorage.read(storageKey);
+  final storageKey = ('mealsView');
 
   Future createMeal(String mealGroupName, String index, String mealName,
       String mealIngredients, File imageFile) async {
@@ -126,15 +129,9 @@ class MealsController extends GetxController {
     }
   }
 
-  bool isClicked = false;
-
-  void showIngredients() {
-    isClicked = true;
-    update();
-  }
-
-  void hideIngredients() {
-    isClicked = false;
+  Future changeView() async {
+    getStorage.write(storageKey, (viewIndex + 1) % 3);
+    viewIndex = await getStorage.read(storageKey);
     update();
   }
 }
