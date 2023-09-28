@@ -103,12 +103,17 @@ class MealGroupsPage extends HookWidget {
                                     doc['isPinned']
                                         ? Icon(
                                             EvaIcons.pinOutline,
+                                            color: Get.theme.iconButtonTheme
+                                                .style!.iconColor!
+                                                .resolve({}),
                                             size: 50.w,
                                           )
                                         : Container(),
-                                    const Icon(
+                                    Icon(
                                       EvaIcons.arrowRight,
-                                      color: Colors.white,
+                                      color: Get.theme.iconButtonTheme.style!
+                                          .iconColor!
+                                          .resolve({}),
                                     ),
                                   ],
                                 ),
@@ -130,7 +135,12 @@ class MealGroupsPage extends HookWidget {
                                             onTap: () =>
                                                 controller.deleteMealGroup(
                                                     doc['mealGroupName']),
-                                            child: const Icon(EvaIcons.trash),
+                                            child: Icon(
+                                              EvaIcons.trash,
+                                              color: Get.theme.iconButtonTheme
+                                                  .style!.iconColor!
+                                                  .resolve({}),
+                                            ),
                                           ),
                                           // const SizedBox(),
                                           GestureDetector(
@@ -140,8 +150,11 @@ class MealGroupsPage extends HookWidget {
                                                         doc['mealGroupName'])
                                                 : controller.pinMealGroupToTrue(
                                                     doc['mealGroupName']),
-                                            child: const Icon(
+                                            child: Icon(
                                               EvaIcons.pinOutline,
+                                              color: Get.theme.iconButtonTheme
+                                                  .style!.iconColor!
+                                                  .resolve({}),
                                             ),
                                           ),
                                         ],

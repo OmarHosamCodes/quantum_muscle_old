@@ -19,31 +19,40 @@ class MealsPage extends StatelessWidget {
       builder: (controller) {
         Widget viewIcon() {
           if (controller.viewIndex == 0) {
-            return const Icon(EvaIcons.swap);
+            return Icon(
+              EvaIcons.swap,
+              color: Get.theme.iconTheme.color,
+            );
           } else if (controller.viewIndex == 1) {
-            return const Icon(EvaIcons.menu);
+            return Icon(
+              EvaIcons.menu,
+              color: Get.theme.iconTheme.color,
+            );
           } else {
-            return const Icon(EvaIcons.keypad);
+            return Icon(
+              EvaIcons.keypad,
+              color: Get.theme.iconTheme.color,
+            );
           }
         }
 
         return Scaffold(
           appBar: AppBar(
-            leading: GestureDetector(
-              onTap: () => Get.back(),
-              child: const Icon(EvaIcons.arrowLeft),
+            leading: IconButton(
+              onPressed: () => Get.back(),
+              icon: Icon(
+                EvaIcons.arrowLeft,
+                color: Get.theme.iconTheme.color,
+              ),
             ),
             title: Text(
               mealName.toUpperCase(),
-              style: Get.textTheme.headlineMedium!.copyWith(
-                letterSpacing: 10,
-              ),
             ),
             centerTitle: true,
             actions: [
-              GestureDetector(
-                onTap: () => controller.changeView(),
-                child: viewIcon(),
+              IconButton(
+                onPressed: () => controller.changeView(),
+                icon: viewIcon(),
               ),
             ],
           ),
@@ -54,7 +63,8 @@ class MealsPage extends StatelessWidget {
               PublicConstants.CREATE,
               style: Get.textTheme.headlineMedium,
             ),
-            icon: const Icon(EvaIcons.fileAdd),
+            icon: Icon(EvaIcons.fileAdd,
+                color: Get.theme.iconButtonTheme.style!.iconColor!.resolve({})),
             backgroundColor: Get.theme.primaryColor,
             onPressed: () {
               Get.toNamed(
@@ -143,7 +153,9 @@ class MealsPage extends StatelessWidget {
                       ),
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3, crossAxisSpacing: .1),
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 10,
+                              childAspectRatio: .9),
                       shrinkWrap: false,
                       itemBuilder: (ctx, i) {
                         DocumentSnapshot doc = snapshot.data!.docs[i];
@@ -250,42 +262,57 @@ class MealsChildWidget extends StatelessWidget {
             backgroundColor: Colors.transparent,
             elevation: 0);
       },
-      child: Card(
+      child: BlurredContainer(
+        padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 20.w),
+        begin: Alignment.bottomLeft,
+        borderRadius: BorderRadius.circular(20.r),
         child: Column(
           children: [
             Flexible(
-              flex: 2,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20.w,
-                  vertical: 20.h,
-                ),
-                child: Container(
-                  // height: 100,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.r),
-                    image: DecorationImage(
-                      image: CachedNetworkImageProvider(doc['mealImage']),
-                      filterQuality: FilterQuality.high,
-                      fit: BoxFit.fill,
-                    ),
+              flex: 3,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.r),
+                child: Image(
+                  image: CachedNetworkImageProvider(
+                    doc['mealImage'],
                   ),
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: Get.theme.primaryColor,
+                      ),
+                    );
+                  },
+                  filterQuality: FilterQuality.high,
+                  fit: controllerIndex == 2 ? BoxFit.fill : BoxFit.contain,
                 ),
               ),
             ),
             Flexible(
+              flex: 1,
               child: Text(doc['mealName'], style: Get.textTheme.headlineMedium),
             ),
             Visibility(
               visible: controllerIndex == 2 ? false : true,
+              child: Divider(
+                thickness: 1,
+                color: Get.theme.primaryColor.withOpacity(.1),
+              ),
+            ),
+            Visibility(
+              visible: controllerIndex == 2 ? false : true,
               child: Flexible(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30.w),
-                  child: RowedText(
-                    child: Text(
-                      doc['mealIngredients'],
-                      style: Get.textTheme.headlineMedium,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 30.w),
+                    child: RowedText(
+                      child: Text(
+                        doc['mealIngredients'],
+                        style: Get.textTheme.headlineMedium,
+                      ),
                     ),
                   ),
                 ),

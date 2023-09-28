@@ -1,4 +1,5 @@
 import 'package:flutter_animate/flutter_animate.dart';
+
 import '../../../library.dart';
 
 class WorkoutsPage extends HookWidget {
@@ -105,11 +106,16 @@ class WorkoutsPage extends HookWidget {
                                         ? Icon(
                                             EvaIcons.pinOutline,
                                             size: 50.w,
+                                            color: Get.theme.iconButtonTheme
+                                                .style!.iconColor!
+                                                .resolve({}),
                                           )
                                         : Container(),
-                                    const Icon(
+                                    Icon(
                                       EvaIcons.arrowRight,
-                                      color: Colors.white,
+                                      color: Get.theme.iconButtonTheme.style!
+                                          .iconColor!
+                                          .resolve({}),
                                     ),
                                   ],
                                 ),
@@ -130,7 +136,12 @@ class WorkoutsPage extends HookWidget {
                                             onTap: () =>
                                                 controller.deleteWorkout(
                                                     doc['workoutName']),
-                                            child: const Icon(EvaIcons.trash),
+                                            child: Icon(
+                                              EvaIcons.trash,
+                                              color: Get.theme.iconButtonTheme
+                                                  .style!.iconColor!
+                                                  .resolve({}),
+                                            ),
                                           ),
                                           GestureDetector(
                                             onTap: () => doc['isPinned']
@@ -138,9 +149,11 @@ class WorkoutsPage extends HookWidget {
                                                     doc['workoutName'])
                                                 : controller.pinWorkoutToTrue(
                                                     doc['workoutName']),
-                                            child: const Icon(
+                                            child: Icon(
                                               EvaIcons.pinOutline,
-                                              // size: 50.w,
+                                              color: Get.theme.iconButtonTheme
+                                                  .style!.iconColor!
+                                                  .resolve({}),
                                             ),
                                           ),
                                         ],

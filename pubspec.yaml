@@ -3,15 +3,14 @@ description: New Age Of Muscles
 
 publish_to: "none"
 
-version: 3.5.0
+version: 5.0.0
 
 environment:
-  sdk: ">=3.0.5 <4.0.0"
+  sdk: ">=3.1.1 <4.0.0"
 
 dependencies:
   cached_network_image: ^3.2.3
   cloud_firestore: ^4.3.1
-  # cupertino_icons: ^1.0.2
   email_validator: ^2.1.17
   eva_icons_flutter: ^3.1.0
   firebase_auth: ^4.2.5
@@ -39,8 +38,7 @@ flutter_native_splash:
   color_dark: "#212121"
   image_dark: assets/darkTheme.png
   android: true
-  ios: true
-  web: true
+
 flutter:
   uses-material-design: true
   assets:

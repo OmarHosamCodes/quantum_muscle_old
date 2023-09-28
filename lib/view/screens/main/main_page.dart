@@ -14,44 +14,41 @@ class MainPage extends StatelessWidget {
       stream: firebaseAuth.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return GetBuilder(
+          return GetBuilder<MainPageController>(
             init: MainPageController(),
             autoRemove: false,
             builder: (controller) => Scaffold(
               resizeToAvoidBottomInset: false,
               extendBodyBehindAppBar: true,
               extendBody: false,
-              bottomNavigationBar: SafeArea(
-                child: GNav(
-                  onTabChange: (index) {
-                    controller.onTabTapped(index);
-                    pageController.animateToPage(index,
-                        duration: 300.milliseconds,
-                        curve: Curves.linearToEaseOut);
-                  },
-                  selectedIndex: controller.selectedIndex,
-                  curve: Curves.linear,
-                  duration: 300.milliseconds,
-                  gap: 8,
-                  activeColor: Get.theme.primaryColor,
-                  iconSize: 30,
-                  padding:
-                      EdgeInsets.only(left: 70.w, right: 70.w, bottom: 100.h),
-                  tabs: const [
-                    GButton(
-                      text: ClearRoutesConstants.MEALSPAGE,
-                      icon: EvaIcons.archiveOutline,
-                    ),
-                    GButton(
-                      text: ClearRoutesConstants.WORKOUTSPAGE,
-                      icon: EvaIcons.menu,
-                    ),
-                    GButton(
-                      text: ClearRoutesConstants.SETTINGSPAGE,
-                      icon: EvaIcons.settings2Outline,
-                    ),
-                  ],
-                ),
+              bottomNavigationBar: GNav(
+                onTabChange: (index) {
+                  controller.onTabTapped(index);
+                  pageController.animateToPage(
+                    index,
+                    duration: 300.milliseconds,
+                    curve: Curves.linear,
+                  );
+                },
+                selectedIndex: controller.selectedIndex,
+                curve: Curves.linear,
+                duration: 300.milliseconds,
+                gap: 5,
+                iconSize: 30,
+                tabs: const [
+                  GButton(
+                    text: ClearRoutesConstants.MEALSPAGE,
+                    icon: EvaIcons.archiveOutline,
+                  ),
+                  GButton(
+                    text: ClearRoutesConstants.WORKOUTSPAGE,
+                    icon: EvaIcons.menu,
+                  ),
+                  GButton(
+                    text: ClearRoutesConstants.SETTINGSPAGE,
+                    icon: EvaIcons.settings2Outline,
+                  ),
+                ],
               ),
               body: PageView(
                 onPageChanged: (index) => controller.onTabTapped(index),

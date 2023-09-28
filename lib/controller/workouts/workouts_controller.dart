@@ -17,13 +17,13 @@ class WorkoutsController extends GetxController {
       workoutModel.timeNow = Timestamp.now();
       workoutModel.isPinned = false;
       try {
+        Get.back();
         await firebaseFirestore
             .collection('users')
             .doc(user!.uid)
             .collection('workouts')
             .doc(workoutName)
             .set(workoutModel.toMap());
-        Get.back();
       } catch (e) {
         Get.rawSnackbar(
           title: PublicConstants.ERROR,
@@ -36,6 +36,7 @@ class WorkoutsController extends GetxController {
   Future deleteWorkout(String workoutName) async {
     if (user != null) {
       try {
+        changeControllerSize();
         await firebaseFirestore
             .collection("users")
             .doc(user!.uid)
@@ -54,6 +55,7 @@ class WorkoutsController extends GetxController {
   Future pinWorkoutToTrue(String workoutName) async {
     if (user != null) {
       try {
+        changeControllerSize();
         await firebaseFirestore
             .collection("users")
             .doc(user!.uid)
@@ -62,7 +64,6 @@ class WorkoutsController extends GetxController {
             .update({
           "isPinned": true,
         });
-        changeControllerSize();
       } catch (e) {
         Get.rawSnackbar(
           title: PublicConstants.ERROR,
@@ -75,6 +76,7 @@ class WorkoutsController extends GetxController {
   Future pinWorkoutTofalse(String workoutName) async {
     if (user != null) {
       try {
+        changeControllerSize();
         await firebaseFirestore
             .collection("users")
             .doc(user!.uid)
@@ -83,7 +85,6 @@ class WorkoutsController extends GetxController {
             .update({
           "isPinned": false,
         });
-        changeControllerSize();
       } catch (e) {
         Get.rawSnackbar(
           title: PublicConstants.ERROR,
@@ -107,7 +108,6 @@ class WorkoutsController extends GetxController {
         },
       );
     }
-
     update();
   }
 

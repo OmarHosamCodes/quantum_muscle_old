@@ -19,25 +19,34 @@ class ExercisesPage extends HookWidget {
       builder: (controller) {
         Widget viewIcon() {
           if (controller.viewIndex == 0) {
-            return const Icon(EvaIcons.swap);
+            return Icon(
+              EvaIcons.swap,
+              color: Get.theme.iconTheme.color,
+            );
           } else if (controller.viewIndex == 1) {
-            return const Icon(EvaIcons.menu);
+            return Icon(
+              EvaIcons.menu,
+              color: Get.theme.iconTheme.color,
+            );
           } else {
-            return const Icon(EvaIcons.keypad);
+            return Icon(
+              EvaIcons.keypad,
+              color: Get.theme.iconTheme.color,
+            );
           }
         }
 
         return Scaffold(
           appBar: AppBar(
-            leading: GestureDetector(
-              onTap: () => Get.back(),
-              child: const Icon(EvaIcons.arrowLeft),
+            leading: IconButton(
+              onPressed: () => Get.back(),
+              icon: Icon(
+                EvaIcons.arrowLeft,
+                color: Get.theme.iconTheme.color,
+              ),
             ),
             title: Text(
               workoutName.toUpperCase(),
-              style: Get.textTheme.headlineMedium!.copyWith(
-                letterSpacing: 10,
-              ),
             ),
             centerTitle: true,
             actions: [
@@ -54,7 +63,10 @@ class ExercisesPage extends HookWidget {
               PublicConstants.CREATE,
               style: Get.textTheme.headlineMedium,
             ),
-            icon: const Icon(EvaIcons.fileAdd),
+            icon: Icon(
+              EvaIcons.fileAdd,
+              color: Get.theme.iconButtonTheme.style!.iconColor!.resolve({}),
+            ),
             backgroundColor: Get.theme.primaryColor,
             onPressed: () {
               Get.toNamed(
@@ -94,8 +106,8 @@ class ExercisesPage extends HookWidget {
                         padding: EdgeInsets.only(
                           left: 30.w,
                           right: 30.w,
-                          top: 270.h,
-                          bottom: 270.h,
+                          top: 50.h,
+                          bottom: 500.h,
                         ),
                         child: WorkoutsChildWidget(
                           setsDocRef: setsDocRef,
@@ -151,7 +163,7 @@ class ExercisesPage extends HookWidget {
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
                             crossAxisSpacing: 10,
-                            childAspectRatio: .7),
+                            childAspectRatio: .9),
                     shrinkWrap: false,
                     itemBuilder: (ctx, i) {
                       DocumentSnapshot doc = snapshot.data!.docs[i];
@@ -267,26 +279,38 @@ class WorkoutsChildWidget extends HookWidget {
             backgroundColor: Colors.transparent,
             elevation: 0);
       },
-      child: Container(
-        padding: const EdgeInsets.all(30),
-        decoration: BoxDecoration(
-          color: Get.theme.primaryColor,
-          borderRadius: BorderRadius.circular(20.r),
-        ),
+      child: BlurredContainer(
+        padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 20.w),
+        begin: Alignment.bottomRight,
+        borderRadius: BorderRadius.circular(20.r),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             doc['exerciseImage'] != null
                 ? Flexible(
-                    flex: 3,
-                    child: Image(
-                      image: CachedNetworkImageProvider(
-                        doc['exerciseImage'],
+                    flex: 6,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.r),
+                      child: Image(
+                        image: CachedNetworkImageProvider(
+                          doc['exerciseImage'],
+                        ),
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          }
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: Get.theme.primaryColor,
+                            ),
+                          );
+                        },
+                        // height: 500.h,
+                        // width: 500.w,
+                        filterQuality: FilterQuality.high,
+                        fit:
+                            controllerIndex == 2 ? BoxFit.fill : BoxFit.contain,
                       ),
-                      height: 500.h,
-                      width: 500.w,
-                      filterQuality: FilterQuality.high,
-                      fit: controllerIndex == 2 ? BoxFit.fill : BoxFit.contain,
                     ),
                   )
                 : Flexible(
@@ -298,14 +322,15 @@ class WorkoutsChildWidget extends HookWidget {
                   ),
             SizedBox(height: 30.h),
             Flexible(
+              flex: 1,
               child: controllerIndex == 2
                   ? Text(
-                      "${doc['exerciseName']}",
+                      doc['exerciseName'],
                       style: Get.textTheme.headlineMedium,
                     )
                   : RowedText(
                       child: Text(
-                        "${doc['exerciseName']}",
+                        doc['exerciseName'],
                         style: Get.textTheme.headlineMedium,
                       ),
                     ),
@@ -313,6 +338,7 @@ class WorkoutsChildWidget extends HookWidget {
             Visibility(
               visible: controllerIndex == 2 ? false : true,
               child: Flexible(
+                flex: 1,
                 child: RowedText(
                   child: Text(
                     "${doc['exerciseTarget']}",
@@ -321,10 +347,11 @@ class WorkoutsChildWidget extends HookWidget {
                 ),
               ),
             ),
+            const Spacer(),
             Visibility(
               visible: controllerIndex == 2 ? false : true,
               child: Flexible(
-                flex: 1,
+                flex: 2,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: sets.length,

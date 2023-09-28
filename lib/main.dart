@@ -44,8 +44,8 @@ class _MyAppState extends State<MyApp> {
           showPerformanceOverlay: false,
           debugShowMaterialGrid: false,
           enableLog: false,
-          theme: ThemeController.lightTheme,
-          darkTheme: ThemeController.darkTheme,
+          theme: lightTheme,
+          darkTheme: darkTheme,
           themeMode: SettingsController().getThemeMode(),
           getPages: appRoutes,
         );

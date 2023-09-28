@@ -14,13 +14,13 @@ class MealGroupController extends GetxController {
       mealGroupModel.mealGroupName = mealGroupName;
       mealGroupModel.isPinned = false;
       try {
+        Get.back();
         await firebaseFirestore
             .collection('users')
             .doc(user!.uid)
             .collection('food')
             .doc(mealGroupName)
             .set(mealGroupModel.toMap());
-        Get.back();
       } catch (e) {
         Get.rawSnackbar(
           title: PublicConstants.ERROR,
@@ -33,13 +33,13 @@ class MealGroupController extends GetxController {
   Future deleteMealGroup(String mealGroupName) async {
     if (user != null) {
       try {
+        changeContainerSize();
         await firebaseFirestore
             .collection("users")
             .doc(user!.uid)
             .collection('food')
             .doc(mealGroupName)
             .delete();
-        changeContainerSize();
       } catch (e) {
         Get.rawSnackbar(
           title: PublicConstants.ERROR,
@@ -52,6 +52,7 @@ class MealGroupController extends GetxController {
   Future pinMealGroupToTrue(String mealGroupName) async {
     if (user != null) {
       try {
+        changeContainerSize();
         await firebaseFirestore
             .collection("users")
             .doc(user!.uid)
@@ -60,7 +61,6 @@ class MealGroupController extends GetxController {
             .update({
           "isPinned": true,
         });
-        changeContainerSize();
       } catch (e) {
         Get.rawSnackbar(
           title: PublicConstants.ERROR,
@@ -72,6 +72,8 @@ class MealGroupController extends GetxController {
 
   Future pinMealGroupTofalse(String mealGroupName) async {
     if (user != null) {
+      changeContainerSize();
+
       await firebaseFirestore
           .collection("users")
           .doc(user!.uid)
@@ -80,7 +82,6 @@ class MealGroupController extends GetxController {
           .update({
         "isPinned": false,
       });
-      changeContainerSize();
     }
   }
 
@@ -98,7 +99,6 @@ class MealGroupController extends GetxController {
         },
       );
     }
-
     update();
   }
 }
