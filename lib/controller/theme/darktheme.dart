@@ -3,9 +3,9 @@ import '../../library.dart';
 ThemeData darkTheme = ThemeData.dark().copyWith(
   scaffoldBackgroundColor: const Color.fromRGBO(21, 21, 21, 1),
   focusColor: const Color.fromRGBO(21, 21, 21, 1),
-  primaryColor: const Color.fromRGBO(224, 224, 224, .9),
-  primaryColorLight: const Color.fromRGBO(224, 224, 224, .9),
-  primaryColorDark: const Color.fromRGBO(21, 21, 21, 1),
+  primaryColor: const Color.fromRGBO(96, 125, 139, 1),
+  primaryColorLight: const Color.fromRGBO(96, 125, 139, 1),
+  primaryColorDark: const Color.fromRGBO(96, 125, 139, 1),
   iconTheme: const IconThemeData(color: Color.fromRGBO(224, 224, 224, 1)),
   cardTheme: const CardTheme(
     color: Color.fromRGBO(224, 224, 224, .9),
@@ -13,7 +13,7 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
   iconButtonTheme: const IconButtonThemeData(
     style: ButtonStyle(
       iconColor: MaterialStatePropertyAll(
-        Color.fromRGBO(21, 21, 21, 1),
+        Color.fromRGBO(224, 224, 224, .9),
       ),
     ),
   ),
@@ -39,7 +39,13 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
     titleMedium: TextStyle(
       color: const Color.fromRGBO(255, 255, 255, 1),
       fontWeight: FontWeight.bold,
-      fontSize: 16.sp,
+      fontSize: 50.sp,
+      fontFamily: 'family',
+    ),
+    titleLarge: TextStyle(
+      color: const Color.fromRGBO(255, 255, 255, 1),
+      fontWeight: FontWeight.bold,
+      fontSize: 70.sp,
       fontFamily: 'family',
     ),
     headlineLarge: TextStyle(

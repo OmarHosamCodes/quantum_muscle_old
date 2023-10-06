@@ -42,7 +42,7 @@ class QFTextField extends StatelessWidget {
         smartQuotesType: SmartQuotesType.enabled,
         expands: isExpanded,
         keyboardType: keyboardType,
-        style: Get.textTheme.titleSmall,
+        style: Get.textTheme.headlineMedium,
         textAlignVertical: TextAlignVertical.top,
         maxLines: isExpanded ? null : 1,
         cursorColor: Colors.grey,

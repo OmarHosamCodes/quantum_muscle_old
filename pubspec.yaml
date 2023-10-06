@@ -3,7 +3,7 @@ description: New Age Of Muscles
 
 publish_to: "none"
 
-version: 5.0.0
+version: 6.0.0
 
 environment:
   sdk: ">=3.1.1 <4.0.0"
@@ -33,11 +33,12 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 flutter_native_splash:
-  color: "#E0E0E0"
-  image: assets/lightTheme.png
+  color: "#212121"
+  image: assets/darkTheme.png
   color_dark: "#212121"
   image_dark: assets/darkTheme.png
   android: true
+  web: true
 
 flutter:
   uses-material-design: true

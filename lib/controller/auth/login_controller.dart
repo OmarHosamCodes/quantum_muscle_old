@@ -12,7 +12,9 @@ class LogInController {
       )
           .then((_) {
         if (firebaseAuth.currentUser != null) {
-          Get.snackbar(PublicConstants.SUCCESS, LoginConstants.LOGINSUCCESS);
+          Get.rawSnackbar(
+              title: PublicConstants.SUCCESS,
+              message: LoginConstants.LOGINSUCCESS);
         } else {
           return;
         }

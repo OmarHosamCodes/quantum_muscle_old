@@ -31,7 +31,7 @@ class QFButton extends StatelessWidget {
           child: child ??
               Text(
                 text!,
-                style: Get.textTheme.headlineMedium,
+                style: Get.textTheme.titleMedium,
               ),
         ),
       ),

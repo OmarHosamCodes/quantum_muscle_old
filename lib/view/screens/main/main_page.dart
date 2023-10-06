@@ -35,16 +35,22 @@ class MainPage extends StatelessWidget {
                 duration: 300.milliseconds,
                 gap: 5,
                 iconSize: 30,
-                tabs: const [
+                tabs: [
                   GButton(
+                    iconActiveColor: Get.theme.primaryColor,
+                    iconColor: Get.theme.primaryColor,
                     text: ClearRoutesConstants.MEALSPAGE,
                     icon: EvaIcons.archiveOutline,
                   ),
                   GButton(
+                    iconActiveColor: Get.theme.primaryColor,
+                    iconColor: Get.theme.primaryColor,
                     text: ClearRoutesConstants.WORKOUTSPAGE,
                     icon: EvaIcons.menu,
                   ),
                   GButton(
+                    iconActiveColor: Get.theme.primaryColor,
+                    iconColor: Get.theme.primaryColor,
                     text: ClearRoutesConstants.SETTINGSPAGE,
                     icon: EvaIcons.settings2Outline,
                   ),

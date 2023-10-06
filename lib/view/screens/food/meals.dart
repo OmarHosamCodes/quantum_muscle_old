@@ -57,14 +57,16 @@ class MealsPage extends StatelessWidget {
             ],
           ),
           extendBody: true,
-          extendBodyBehindAppBar: true,
+          extendBodyBehindAppBar: false,
           floatingActionButton: FloatingActionButton.extended(
             label: Text(
               PublicConstants.CREATE,
-              style: Get.textTheme.headlineMedium,
+              style: Get.textTheme.titleMedium,
             ),
-            icon: Icon(EvaIcons.fileAdd,
-                color: Get.theme.iconButtonTheme.style!.iconColor!.resolve({})),
+            icon: Icon(
+              EvaIcons.fileAdd,
+              color: Get.theme.iconButtonTheme.style!.iconColor!.resolve({}),
+            ),
             backgroundColor: Get.theme.primaryColor,
             onPressed: () {
               Get.toNamed(
@@ -73,115 +75,111 @@ class MealsPage extends StatelessWidget {
               );
             },
           ),
-          body: SafeArea(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(uid)
-                  .collection('food')
-                  .doc(docRef)
-                  .collection(index)
-                  .orderBy('isEated', descending: true)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  if (controller.viewIndex == 0) {
-                    return PageView.builder(
-                      // shrinkWrap: false,
-                      itemCount: snapshot.data!.docs.length,
+          body: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('users')
+                .doc(uid)
+                .collection('food')
+                .doc(docRef)
+                .collection(index)
+                .orderBy('isEated', descending: false)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (controller.viewIndex == 0) {
+                  return PageView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (ctx, i) {
+                      DocumentSnapshot doc = snapshot.data!.docs[i];
+                      DocumentReference<Map<String, dynamic>> mealDocRef =
+                          FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(uid)
+                              .collection('food')
+                              .doc(docRef)
+                              .collection(index)
+                              .doc(doc['mealName']);
 
-                      itemBuilder: (ctx, i) {
-                        DocumentSnapshot doc = snapshot.data!.docs[i];
-                        DocumentReference<Map<String, dynamic>> mealDocRef =
-                            FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(uid)
-                                .collection('food')
-                                .doc(docRef)
-                                .collection(index)
-                                .doc(doc['mealName']);
-
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            left: 30.w,
-                            right: 30.w,
-                            top: 270.h,
-                            bottom: 270.h,
-                          ),
-                          child: MealsChildWidget(
-                            mealDocRef: mealDocRef,
-                            doc: doc,
-                            controllerIndex: controller.viewIndex,
-                          ),
-                        );
-                      },
-                    );
-                  } else if (controller.viewIndex == 1) {
-                    return GridView.builder(
-                      itemCount: snapshot.data!.docs.length,
-                      padding: const EdgeInsets.only(
-                        left: 20,
-                        right: 20,
-                      ),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 1, crossAxisSpacing: .1),
-                      shrinkWrap: false,
-                      itemBuilder: (ctx, i) {
-                        DocumentSnapshot doc = snapshot.data!.docs[i];
-                        DocumentReference<Map<String, dynamic>> mealDocRef =
-                            FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(uid)
-                                .collection('food')
-                                .doc(docRef)
-                                .collection(index)
-                                .doc(doc['mealName']);
-                        return MealsChildWidget(
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          left: 50.w,
+                          right: 50.w,
+                          top: 50.h,
+                          bottom: 50.h,
+                        ),
+                        child: MealsChildWidget(
                           mealDocRef: mealDocRef,
                           doc: doc,
                           controllerIndex: controller.viewIndex,
-                        );
-                      },
-                    );
-                  } else {
-                    return GridView.builder(
-                      itemCount: snapshot.data!.docs.length,
-                      padding: const EdgeInsets.only(
-                        left: 20,
-                        right: 20,
-                      ),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              crossAxisSpacing: 10,
-                              childAspectRatio: .9),
-                      shrinkWrap: false,
-                      itemBuilder: (ctx, i) {
-                        DocumentSnapshot doc = snapshot.data!.docs[i];
-                        DocumentReference<Map<String, dynamic>> mealDocRef =
-                            FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(uid)
-                                .collection('food')
-                                .doc(docRef)
-                                .collection(index)
-                                .doc(doc['mealName']);
-                        return MealsChildWidget(
-                          mealDocRef: mealDocRef,
-                          doc: doc,
-                          controllerIndex: controller.viewIndex,
-                        );
-                      },
-                    );
-                  }
-                } else if (!snapshot.hasData) {
-                  return const Center(child: Text(PublicConstants.NODATA));
+                        ),
+                      );
+                    },
+                  );
+                } else if (controller.viewIndex == 1) {
+                  return GridView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    padding: EdgeInsets.only(
+                      left: 50.w,
+                      right: 50.w,
+                    ),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1, crossAxisSpacing: .1),
+                    shrinkWrap: false,
+                    itemBuilder: (ctx, i) {
+                      DocumentSnapshot doc = snapshot.data!.docs[i];
+                      DocumentReference<Map<String, dynamic>> mealDocRef =
+                          FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(uid)
+                              .collection('food')
+                              .doc(docRef)
+                              .collection(index)
+                              .doc(doc['mealName']);
+                      return MealsChildWidget(
+                        mealDocRef: mealDocRef,
+                        doc: doc,
+                        controllerIndex: controller.viewIndex,
+                      );
+                    },
+                  );
                 } else {
-                  return const Center(child: QFProgressIndicator());
+                  return GridView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    padding: EdgeInsets.only(
+                      left: 50.w,
+                      right: 50.w,
+                    ),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 10,
+                            childAspectRatio: .9),
+                    shrinkWrap: false,
+                    itemBuilder: (ctx, i) {
+                      DocumentSnapshot doc = snapshot.data!.docs[i];
+                      DocumentReference<Map<String, dynamic>> mealDocRef =
+                          FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(uid)
+                              .collection('food')
+                              .doc(docRef)
+                              .collection(index)
+                              .doc(doc['mealName']);
+                      return MealsChildWidget(
+                        mealDocRef: mealDocRef,
+                        doc: doc,
+                        controllerIndex: controller.viewIndex,
+                      );
+                    },
+                  );
                 }
-              },
-            ),
+              } else if (!snapshot.hasData) {
+                return const Center(child: Text(PublicConstants.NODATA));
+              } else {
+                return const Center(child: QFProgressIndicator());
+              }
+            },
           ),
         );
       },
@@ -233,8 +231,8 @@ class MealsChildWidget extends StatelessWidget {
                         height: 30.h,
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           QFButton(
                             onTap: () =>
@@ -262,46 +260,87 @@ class MealsChildWidget extends StatelessWidget {
             backgroundColor: Colors.transparent,
             elevation: 0);
       },
-      child: BlurredContainer(
-        padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 20.w),
-        begin: Alignment.bottomLeft,
-        borderRadius: BorderRadius.circular(20.r),
+      child: Container(
+        padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 30.w),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.blueGrey, width: 3.0),
+          borderRadius: BorderRadius.circular(30.r),
+        ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Flexible(
-              flex: 3,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20.r),
-                child: Image(
-                  image: CachedNetworkImageProvider(
-                    doc['mealImage'],
-                  ),
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) {
-                      return child;
-                    }
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: Get.theme.primaryColor,
+            doc['mealImage'] != null
+                ? Flexible(
+                    flex: 3,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15).r,
+                      child: Image(
+                        width: double.maxFinite,
+                        image: CachedNetworkImageProvider(
+                          doc['mealImage'],
+                        ),
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          }
+                          return SizedBox(
+                            height: 500.h,
+                            width: 500.w,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Get.theme.primaryColor,
+                              ),
+                            ),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) => SizedBox(
+                          height: 500.h,
+                          width: 500.w,
+                          child: Center(
+                            child: Text(
+                              "Error while uploading",
+                              style: Get.textTheme.titleMedium,
+                            ),
+                          ),
+                        ),
+                        filterQuality: FilterQuality.high,
+                        fit: BoxFit.cover,
                       ),
-                    );
-                  },
-                  filterQuality: FilterQuality.high,
-                  fit: controllerIndex == 2 ? BoxFit.fill : BoxFit.contain,
-                ),
-              ),
-            ),
+                    ),
+                  )
+                : Flexible(
+                    flex: 3,
+                    child: Placeholder(
+                      fallbackHeight: 500.h,
+                      fallbackWidth: 500.w,
+                    ),
+                  ),
+            SizedBox(height: 30.h),
             Flexible(
               flex: 1,
-              child: Text(doc['mealName'], style: Get.textTheme.headlineMedium),
+              child: controllerIndex == 2
+                  ? FittedBox(
+                      child: Text(
+                        doc['mealName'],
+                        style: Get.textTheme.titleLarge,
+                      ),
+                    )
+                  : Text(
+                      doc['mealName'],
+                      style: Get.textTheme.titleLarge,
+                    ),
             ),
-            Visibility(
-              visible: controllerIndex == 2 ? false : true,
-              child: Divider(
-                thickness: 1,
-                color: Get.theme.primaryColor.withOpacity(.1),
-              ),
-            ),
+            // Visibility(
+            //   visible: controllerIndex == 2 ? false : true,
+            //   child: Flexible(
+            //     flex: 1,
+            //     child: Text(
+            //       "${doc['exerciseTarget']}",
+            //       style: Get.textTheme.titleSmall,
+            //     ),
+            //   ),
+            // ),
+            // const Spacer(),
             Visibility(
               visible: controllerIndex == 2 ? false : true,
               child: Flexible(
@@ -311,7 +350,7 @@ class MealsChildWidget extends StatelessWidget {
                     child: RowedText(
                       child: Text(
                         doc['mealIngredients'],
-                        style: Get.textTheme.headlineMedium,
+                        style: Get.textTheme.titleMedium,
                       ),
                     ),
                   ),

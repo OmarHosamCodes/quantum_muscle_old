@@ -27,51 +27,6 @@ class _SettingsPageState extends State<SettingsPage> {
                     top: 10,
                     left: 10,
                     right: 10,
-                  ),
-                  child: GestureDetector(
-                    onTap: () =>
-                        controller.change(!controller.isThemeChanged).then(
-                              (value) => controller.changeTheme(),
-                            ),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 25.w),
-                      width: double.infinity,
-                      height: 200.h,
-                      decoration: BoxDecoration(
-                        color: Get.theme.primaryColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          controller.isSavedDarkMode()
-                              ? Text(
-                                  SettingsConstants.DARKTHEME,
-                                  style: Get.textTheme.headlineMedium,
-                                )
-                              : Text(
-                                  SettingsConstants.LIGHTTHEME,
-                                  style: Get.textTheme.headlineMedium,
-                                ),
-                          controller.isThemeChanged
-                              ? Icon(EvaIcons.sun,
-                                  color: Get
-                                      .theme.iconButtonTheme.style!.iconColor!
-                                      .resolve({}))
-                              : Icon(EvaIcons.moon,
-                                  color: Get
-                                      .theme.iconButtonTheme.style!.iconColor!
-                                      .resolve({})),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 10,
-                    left: 10,
-                    right: 10,
                     bottom: 30,
                   ),
                   child: GestureDetector(
@@ -89,7 +44,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         children: [
                           Text(
                             SettingsConstants.LOGOUT,
-                            style: Get.textTheme.headlineMedium,
+                            style: Get.textTheme.titleMedium,
                           ),
                           Icon(
                             EvaIcons.logOutOutline,

@@ -10,9 +10,9 @@ class CreateMealPage extends StatefulWidget {
 }
 
 class _CreateMealPageState extends State<CreateMealPage> {
-  late TextEditingController nameController;
+  final nameController = TextEditingController();
 
-  late TextEditingController ingredientsController;
+  final ingredientsController = TextEditingController();
 
   late File imagePicked;
 
@@ -20,7 +20,7 @@ class _CreateMealPageState extends State<CreateMealPage> {
 
   final controller = CreateMealController();
 
-  void openGallery() async {
+  Future<void> openGallery() async {
     ImagePicker picker = ImagePicker();
     var pickedFile = await picker.pickImage(
         source: ImageSource.gallery,
@@ -36,7 +36,7 @@ class _CreateMealPageState extends State<CreateMealPage> {
     }
   }
 
-  void openCamera() async {
+  Future<void> openCamera() async {
     var status = await Permission.camera.status;
     if (status.isGranted) {
       ImagePicker picker = ImagePicker();
@@ -60,35 +60,26 @@ class _CreateMealPageState extends State<CreateMealPage> {
 
   void openDialog() {
     Get.dialog(
-      barrierDismissible: false,
+      barrierDismissible: true,
       Dialog(
         backgroundColor: Colors.transparent,
         elevation: 0,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              MealsConstants.CHOOSEOPTION,
-              style: Get.textTheme.headlineMedium,
-            ),
-            SizedBox(
-              height: 30.h,
-            ),
             QFSuperButton(
-              text: MealsConstants.OPENCAMERA,
+              text: PublicConstants.OPENCAMERA,
               onTap: () => openCamera(),
               icon: EvaIcons.battery,
             ),
             SizedBox(height: 25.h),
             QFSuperButton(
-              text: MealsConstants.OPENGALLERY,
+              text: PublicConstants.OPENGALLERY,
               onTap: () => openGallery(),
               icon: EvaIcons.folder,
             ),
-            SizedBox(
-              height: 10.h,
-            ),
+            SizedBox(height: 400.h),
           ],
         ),
       ),
@@ -109,20 +100,6 @@ class _CreateMealPageState extends State<CreateMealPage> {
         ),
       );
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    nameController = TextEditingController();
-    ingredientsController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    nameController.dispose();
-    ingredientsController.dispose();
   }
 
   @override
@@ -187,7 +164,7 @@ class _CreateMealPageState extends State<CreateMealPage> {
                       showProgressIndicator: true,
                       duration: 1.days,
                     );
-                    CreateMealController()
+                    controller
                         .createMeal(mealName, index, nameController.text,
                             ingredientsController.text, imagePicked)
                         .then((_) {
@@ -214,9 +191,9 @@ class _CreateMealPageState extends State<CreateMealPage> {
                 },
                 text: PublicConstants.CREATE,
               ),
-              SizedBox(
-                height: 100.h,
-              )
+              // SizedBox(
+              //   height: 100.h,
+              // ),
             ],
           ),
         ),

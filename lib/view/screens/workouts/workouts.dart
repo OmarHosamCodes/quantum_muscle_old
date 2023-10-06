@@ -99,7 +99,7 @@ class WorkoutsPage extends HookWidget {
                                   children: [
                                     Text(
                                       doc['workoutName'],
-                                      style: Get.textTheme.headlineMedium,
+                                      style: Get.textTheme.titleMedium,
                                     ),
                                     const Spacer(),
                                     doc['isPinned']
@@ -113,9 +113,7 @@ class WorkoutsPage extends HookWidget {
                                         : Container(),
                                     Icon(
                                       EvaIcons.arrowRight,
-                                      color: Get.theme.iconButtonTheme.style!
-                                          .iconColor!
-                                          .resolve({}),
+                                      color: Get.textTheme.titleLarge!.color,
                                     ),
                                   ],
                                 ),

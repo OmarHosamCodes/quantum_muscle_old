@@ -23,7 +23,6 @@ export 'view/widgets/public/progress_indicator_widget.dart';
 export 'view/widgets/public/text_field_widget.dart';
 export 'view/widgets/public/rowed_text_widget.dart';
 export 'view/widgets/private/workouts/workouts_widgets.dart';
-export 'view/widgets/public/blurred_container.dart';
 
 //* Controllers
 
@@ -38,7 +37,6 @@ export 'controller/auth/signup_controller.dart';
 export 'controller/settings/settings_controller.dart';
 export 'package:quantum_muscle/controller/food/meals_controller.dart';
 export 'package:quantum_muscle/controller/theme/darktheme.dart';
-export 'package:quantum_muscle/controller/theme/lighttheme.dart';
 
 //* Models
 

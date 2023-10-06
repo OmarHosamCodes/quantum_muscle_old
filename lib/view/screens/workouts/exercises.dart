@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, no_leading_underscores_for_local_identifiers
 
 import '../../../library.dart';
 
@@ -61,7 +61,7 @@ class ExercisesPage extends HookWidget {
           floatingActionButton: FloatingActionButton.extended(
             label: Text(
               PublicConstants.CREATE,
-              style: Get.textTheme.headlineMedium,
+              style: Get.textTheme.titleMedium,
             ),
             icon: Icon(
               EvaIcons.fileAdd,
@@ -104,10 +104,10 @@ class ExercisesPage extends HookWidget {
                       List<String> sets = setsMap.values.toList();
                       return Padding(
                         padding: EdgeInsets.only(
-                          left: 30.w,
-                          right: 30.w,
+                          left: 50.w,
+                          right: 50.w,
                           top: 50.h,
-                          bottom: 500.h,
+                          bottom: 50.h,
                         ),
                         child: WorkoutsChildWidget(
                           setsDocRef: setsDocRef,
@@ -122,9 +122,9 @@ class ExercisesPage extends HookWidget {
                 } else if (controller.viewIndex == 1) {
                   return GridView.builder(
                     itemCount: snapshot.data!.docs.length,
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                      right: 20,
+                    padding: EdgeInsets.only(
+                      left: 50.w,
+                      right: 50.w,
                     ),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
@@ -155,9 +155,9 @@ class ExercisesPage extends HookWidget {
                 } else {
                   return GridView.builder(
                     itemCount: snapshot.data!.docs.length,
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                      right: 20,
+                    padding: EdgeInsets.only(
+                      left: 50.w,
+                      right: 50.w,
                     ),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
@@ -279,19 +279,22 @@ class WorkoutsChildWidget extends HookWidget {
             backgroundColor: Colors.transparent,
             elevation: 0);
       },
-      child: BlurredContainer(
-        padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 20.w),
-        begin: Alignment.bottomRight,
-        borderRadius: BorderRadius.circular(20.r),
+      child: Container(
+        padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 30.w),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.blueGrey, width: 3.0),
+          borderRadius: BorderRadius.circular(30.r),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             doc['exerciseImage'] != null
                 ? Flexible(
-                    flex: 6,
+                    flex: 3,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20.r),
+                      borderRadius: BorderRadius.circular(15).r,
                       child: Image(
+                        width: double.maxFinite,
                         image: CachedNetworkImageProvider(
                           doc['exerciseImage'],
                         ),
@@ -299,17 +302,28 @@ class WorkoutsChildWidget extends HookWidget {
                           if (loadingProgress == null) {
                             return child;
                           }
-                          return Center(
-                            child: CircularProgressIndicator(
-                              color: Get.theme.primaryColor,
+                          return SizedBox(
+                            height: 500.h,
+                            width: 500.w,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Get.theme.primaryColor,
+                              ),
                             ),
                           );
                         },
-                        // height: 500.h,
-                        // width: 500.w,
+                        errorBuilder: (context, error, stackTrace) => SizedBox(
+                          height: 500.h,
+                          width: 500.w,
+                          child: Center(
+                            child: Text(
+                              "Error while uploading",
+                              style: Get.textTheme.titleMedium,
+                            ),
+                          ),
+                        ),
                         filterQuality: FilterQuality.high,
-                        fit:
-                            controllerIndex == 2 ? BoxFit.fill : BoxFit.contain,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   )
@@ -324,26 +338,24 @@ class WorkoutsChildWidget extends HookWidget {
             Flexible(
               flex: 1,
               child: controllerIndex == 2
-                  ? Text(
-                      doc['exerciseName'],
-                      style: Get.textTheme.headlineMedium,
-                    )
-                  : RowedText(
+                  ? FittedBox(
                       child: Text(
                         doc['exerciseName'],
-                        style: Get.textTheme.headlineMedium,
+                        style: Get.textTheme.titleLarge,
                       ),
+                    )
+                  : Text(
+                      doc['exerciseName'],
+                      style: Get.textTheme.titleLarge,
                     ),
             ),
             Visibility(
               visible: controllerIndex == 2 ? false : true,
               child: Flexible(
                 flex: 1,
-                child: RowedText(
-                  child: Text(
-                    "${doc['exerciseTarget']}",
-                    style: Get.textTheme.headlineMedium,
-                  ),
+                child: Text(
+                  "${doc['exerciseTarget']}",
+                  style: Get.textTheme.titleSmall,
                 ),
               ),
             ),
@@ -355,121 +367,217 @@ class WorkoutsChildWidget extends HookWidget {
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: sets.length,
-                  itemBuilder: (setsContext, setsIndex) => Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Get.bottomSheet(
-                              BottomSheet(
-                                backgroundColor: Colors.transparent,
-                                onClosing: () {},
-                                builder: (setsContext) {
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(70.r),
-                                      color: Get.theme.primaryColor
-                                          .withOpacity(.3),
-                                    ),
-                                    child: SizedBox(
-                                      height: 800.h,
-                                      width: double.infinity,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(
-                                            ExercisesConstants.ENTERINFO,
-                                            style: Get.textTheme.headlineMedium,
-                                          ),
-                                          SizedBox(
-                                            height: 30.h,
-                                          ),
-                                          QFTextField(
-                                            controller: weightsController,
-                                            hintText:
-                                                ExercisesConstants.WEIGHTS,
-                                            keyboardType: TextInputType.number,
-                                          ),
-                                          SizedBox(height: 25.h),
-                                          QFTextField(
-                                            controller: repsController,
-                                            hintText: ExercisesConstants.REPS,
-                                            hasNext: false,
-                                            keyboardType: TextInputType.number,
-                                          ),
-                                          SizedBox(
-                                            height: 25.h,
-                                          ),
-                                          QFButton(
-                                            child: Text(
-                                              PublicConstants.SAVE,
-                                              style:
-                                                  Get.textTheme.headlineMedium,
-                                            ),
-                                            onTap: () async {
-                                              final update = {
-                                                'sets': {
-                                                  setsMap.keys
-                                                          .elementAt(setsIndex)
-                                                          .toString():
-                                                      "${weightsController.text} x ${repsController.text}",
-                                                }
-                                              };
+                  itemBuilder: (setsContext, setsIndex) {
+                    BorderRadius _borderRadius() {
+                      if (setsIndex == 0) {
+                        return BorderRadius.only(
+                          bottomLeft: Radius.circular(20.r),
+                          // topLeft: Radius.circular(20.r),
+                        );
+                      } else if (setsIndex == sets.length - 1) {
+                        return BorderRadius.only(
+                          bottomRight: Radius.circular(20.r),
+                          // topRight: Radius.circular(20.r),
+                        );
+                      } else {
+                        return BorderRadius.circular(0).r;
+                      }
+                    }
 
-                                              try {
-                                                await setsDocRef
-                                                    .set(
-                                                  update,
-                                                  SetOptions(
-                                                    merge: true,
-                                                  ),
-                                                )
-                                                    .whenComplete(() {
-                                                  Get.back();
-                                                  weightsController.clear();
-                                                  repsController.clear();
-                                                });
-                                              } catch (e) {
-                                                Get.snackbar(
-                                                    "Network Error", '',
-                                                    duration: 100.milliseconds);
-                                              }
-                                            },
+                    CrossAxisAlignment _crossAxisAlignment() {
+                      if (setsIndex == 0) {
+                        return CrossAxisAlignment.start;
+                      } else if (setsIndex == sets.length - 1) {
+                        return CrossAxisAlignment.end;
+                      } else {
+                        return CrossAxisAlignment.center;
+                      }
+                    }
+
+                    Text _setsNumber() {
+                      if (setsIndex == 0) {
+                        return const Text("1");
+                      } else if (setsIndex == sets.length - 1) {
+                        return Text("${sets.length}");
+                      } else {
+                        return const Text("");
+                      }
+                    }
+
+                    Color _containerColor() {
+                      if (setsIndex == 0) {
+                        return Get.theme.canvasColor;
+                      } else if (setsIndex == sets.length - 1) {
+                        return Get.theme.canvasColor;
+                      } else {
+                        return Colors.transparent;
+                      }
+                    }
+
+                    return Column(
+                      crossAxisAlignment: _crossAxisAlignment(),
+                      children: [
+                        Row(
+                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 5.0,
+                                right: 5.0,
+                                top: 5.0,
+                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: _containerColor(),
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: const Radius.circular(15).r,
+                                      topRight: const Radius.circular(15).r,
+                                    )),
+                                height: 100.h,
+                                width: 100.w,
+                                child: FittedBox(
+                                  child: Align(
+                                    widthFactor: 1.2,
+                                    alignment: Alignment.center,
+                                    child: _setsNumber(),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.bottomSheet(
+                                    BottomSheet(
+                                      backgroundColor: Colors.transparent,
+                                      onClosing: () {},
+                                      builder: (setsContext) {
+                                        return Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(70.r),
+                                            color: Get.theme.primaryColor
+                                                .withOpacity(.3),
                                           ),
-                                        ],
+                                          child: SizedBox(
+                                            height: 800.h,
+                                            width: double.infinity,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: <Widget>[
+                                                Text(
+                                                  ExercisesConstants.ENTERINFO,
+                                                  style: Get
+                                                      .textTheme.headlineMedium,
+                                                ),
+                                                SizedBox(
+                                                  height: 30.h,
+                                                ),
+                                                QFTextField(
+                                                  controller: weightsController,
+                                                  hintText: ExercisesConstants
+                                                      .WEIGHTS,
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                ),
+                                                SizedBox(height: 25.h),
+                                                QFTextField(
+                                                  controller: repsController,
+                                                  hintText:
+                                                      ExercisesConstants.REPS,
+                                                  hasNext: false,
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                ),
+                                                SizedBox(
+                                                  height: 25.h,
+                                                ),
+                                                QFButton(
+                                                  child: Text(
+                                                    PublicConstants.SAVE,
+                                                    style: Get.textTheme
+                                                        .headlineMedium,
+                                                  ),
+                                                  onTap: () async {
+                                                    final update = {
+                                                      'sets': {
+                                                        setsMap.keys
+                                                                .elementAt(
+                                                                    setsIndex)
+                                                                .toString():
+                                                            "${weightsController.text} x ${repsController.text}",
+                                                      }
+                                                    };
+
+                                                    try {
+                                                      await setsDocRef
+                                                          .set(
+                                                        update,
+                                                        SetOptions(
+                                                          merge: true,
+                                                        ),
+                                                      )
+                                                          .whenComplete(() {
+                                                        Get.back();
+                                                        weightsController
+                                                            .clear();
+                                                        repsController.clear();
+                                                      });
+                                                    } catch (e) {
+                                                      Get.snackbar(
+                                                          "Network Error", '',
+                                                          duration:
+                                                              100.milliseconds);
+                                                    }
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    backgroundColor: Colors.transparent,
+                                    elevation: 0);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 5.0,
+                                  right: 5.0,
+                                  bottom: 5.0,
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Get.theme.canvasColor,
+                                    borderRadius: _borderRadius(),
+                                  ),
+                                  height: 160.h,
+                                  width: 224.w,
+                                  child: FittedBox(
+                                    child: Align(
+                                      widthFactor: 1.2,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        sets[setsIndex],
+                                        style: Get.textTheme.titleLarge,
                                       ),
                                     ),
-                                  );
-                                },
-                              ),
-                              backgroundColor: Colors.transparent,
-                              elevation: 0);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Container(
-                            color: Get.theme.scaffoldBackgroundColor
-                                .withOpacity(.1),
-                            height: 160.h,
-                            width: 224.w,
-                            child: FittedBox(
-                              child: Align(
-                                widthFactor: 1.2,
-                                alignment: Alignment.center,
-                                child: Text(
-                                  sets[setsIndex],
-                                  style: Get.textTheme.headlineSmall,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    );
+                  },
                 ),
               ),
             ),

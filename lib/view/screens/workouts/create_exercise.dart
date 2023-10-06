@@ -14,6 +14,7 @@ class _CreateExercisePageState extends State<CreateExercisePage> {
   final targetController = TextEditingController();
   late File imagePicked;
   bool isImagePicked = false;
+  final controller = CreateExerciseController();
 
   Future<void> openGallery() async {
     ImagePicker picker = ImagePicker();
@@ -55,21 +56,14 @@ class _CreateExercisePageState extends State<CreateExercisePage> {
 
   void openDialog() {
     Get.dialog(
-      barrierDismissible: false,
+      barrierDismissible: true,
       Dialog(
         backgroundColor: Colors.transparent,
         elevation: 0,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              ExercisesConstants.CHOOSEOPTION,
-              style: Get.textTheme.headlineMedium,
-            ),
-            SizedBox(
-              height: 30.h,
-            ),
             QFSuperButton(
               text: PublicConstants.OPENCAMERA,
               onTap: () => openCamera(),
@@ -81,9 +75,7 @@ class _CreateExercisePageState extends State<CreateExercisePage> {
               onTap: () => openGallery(),
               icon: EvaIcons.folder,
             ),
-            SizedBox(
-              height: 10.h,
-            ),
+            SizedBox(height: 400.h),
           ],
         ),
       ),
@@ -109,11 +101,11 @@ class _CreateExercisePageState extends State<CreateExercisePage> {
   @override
   Widget build(BuildContext context) {
     var arguments = Get.arguments;
-    final String index = arguments[0];
-    final String workoutName = arguments[1];
+    final index = arguments[0];
+    final workoutName = arguments[1];
 
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
+      extendBody: true,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -139,8 +131,10 @@ class _CreateExercisePageState extends State<CreateExercisePage> {
                 height: 50.h,
               ),
               QFTextField(
-                  controller: nameController,
-                  hintText: ExercisesConstants.NAME),
+                controller: nameController,
+                hintText: ExercisesConstants.NAME,
+                hasNext: true,
+              ),
               SizedBox(
                 height: 40.h,
               ),
@@ -163,7 +157,7 @@ class _CreateExercisePageState extends State<CreateExercisePage> {
                       showProgressIndicator: true,
                       duration: 1.days,
                     );
-                    CreateExerciseController()
+                    controller
                         .createExercise(workoutName, index, nameController.text,
                             targetController.text, imagePicked)
                         .then((_) {

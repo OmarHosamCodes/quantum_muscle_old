@@ -23,7 +23,9 @@ class SignupController extends GetxController {
           .then((_) {
         if (firebaseAuth.currentUser != null) {
           afterSignUp(userName);
-          Get.snackbar(PublicConstants.SUCCESS, "Register Is Successfully");
+          Get.rawSnackbar(
+              title: PublicConstants.SUCCESS,
+              message: "Register Is Successfully");
           Get.toNamed(RoutesConstants.MASTERPAGE);
         } else {
           return;
