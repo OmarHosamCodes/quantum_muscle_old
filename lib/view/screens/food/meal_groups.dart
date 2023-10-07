@@ -97,7 +97,7 @@ class MealGroupsPage extends HookWidget {
                                   children: [
                                     Text(
                                       doc['mealGroupName'],
-                                      style: Get.textTheme.titleMedium,
+                                      style: Get.textTheme.titleSmall,
                                     ),
                                     const Spacer(),
                                     doc['isPinned']

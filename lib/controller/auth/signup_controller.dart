@@ -44,10 +44,10 @@ class SignupController extends GetxController {
       userModel.email = user!.email;
       userModel.uid = user!.uid;
       userModel.userName = userName;
-      userModel.userBio = null;
+      userModel.userBio = "No Bio Yet";
       userModel.userImage = null;
-      userModel.userWeight = null;
-      userModel.userHeight = null;
+      userModel.userWeight = {"0": "0"};
+      userModel.userHeight = {"0": "0"};
       await firebaseFirestore
           .collection("users")
           .doc(user!.uid)

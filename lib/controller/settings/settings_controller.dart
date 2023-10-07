@@ -1,46 +1,96 @@
-import 'package:flutter_animate/flutter_animate.dart';
+import 'dart:io';
 
 import '../../library.dart';
 
 class SettingsController extends GetxController {
-  bool isThemeChanged = false;
+  final firebaseAuth = FirebaseAuth.instance;
+  final firebaseFirestore = FirebaseFirestore.instance;
+  final firebaseStorage = FirebaseStorage.instance;
+  UserModel userModel = UserModel();
 
-  void onThemeChange() {
-    if (isThemeChanged) {
-      isThemeChanged = false;
-      update();
-    } else {
-      isThemeChanged = true;
-      update();
+  late User? user = firebaseAuth.currentUser;
+
+  // afterSignUp(String userName) async {
+  //   if (user != null) {
+  //     userModel.email = user!.email;
+  //     userModel.uid = user!.uid;
+  //     userModel.userName = userName;
+  //     userModel.userBio = null;
+  //     userModel.userImage = null;
+  //     userModel.userWeight = null;
+  //     userModel.userHeight = null;
+  //     await firebaseFirestore
+  //         .collection("users")
+  //         .doc(user!.uid)
+  //         .set(userModel.toMap());
+  //   }
+  // }
+
+  Future<void> changeImage(File imageFile) async {
+    if (user != null) {
+      Reference storageReference = FirebaseStorage.instance
+          .ref()
+          .child(user!.uid)
+          .child("UserInfo")
+          .child("${user!.uid}UserImage");
+      UploadTask uploadeTask = storageReference.putFile(imageFile);
+      try {
+        await uploadeTask.whenComplete(
+          () async =>
+              await firebaseFirestore.collection("users").doc(user!.uid).update(
+            {"userImage": await storageReference.getDownloadURL()},
+          ),
+        );
+        Get.back();
+        update();
+      } catch (e) {
+        Get.rawSnackbar(
+          title: PublicConstants.ERROR,
+          message: e.toString(),
+        );
+      }
     }
   }
 
-  Future change(bool val) async {
-    isThemeChanged = val;
-    update();
+  Future<void> changeBio(String newBio) async {
+    if (user != null) {
+      try {
+        await firebaseFirestore
+            .collection("users")
+            .doc(user!.uid)
+            .update({"userBio": newBio});
+        Get.back();
+        update();
+      } catch (e) {
+        Get.rawSnackbar(
+          title: PublicConstants.ERROR,
+          message: e.toString(),
+        );
+      }
+    }
   }
 
-  final getStorage = GetStorage();
-
-  final darkThemeKey = ('isDarkTheme');
-
-  Future saveThemeData(bool isDarkMode) async =>
-      getStorage.write(darkThemeKey, isDarkMode);
-
-  bool isSavedDarkMode() => getStorage.read(darkThemeKey) ?? false;
-
-  ThemeMode getThemeMode() =>
-      isSavedDarkMode() ? ThemeMode.dark : ThemeMode.light;
-
-  changeTheme() async {
-    Get.changeThemeMode(isSavedDarkMode() ? ThemeMode.light : ThemeMode.dark);
-    await saveThemeData(!isSavedDarkMode());
-    pageController
-        .previousPage(duration: 300.ms, curve: Curves.ease)
-        .whenComplete(
-          () => pageController.nextPage(duration: 300.ms, curve: Curves.ease),
+  Future<void> changeHeightAndWeight(
+      String newHeight, String newWeight, String index) async {
+    if (user != null) {
+      try {
+        await firebaseFirestore.collection("users").doc(user!.uid).set(
+          {
+            "userHeight": {index: newHeight},
+            "userWeight": {index: newWeight},
+          },
+          SetOptions(
+            merge: true,
+          ),
         );
-    MainPageController().resetIndex();
-    update();
+        Get.back();
+        update();
+      } catch (e) {
+        Get.rawSnackbar(
+          title: PublicConstants.ERROR,
+          message: e.toString(),
+        );
+      }
+    }
   }
 }

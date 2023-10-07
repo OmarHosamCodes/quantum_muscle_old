@@ -31,7 +31,7 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
   ),
   textTheme: TextTheme(
     titleSmall: TextStyle(
-      color: const Color.fromRGBO(158, 158, 158, 1),
+      color: const Color.fromRGBO(255, 255, 255, 1),
       fontSize: 40.sp,
       fontFamily: 'family',
       fontWeight: FontWeight.normal,

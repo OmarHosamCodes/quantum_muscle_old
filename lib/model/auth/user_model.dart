@@ -4,8 +4,8 @@ class UserModel {
   String? userName;
   String? userImage;
   String? userBio;
-  String? userWeight;
-  String? userHeight;
+  Map<String, String>? userWeight;
+  Map<String, String>? userHeight;
 
   UserModel({
     this.uid,

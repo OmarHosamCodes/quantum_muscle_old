@@ -6,8 +6,8 @@ class CreateExerciseController {
   final firebaseFirestore = FirebaseFirestore.instance;
   final firebaseAuth = FirebaseAuth.instance;
 
-  Future createExercise(String workoutName, String index, String exerciseName,
-      String exerciseTarget, File imageFile) async {
+  Future<void> createExercise(String workoutName, String index,
+      String exerciseName, String exerciseTarget, File imageFile) async {
     User? user = firebaseAuth.currentUser;
     ExerciseModel exerciseModel = ExerciseModel();
 

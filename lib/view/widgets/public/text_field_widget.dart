@@ -9,6 +9,7 @@ class QFTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final bool isExpanded;
   final String? initialValue;
+  final int? maxLength;
 
   const QFTextField({
     super.key,
@@ -20,6 +21,7 @@ class QFTextField extends StatelessWidget {
     this.validator,
     this.isExpanded = false,
     this.initialValue,
+    this.maxLength,
   });
 
   @override
@@ -38,6 +40,7 @@ class QFTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextFormField(
+        maxLength: maxLength,
         smartDashesType: SmartDashesType.enabled,
         smartQuotesType: SmartQuotesType.enabled,
         expands: isExpanded,

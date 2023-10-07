@@ -99,7 +99,7 @@ class WorkoutsPage extends HookWidget {
                                   children: [
                                     Text(
                                       doc['workoutName'],
-                                      style: Get.textTheme.titleMedium,
+                                      style: Get.textTheme.titleSmall,
                                     ),
                                     const Spacer(),
                                     doc['isPinned']
