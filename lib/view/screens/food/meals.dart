@@ -330,17 +330,6 @@ class MealsChildWidget extends StatelessWidget {
                       style: Get.textTheme.titleLarge,
                     ),
             ),
-            // Visibility(
-            //   visible: controllerIndex == 2 ? false : true,
-            //   child: Flexible(
-            //     flex: 1,
-            //     child: Text(
-            //       "${doc['exerciseTarget']}",
-            //       style: Get.textTheme.titleSmall,
-            //     ),
-            //   ),
-            // ),
-            // const Spacer(),
             Visibility(
               visible: controllerIndex == 2 ? false : true,
               child: Flexible(

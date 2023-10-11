@@ -1,4 +1,4 @@
-import '../../../../library.dart';
+import '../../../library.dart';
 
 class QFSuperButton extends StatelessWidget {
   const QFSuperButton({super.key, this.text, this.onTap, this.icon});
@@ -15,13 +15,13 @@ class QFSuperButton extends StatelessWidget {
         children: [
           Icon(
             icon,
-            color: Colors.white,
-            size: 30,
+            color: const Color.fromRGBO(255, 255, 255, 1),
+            size: 70.w,
           ),
           const Spacer(),
           Text(
             text!,
-            style: Get.textTheme.titleLarge,
+            style: Get.textTheme.titleMedium,
           ),
           const Spacer(),
         ],

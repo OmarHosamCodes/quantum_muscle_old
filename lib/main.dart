@@ -11,7 +11,6 @@ void main() async {
   runApp(const MyApp());
 }
 
-//flutter clean ; flutter pub get ; clear ; flutter build apk --release
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 

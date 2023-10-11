@@ -17,42 +17,30 @@ class LoginPage extends HookWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 40.h),
-
-              // logo
               const Icon(
                 EvaIcons.personDoneOutline,
                 size: 100,
               ),
               SizedBox(height: 10.h),
-
-              // welcome back, you've been missed!
               Text(
                 LoginConstants.WELCOMEBACK,
                 style: Get.textTheme.titleSmall,
               ),
               SizedBox(height: 25.h),
-
-              // email textfield
               QFTextField(
                 controller: emailAddressController,
                 hintText: LoginConstants.EMAIL,
                 obscureText: false,
                 hasNext: true,
               ),
-
               SizedBox(height: 30.h),
-
-              // password textfield
               QFTextField(
                 controller: passwordController,
                 hintText: LoginConstants.PASSWORD,
                 obscureText: true,
                 hasNext: false,
               ),
-
               SizedBox(height: 30.h),
-
-              // forgot password?
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
@@ -72,10 +60,7 @@ class LoginPage extends HookWidget {
                   ],
                 ),
               ),
-
               SizedBox(height: 30.h),
-
-              // log in button
               QFButton(
                 text: LoginConstants.LOGIN,
                 onTap: () {
@@ -87,8 +72,6 @@ class LoginPage extends HookWidget {
               ),
               SizedBox(height: 50.h),
               const Spacer(),
-
-              // not a member? register now
               GestureDetector(
                 onTap: () {
                   Get.toNamed(RoutesConstants.SIGNUPPAGE);

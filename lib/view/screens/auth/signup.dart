@@ -22,21 +22,16 @@ class SignupPage extends HookWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: 40.h),
-
-                // logo
                 const Icon(
                   EvaIcons.personOutline,
                   size: 100,
                 ),
                 SizedBox(height: 10.h),
-
-                // welcome back, you've been missed!
                 Text(
                   SignupConstants.CREATEACCOUNT,
                   style: Get.textTheme.titleSmall,
                 ),
                 SizedBox(height: 25.h),
-
                 QFTextField(
                   controller: userNameController,
                   hintText: SignupConstants.USERNAME,
@@ -45,10 +40,7 @@ class SignupPage extends HookWidget {
                   validator: (username) =>
                       username!.length < 4 ? SignupConstants.USERNAME : null,
                 ),
-
                 SizedBox(height: 30.h),
-
-                // password textfield
                 QFTextField(
                   controller: emailAddressController,
                   hintText: SignupConstants.EMAIL,
@@ -59,7 +51,6 @@ class SignupPage extends HookWidget {
                       : null,
                 ),
                 SizedBox(height: 30.h),
-
                 QFTextField(
                   controller: passwordController,
                   hintText: SignupConstants.PASSWORD,
@@ -69,8 +60,6 @@ class SignupPage extends HookWidget {
                       password!.length < 6 ? SignupConstants.PASSWORD : null,
                 ),
                 SizedBox(height: 30.h),
-
-                // log in button
                 QFButton(
                   text: SignupConstants.SIGNUP,
                   onTap: () => SignupController().signUserUp(
@@ -81,7 +70,6 @@ class SignupPage extends HookWidget {
                 ),
                 SizedBox(height: 50.h),
                 const Spacer(),
-                // not a member? register now
                 GestureDetector(
                   onTap: () => Get.back(),
                   child: Row(

@@ -191,9 +191,6 @@ class _CreateMealPageState extends State<CreateMealPage> {
                 },
                 text: PublicConstants.CREATE,
               ),
-              // SizedBox(
-              //   height: 100.h,
-              // ),
             ],
           ),
         ),

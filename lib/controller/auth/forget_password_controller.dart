@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'dart:async';
 
 import '../../library.dart';
@@ -26,7 +28,6 @@ class ForgetPasswordController extends GetxController {
   }
 
   startTimer() {
-    // ignore: unused_local_variable
     Timer timer = Timer.periodic(1.seconds, (internalTimer) {
       if (countDown == 0) {
         internalTimer.cancel();

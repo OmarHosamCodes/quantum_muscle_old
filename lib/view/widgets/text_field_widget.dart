@@ -62,7 +62,7 @@ class QFTextField extends StatelessWidget {
           fillColor: Colors.grey.shade200,
           filled: true,
           hintText: hintText,
-          hintStyle: Get.textTheme.titleSmall,
+          hintStyle: Get.textTheme.headlineMedium,
         ),
         initialValue: initialValue,
         autovalidateMode: AutovalidateMode.onUserInteraction,

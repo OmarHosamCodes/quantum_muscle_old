@@ -1,3 +1,5 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import '../../../library.dart';
 
 final PageController pageController = PageController(initialPage: 1);
@@ -33,26 +35,26 @@ class MainPage extends StatelessWidget {
                 selectedIndex: controller.selectedIndex,
                 curve: Curves.linear,
                 duration: 300.milliseconds,
-                gap: 5,
-                iconSize: 30,
+                gap: 10,
+                iconSize: 25,
                 tabs: [
                   GButton(
                     iconActiveColor: Get.theme.primaryColor,
                     iconColor: Get.theme.primaryColor,
                     text: ClearRoutesConstants.MEALSPAGE,
-                    icon: EvaIcons.archiveOutline,
+                    icon: FontAwesomeIcons.bowlFood,
                   ),
                   GButton(
                     iconActiveColor: Get.theme.primaryColor,
                     iconColor: Get.theme.primaryColor,
                     text: ClearRoutesConstants.WORKOUTSPAGE,
-                    icon: EvaIcons.menu,
+                    icon: FontAwesomeIcons.dumbbell,
                   ),
                   GButton(
                     iconActiveColor: Get.theme.primaryColor,
                     iconColor: Get.theme.primaryColor,
                     text: ClearRoutesConstants.SETTINGSPAGE,
-                    icon: EvaIcons.settings2Outline,
+                    icon: FontAwesomeIcons.gear,
                   ),
                 ],
               ),

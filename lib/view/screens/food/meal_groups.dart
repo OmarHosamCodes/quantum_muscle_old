@@ -125,7 +125,6 @@ class MealGroupsPage extends HookWidget {
                                         height: 100.h,
                                       ),
                                       Row(
-                                        // mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceAround,
                                         crossAxisAlignment:
@@ -142,7 +141,6 @@ class MealGroupsPage extends HookWidget {
                                                   .resolve({}),
                                             ),
                                           ),
-                                          // const SizedBox(),
                                           GestureDetector(
                                             onTap: () => doc['isPinned']
                                                 ? controller

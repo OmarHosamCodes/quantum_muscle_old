@@ -18,11 +18,11 @@ export 'firebase_options.dart';
 
 //* Widgets
 
-export 'view/widgets/public/button_widget.dart';
-export 'view/widgets/public/progress_indicator_widget.dart';
-export 'view/widgets/public/text_field_widget.dart';
-export 'view/widgets/public/rowed_text_widget.dart';
-export 'view/widgets/private/workouts/workouts_widgets.dart';
+export 'view/widgets/button_widget.dart';
+export 'view/widgets/progress_indicator_widget.dart';
+export 'view/widgets/text_field_widget.dart';
+export 'view/widgets/rowed_text_widget.dart';
+export 'view/widgets/super_button.dart';
 
 //* Controllers
 

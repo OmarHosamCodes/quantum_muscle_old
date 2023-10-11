@@ -10,22 +10,6 @@ class SettingsController extends GetxController {
 
   late User? user = firebaseAuth.currentUser;
 
-  // afterSignUp(String userName) async {
-  //   if (user != null) {
-  //     userModel.email = user!.email;
-  //     userModel.uid = user!.uid;
-  //     userModel.userName = userName;
-  //     userModel.userBio = null;
-  //     userModel.userImage = null;
-  //     userModel.userWeight = null;
-  //     userModel.userHeight = null;
-  //     await firebaseFirestore
-  //         .collection("users")
-  //         .doc(user!.uid)
-  //         .set(userModel.toMap());
-  //   }
-  // }
-
   Future<void> changeImage(File imageFile) async {
     if (user != null) {
       Reference storageReference = FirebaseStorage.instance

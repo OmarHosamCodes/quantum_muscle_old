@@ -14,7 +14,7 @@ class CreateMealController {
     if (user != null) {
       mealModel.mealName = mealName;
       mealModel.mealIngredients = mealIngredients;
-      // mealModel.mealImage= imageFile;
+
       mealModel.timeNow = Timestamp.now();
       mealModel.isEated = false;
       Reference storageReference = FirebaseStorage.instance

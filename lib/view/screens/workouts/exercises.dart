@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, no_leading_underscores_for_local_identifiers
+// ignore_for_file: no_leading_underscores_for_local_identifiers, must_be_immutable
 
 import '../../../library.dart';
 
@@ -372,12 +372,10 @@ class WorkoutsChildWidget extends HookWidget {
                       if (setsIndex == 0) {
                         return BorderRadius.only(
                           bottomLeft: Radius.circular(20.r),
-                          // topLeft: Radius.circular(20.r),
                         );
                       } else if (setsIndex == sets.length - 1) {
                         return BorderRadius.only(
                           bottomRight: Radius.circular(20.r),
-                          // topRight: Radius.circular(20.r),
                         );
                       } else {
                         return BorderRadius.circular(0).r;
@@ -418,7 +416,6 @@ class WorkoutsChildWidget extends HookWidget {
                       crossAxisAlignment: _crossAxisAlignment(),
                       children: [
                         Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(

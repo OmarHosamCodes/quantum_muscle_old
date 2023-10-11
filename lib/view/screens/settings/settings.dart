@@ -14,300 +14,173 @@ class _SettingsPageState extends State<SettingsPage> {
   final firebaseFirestore = FirebaseFirestore.instance;
   late final uid = firebaseAuth.currentUser!.uid;
   late File imagePicked;
-  bool isImagePicked = false;
+
   final heightTextController = TextEditingController();
-  final weighTextController = TextEditingController();
+  final weightTextController = TextEditingController();
   final bioTextController = TextEditingController();
   int heightAndWeightIndex = 0;
+  Future<void> openGallery(SettingsController controller) async {
+    ImagePicker picker = ImagePicker();
+    var pickedFile = await picker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 512,
+        maxHeight: 512,
+        imageQuality: 100);
+    if (pickedFile != null) {
+      setState(() {
+        imagePicked = File(pickedFile.path);
+      });
+      Get.back();
+      controller.changeImage(imagePicked);
+    }
+  }
+
+  Future<void> openCamera(SettingsController controller) async {
+    var status = await Permission.camera.status;
+    if (status.isGranted) {
+      ImagePicker picker = ImagePicker();
+      var pickedFile = await picker.pickImage(
+          source: ImageSource.camera,
+          maxWidth: 512,
+          maxHeight: 512,
+          imageQuality: 100);
+      if (pickedFile != null) {
+        setState(() {
+          imagePicked = File(pickedFile.path);
+        });
+        Get.back();
+
+        controller.changeImage(imagePicked);
+      }
+    } else {
+      await Permission.camera.request();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<SettingsController>(
       init: SettingsController(),
       autoRemove: false,
       builder: (controller) {
-        Future<void> openGallery() async {
-          ImagePicker picker = ImagePicker();
-          var pickedFile = await picker.pickImage(
-              source: ImageSource.gallery,
-              maxWidth: 512,
-              maxHeight: 512,
-              imageQuality: 100);
-          if (pickedFile != null) {
-            setState(() {
-              imagePicked = File(pickedFile.path);
-              isImagePicked = true;
-            });
-            if (isImagePicked) {
-              Get.rawSnackbar(
-                snackStyle: SnackStyle.GROUNDED,
-                title: PublicConstants.LOADING,
-                message: PublicConstants.PLEASEWAIT,
-                backgroundColor: Get.theme.primaryColor.withOpacity(.3),
-                showProgressIndicator: true,
-                duration: 1.days,
-              );
-              controller
-                  .changeImage(imagePicked)
-                  .then((_) => Get.closeAllSnackbars());
-            }
-            Get.back();
-          }
-        }
-
-        Future<void> openCamera() async {
-          var status = await Permission.camera.status;
-          if (status.isGranted) {
-            ImagePicker picker = ImagePicker();
-            var pickedFile = await picker.pickImage(
-                source: ImageSource.camera,
-                maxWidth: 512,
-                maxHeight: 512,
-                imageQuality: 100);
-            if (pickedFile != null) {
-              setState(() {
-                imagePicked = File(pickedFile.path);
-                isImagePicked = true;
-              });
-              if (isImagePicked) {
-                Get.rawSnackbar(
-                  snackStyle: SnackStyle.GROUNDED,
-                  title: PublicConstants.LOADING,
-                  message: PublicConstants.PLEASEWAIT,
-                  backgroundColor: Get.theme.primaryColor.withOpacity(.3),
-                  showProgressIndicator: true,
-                  duration: 1.days,
-                );
-                controller
-                    .changeImage(imagePicked)
-                    .then((_) => Get.closeAllSnackbars());
-              }
-              Get.back();
-            }
-          } else {
-            await Permission.camera.request();
-            openCamera();
-          }
-        }
-
-        void openDialog() {
-          Get.dialog(
-            barrierDismissible: true,
-            Dialog(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  QFSuperButton(
-                    text: PublicConstants.OPENCAMERA,
-                    onTap: () => openCamera(),
-                    icon: EvaIcons.battery,
-                  ),
-                  SizedBox(height: 25.h),
-                  QFSuperButton(
-                    text: PublicConstants.OPENGALLERY,
-                    onTap: () => openGallery(),
-                    icon: EvaIcons.folder,
-                  ),
-                  SizedBox(height: 400.h),
-                ],
-              ),
-            ),
-          );
-        }
-
-        void changeHeightAndWeightDialog() {
-          Get.dialog(
-            barrierDismissible: true,
-            Dialog(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  QFTextField(
-                      maxLength: 5,
-                      hasNext: true,
-                      controller: heightTextController,
-                      hintText: "Height in cm or in"),
-                  SizedBox(height: 25.h),
-                  QFTextField(
-                      maxLength: 5,
-                      hasNext: false,
-                      controller: weighTextController,
-                      hintText: "weight in kg or lb"),
-                  SizedBox(height: 25.h),
-                  QFSuperButton(
-                    text: PublicConstants.SAVE,
-                    onTap: () => controller.changeHeightAndWeight(
-                        heightTextController.text,
-                        weighTextController.text,
-                        heightAndWeightIndex.toString()),
-                    icon: EvaIcons.folder,
-                  ),
-                  SizedBox(height: 400.h),
-                ],
-              ),
-            ),
-          );
-        }
-
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           extendBody: true,
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 10,
-                left: 10,
-                right: 10,
-                bottom: 30,
-              ),
-              child: FutureBuilder(
-                  future: firebaseFirestore.collection('users').doc(uid).get(),
-                  builder: (_, snapshot) {
-                    if (snapshot.hasData) {
-                      Map<String, dynamic>? doc = snapshot.data!.data();
+          body: FutureBuilder(
+              future: firebaseFirestore.collection('users').doc(uid).get(),
+              builder: (_, snapshot) {
+                if (snapshot.hasData) {
+                  Map<String, dynamic>? doc = snapshot.data!.data();
+                  Map<String, String> heightMap =
+                      doc!['userHeight'].cast<String, String>();
+                  String height = heightMap.values.lastOrNull!;
+                  heightAndWeightIndex = heightMap.length;
+                  Map<String, String> weightMap =
+                      doc['userWeight'].cast<String, String>();
 
-                      // List heightMap = doc!['userHeight'];
-                      // String height = heightMap.last;
+                  String weight = weightMap.values.lastOrNull!;
 
-                      // heightAndWeightIndex = heightMap.length;
-                      // List weightMap = doc['userWeight'];
-
-                      // String weight = weightMap.last;
-                      Map<String, String> heightMap =
-                          doc!['userHeight'].cast<String, String>();
-                      String height = heightMap.values.lastOrNull!;
-
-                      heightAndWeightIndex = heightMap.length;
-                      Map<String, String> weightMap =
-                          doc['userWeight'].cast<String, String>();
-
-                      String weight = weightMap.values.lastOrNull!;
-
-                      return Column(
+                  return SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 10,
+                        left: 10,
+                        right: 10,
+                        bottom: 30,
+                      ),
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Flexible(
-                            flex: 2,
+                            flex: 1,
                             child: doc['userImage'] != null
-                                ? Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
                                     children: [
                                       GestureDetector(
-                                        onTap: () => openDialog(),
-                                        child: CircleAvatar(
-                                          backgroundColor:
-                                              Get.theme.primaryColor,
-                                          child: Image(
-                                            width: double.maxFinite,
-                                            image: CachedNetworkImageProvider(
-                                              doc['userImage'],
-                                            ),
-                                            loadingBuilder: (context, child,
-                                                loadingProgress) {
-                                              if (loadingProgress == null) {
-                                                return child;
-                                              }
-                                              return SizedBox(
-                                                height: 500.h,
-                                                width: 500.w,
-                                                child: Center(
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    color:
-                                                        Get.theme.primaryColor,
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                            errorBuilder:
-                                                (context, error, stackTrace) =>
-                                                    SizedBox(
-                                              height: 500.h,
-                                              width: 500.w,
-                                              child: Center(
-                                                child: Text(
-                                                  "Error while uploading",
-                                                  style:
-                                                      Get.textTheme.titleMedium,
-                                                ),
+                                        onTap: () => openDialog(
+                                          controller,
+                                          () => openCamera(controller),
+                                          () => openGallery(controller),
+                                        ),
+                                        child: Container(
+                                          width: 300.w,
+                                          height: 300.h,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: CachedNetworkImageProvider(
+                                                doc['userImage'],
                                               ),
                                             ),
-                                            filterQuality: FilterQuality.high,
-                                            fit: BoxFit.cover,
+                                            border: Border.all(
+                                              color: Get.theme.primaryColor,
+                                            ),
+                                            shape: BoxShape.circle,
                                           ),
                                         ),
                                       ),
+                                      SizedBox(width: 30.w),
                                       GestureDetector(
                                         onTap: () =>
-                                            changeHeightAndWeightDialog(),
+                                            changeHeightAndWeightDialog(
+                                                controller,
+                                                heightTextController,
+                                                weightTextController,
+                                                heightAndWeightIndex),
                                         child: Text(
                                           "\n${doc['userName'].toString()}\nHeight: $height\nWeight: $weight\n",
                                           style: Get.textTheme.titleSmall,
+                                          textAlign: TextAlign.start,
                                         ),
                                       ),
+                                      const Spacer(),
                                     ],
                                   )
-                                : Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                : Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
                                     children: [
                                       GestureDetector(
-                                        onTap: () => openDialog(),
-                                        child: CircleAvatar(
-                                          radius: 100.r,
+                                        onTap: () => openDialog(
+                                          controller,
+                                          () => openCamera(controller),
+                                          () => openGallery(controller),
+                                        ),
+                                        child: Container(
+                                          width: 300.w,
+                                          height: 300.h,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                  color:
+                                                      Get.theme.primaryColor)),
                                           child: const Icon(EvaIcons.person),
                                         ),
                                       ),
+                                      SizedBox(width: 30.w),
                                       GestureDetector(
                                         onTap: () =>
-                                            changeHeightAndWeightDialog(),
+                                            changeHeightAndWeightDialog(
+                                                controller,
+                                                heightTextController,
+                                                weightTextController,
+                                                heightAndWeightIndex),
                                         child: Text(
                                           "\n${doc['userName'].toString()}\nHeight: $height\nWeight: $weight\n",
                                           style: Get.textTheme.titleSmall,
-                                          textAlign: TextAlign.center,
+                                          textAlign: TextAlign.start,
                                         ),
                                       ),
+                                      const Spacer(),
                                     ],
                                   ),
                           ),
                           Flexible(
-                            flex: 2,
+                            flex: 3,
                             child: GestureDetector(
-                              onTap: () => Get.dialog(
-                                barrierDismissible: true,
-                                Dialog(
-                                  backgroundColor: Colors.transparent,
-                                  elevation: 0,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        height: 500.h,
-                                        child: QFTextField(
-                                            maxLength: 100,
-                                            hasNext: false,
-                                            isExpanded: true,
-                                            controller: bioTextController,
-                                            hintText:
-                                                "Bio ( 100 characters max! )"),
-                                      ),
-                                      SizedBox(height: 25.h),
-                                      QFSuperButton(
-                                        text: PublicConstants.SAVE,
-                                        onTap: () => controller
-                                            .changeBio(bioTextController.text),
-                                        icon: EvaIcons.folder,
-                                      ),
-                                      SizedBox(height: 400.h),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                              onTap: () => changeBioDialog(controller),
                               child: Container(
                                 width: double.maxFinite,
                                 height: double.maxFinite,
@@ -359,15 +232,116 @@ class _SettingsPageState extends State<SettingsPage> {
                             ),
                           ),
                         ],
-                      );
-                    } else {
-                      return const Center(child: Text("No Data"));
-                    }
-                  }),
-            ),
-          ),
+                      ),
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return const Center(child: Text(PublicConstants.NODATA));
+                } else {
+                  return const Center(child: QFProgressIndicator());
+                }
+              }),
         );
       },
     );
   }
+
+  Future<void> changeBioDialog(SettingsController controller) {
+    return Get.dialog(
+      barrierDismissible: true,
+      Dialog(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 500.h,
+              child: QFTextField(
+                  maxLength: 100,
+                  hasNext: false,
+                  isExpanded: true,
+                  controller: bioTextController,
+                  hintText: "Bio ( 100 characters max! )"),
+            ),
+            SizedBox(height: 25.h),
+            QFSuperButton(
+              text: PublicConstants.SAVE,
+              onTap: () => controller.changeBio(bioTextController.text),
+              icon: EvaIcons.folder,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+void openDialog(SettingsController controller,
+    Future<void> Function() openCamera, Future<void> Function() openGallery) {
+  Get.dialog(
+    barrierDismissible: true,
+    Dialog(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          QFSuperButton(
+            text: PublicConstants.OPENCAMERA,
+            onTap: () => openCamera(),
+            icon: EvaIcons.battery,
+          ),
+          SizedBox(height: 25.h),
+          QFSuperButton(
+            text: PublicConstants.OPENGALLERY,
+            onTap: () => openGallery(),
+            icon: EvaIcons.folder,
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+void changeHeightAndWeightDialog(
+  SettingsController controller,
+  TextEditingController heightTextController,
+  TextEditingController weightTextController,
+  int heightAndWeightIndex,
+) {
+  Get.dialog(
+    barrierDismissible: true,
+    Dialog(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          QFTextField(
+              maxLength: 5,
+              hasNext: true,
+              controller: heightTextController,
+              keyboardType: TextInputType.number,
+              hintText: "Height in cm or in"),
+          QFTextField(
+              maxLength: 5,
+              hasNext: false,
+              keyboardType: TextInputType.number,
+              controller: weightTextController,
+              hintText: "weight in kg or lb"),
+          SizedBox(height: 25.h),
+          QFSuperButton(
+            text: PublicConstants.SAVE,
+            onTap: () => controller.changeHeightAndWeight(
+                heightTextController.text,
+                weightTextController.text,
+                heightAndWeightIndex.toString()),
+            icon: EvaIcons.folder,
+          ),
+        ],
+      ),
+    ),
+  );
 }
