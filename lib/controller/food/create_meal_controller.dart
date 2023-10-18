@@ -15,13 +15,11 @@ class CreateMealController {
       mealModel.mealName = mealName;
       mealModel.mealIngredients = mealIngredients;
 
-      mealModel.timeNow = Timestamp.now();
-      mealModel.isEated = false;
       Reference storageReference = FirebaseStorage.instance
           .ref()
           .child(user.uid)
           .child("FoodImages")
-          .child("$mealGroupName$mealName${mealModel.timeNow}");
+          .child("${user.uid.substring(1, 6)}$mealGroupName$mealName");
       UploadTask uploadeTask = storageReference.putFile(imageFile);
       try {
         await uploadeTask

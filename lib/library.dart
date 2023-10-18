@@ -13,6 +13,7 @@ export 'view/screens/workouts/exercises.dart';
 export 'view/screens/workouts/workouts.dart';
 export 'view/screens/food/meal_groups.dart';
 export 'view/screens/settings/settings.dart';
+export 'view/screens/intent/intent_page.dart';
 export 'main.dart';
 export 'firebase_options.dart';
 
@@ -35,12 +36,14 @@ export 'controller/auth/forget_password_controller.dart';
 export 'controller/auth/login_controller.dart';
 export 'controller/auth/signup_controller.dart';
 export 'controller/settings/settings_controller.dart';
-export 'package:quantum_muscle/controller/food/meals_controller.dart';
-export 'package:quantum_muscle/controller/theme/darktheme.dart';
+export 'controller/food/meals_controller.dart';
+export 'controller/theme/darktheme.dart';
+export 'controller/workouts/exercise_controller.dart';
+export 'controller/routes/app_routes_controller.dart';
+export 'controller/intent/intent_controller.dart';
 
 //* Models
 
-export 'controller/routes/app_routes_controller.dart';
 export 'model/auth/user_model.dart';
 export 'model/food/meal_model.dart';
 export 'model/food/meal_group_model.dart';
@@ -71,3 +74,8 @@ export 'package:email_validator/email_validator.dart';
 export 'package:firebase_storage/firebase_storage.dart';
 export 'package:flutter/foundation.dart';
 export 'package:cached_network_image/cached_network_image.dart';
+export 'package:share_plus/share_plus.dart';
+export 'dart:convert';
+export 'dart:async';
+export 'package:receive_sharing_intent/receive_sharing_intent.dart';
+export 'package:font_awesome_flutter/font_awesome_flutter.dart';

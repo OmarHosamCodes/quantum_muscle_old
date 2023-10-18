@@ -6,9 +6,6 @@ class WorkoutsController extends GetxController {
   late User? user = firebaseAuth.currentUser;
   double containerHeight = 200.h;
   bool isContainerExpanded = false;
-  final getStorage = GetStorage();
-  int viewIndex = 0;
-  final storageKey = ('workoutsView');
   Future createWorkout(String workoutName) async {
     WorkoutModel workoutModel = WorkoutModel();
 
@@ -108,12 +105,6 @@ class WorkoutsController extends GetxController {
         },
       );
     }
-    update();
-  }
-
-  Future changeView() async {
-    getStorage.write(storageKey, (viewIndex + 1) % 3);
-    viewIndex = await getStorage.read(storageKey);
     update();
   }
 }

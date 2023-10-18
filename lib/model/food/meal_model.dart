@@ -1,18 +1,12 @@
-import '../../library.dart';
-
 class MealModel {
   String? mealName;
   String? mealIngredients;
   String? mealImage;
-  bool? isEated;
-  Timestamp? timeNow;
 
   MealModel({
     this.mealName,
     this.mealIngredients,
     this.mealImage,
-    this.isEated,
-    this.timeNow,
   });
 
   factory MealModel.fromMap(map) {
@@ -20,8 +14,6 @@ class MealModel {
       mealName: map['mealName'],
       mealIngredients: map['mealIngredients'],
       mealImage: map['mealImage'],
-      isEated: map['isEated'],
-      timeNow: map['timeNow'],
     );
   }
 
@@ -30,8 +22,6 @@ class MealModel {
       'mealName': mealName,
       'mealIngredients': mealIngredients,
       'mealImage': mealImage,
-      'isEated': isEated,
-      'timeNow': timeNow,
     };
   }
 }

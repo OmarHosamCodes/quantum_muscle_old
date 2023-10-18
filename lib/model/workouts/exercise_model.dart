@@ -1,20 +1,15 @@
-import '../../library.dart';
-
 class ExerciseModel {
   String? exerciseName;
   String? exerciseTarget;
   String? exerciseImage;
-  Map<String, String>? sets;
-  bool? isDone;
-  Timestamp? timeNow;
+  Map<String, dynamic>? sets;
 
-  ExerciseModel(
-      {this.exerciseName,
-      this.exerciseTarget,
-      this.exerciseImage,
-      this.sets,
-      this.isDone,
-      this.timeNow});
+  ExerciseModel({
+    this.exerciseName,
+    this.exerciseTarget,
+    this.exerciseImage,
+    this.sets,
+  });
 
   factory ExerciseModel.fromMap(map) {
     return ExerciseModel(
@@ -22,8 +17,6 @@ class ExerciseModel {
       exerciseTarget: map['exerciseTarget'],
       exerciseImage: map['exerciseImage'],
       sets: map['sets'],
-      isDone: map['isDone'],
-      timeNow: map['timeNow'],
     );
   }
 
@@ -33,8 +26,6 @@ class ExerciseModel {
       'exerciseTarget': exerciseTarget,
       'exerciseImage': exerciseImage,
       'sets': sets,
-      'isDone': isDone,
-      "timeNow": timeNow
     };
   }
 }

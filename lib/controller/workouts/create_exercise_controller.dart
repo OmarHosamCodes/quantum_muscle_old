@@ -20,14 +20,13 @@ class CreateExerciseController {
         "2": "",
         "3": "",
       };
-      exerciseModel.isDone = false;
-      exerciseModel.timeNow = Timestamp.now();
+
       Reference storageReference = FirebaseStorage.instance
           .ref()
           .child(user.uid)
           .child("ExercisesImages")
           .child(
-              "$workoutName$exerciseName$exerciseTarget${exerciseModel.timeNow}");
+              "${user.uid.substring(1, 6)}$workoutName$exerciseName$exerciseTarget");
       UploadTask uploadeTask = storageReference.putFile(imageFile);
       try {
         await uploadeTask

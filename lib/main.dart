@@ -7,24 +7,15 @@ void main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
+  final controller = Get.put(IntentController());
+
+  controller.intentHandler();
   await GetStorage.init();
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-    FlutterNativeSplash.remove();
-    doOnce();
-  }
 
   void doOnce() {
     final _ = GetStorage();
@@ -38,11 +29,11 @@ class _MyAppState extends State<MyApp> {
       designSize: const Size(1080, 1920),
       builder: (_, child) {
         return GetMaterialApp(
+          onInit: () {
+            FlutterNativeSplash.remove();
+            doOnce();
+          },
           initialRoute: RoutesConstants.MASTERPAGE,
-          debugShowCheckedModeBanner: false,
-          showPerformanceOverlay: false,
-          debugShowMaterialGrid: false,
-          enableLog: false,
           darkTheme: darkTheme,
           themeMode: ThemeMode.dark,
           getPages: appRoutes,
