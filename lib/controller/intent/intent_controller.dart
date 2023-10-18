@@ -4,7 +4,7 @@ class IntentController extends GetxController {
   StreamSubscription<dynamic>? dataStreamSubscription;
   static const String sharedTextKey = "sharedTextKey";
   late RxString sharedText = ''.obs;
-  Rx<List<SharedMediaFile>?>? sharedFiles;
+  Rx<SharedMediaFile>? sharedFile;
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   ExerciseModel exerciseModel = ExerciseModel();
@@ -22,21 +22,13 @@ class IntentController extends GetxController {
         sharedText.value = text;
       }
     });
-
-    dataStreamSubscription = ReceiveSharingIntent.getMediaStream()
-        .listen((List<SharedMediaFile> files) {
-      sharedFiles!.value = files;
-    });
-
-    ReceiveSharingIntent.getInitialMedia().then((List<SharedMediaFile> files) {
-      sharedFiles!.value = files;
-    });
   }
 
   Future<void> addToWorkout(String workoutName, String index) async {
     final textToJson = jsonDecode(sharedText.value);
     sharedText.value = '';
     final exerciseAsMap = ExerciseModel.fromMap(textToJson);
+
     late User? user = firebaseAuth.currentUser;
     if (user != null) {
       exerciseModel.exerciseName = exerciseAsMap.exerciseName;

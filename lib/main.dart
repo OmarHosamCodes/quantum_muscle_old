@@ -1,5 +1,6 @@
 import 'library.dart';
 
+final controller = Get.put(IntentController());
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -7,7 +8,6 @@ void main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  final controller = Get.put(IntentController());
 
   controller.intentHandler();
   await GetStorage.init();
@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
             FlutterNativeSplash.remove();
             doOnce();
           },
+          onDispose: () => controller.dataStreamSubscription!.cancel(),
           initialRoute: RoutesConstants.MASTERPAGE,
           darkTheme: darkTheme,
           themeMode: ThemeMode.dark,

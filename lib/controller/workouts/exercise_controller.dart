@@ -323,9 +323,7 @@ class ExerciseContrller extends GetxController {
     );
   }
 
-  Future<void> shareExercise(String content) async {
-    await Share.share(
-      content,
-    );
-  }
+  Future<void> shareExercise(String content) async => await Share.share(
+        content,
+      );
 }
