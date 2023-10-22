@@ -6,21 +6,23 @@ class WorkoutsController extends GetxController {
   late User? user = firebaseAuth.currentUser;
   double containerHeight = 200.h;
   bool isContainerExpanded = false;
-  Future createWorkout(String workoutName) async {
+  Future<void> createWorkout(String workoutName) async {
     WorkoutModel workoutModel = WorkoutModel();
 
     if (user != null) {
-      workoutModel.workoutName = workoutName;
-      workoutModel.timeNow = Timestamp.now();
-      workoutModel.isPinned = false;
       try {
+        workoutModel.workoutName = workoutName;
+        workoutModel.isPinned = false;
         Get.back();
+        update();
         await firebaseFirestore
             .collection('users')
             .doc(user!.uid)
             .collection('workouts')
             .doc(workoutName)
             .set(workoutModel.toMap());
+        update();
+        Get.reloadAll(force: true);
       } catch (e) {
         Get.rawSnackbar(
           title: PublicConstants.ERROR,
@@ -30,7 +32,7 @@ class WorkoutsController extends GetxController {
     }
   }
 
-  Future deleteWorkout(String workoutName) async {
+  Future<void> deleteWorkout(String workoutName) async {
     if (user != null) {
       try {
         changeControllerSize();
@@ -40,6 +42,7 @@ class WorkoutsController extends GetxController {
             .collection('workouts')
             .doc(workoutName)
             .delete();
+        Get.reloadAll(force: true);
       } catch (e) {
         Get.rawSnackbar(
           title: PublicConstants.ERROR,
@@ -49,7 +52,7 @@ class WorkoutsController extends GetxController {
     }
   }
 
-  Future pinWorkoutToTrue(String workoutName) async {
+  Future<void> pinWorkoutToTrue(String workoutName) async {
     if (user != null) {
       try {
         changeControllerSize();
@@ -61,6 +64,7 @@ class WorkoutsController extends GetxController {
             .update({
           "isPinned": true,
         });
+        update();
       } catch (e) {
         Get.rawSnackbar(
           title: PublicConstants.ERROR,
@@ -70,7 +74,7 @@ class WorkoutsController extends GetxController {
     }
   }
 
-  Future pinWorkoutTofalse(String workoutName) async {
+  Future<void> pinWorkoutTofalse(String workoutName) async {
     if (user != null) {
       try {
         changeControllerSize();
@@ -82,6 +86,7 @@ class WorkoutsController extends GetxController {
             .update({
           "isPinned": false,
         });
+        update();
       } catch (e) {
         Get.rawSnackbar(
           title: PublicConstants.ERROR,
@@ -91,7 +96,7 @@ class WorkoutsController extends GetxController {
     }
   }
 
-  changeControllerSize() {
+  void changeControllerSize() {
     isContainerExpanded ? containerHeight = 200.h : containerHeight = 500.h;
 
     if (isContainerExpanded) {

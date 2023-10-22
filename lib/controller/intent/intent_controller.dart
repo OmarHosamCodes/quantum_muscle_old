@@ -4,10 +4,12 @@ class IntentController extends GetxController {
   StreamSubscription<dynamic>? dataStreamSubscription;
   static const String sharedTextKey = "sharedTextKey";
   late RxString sharedText = ''.obs;
+  late RxString sharedMediaPath = ''.obs;
   Rx<SharedMediaFile>? sharedFile;
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   ExerciseModel exerciseModel = ExerciseModel();
+  late User? user = firebaseAuth.currentUser;
 
   intentHandler() {
     dataStreamSubscription =
@@ -22,6 +24,23 @@ class IntentController extends GetxController {
         sharedText.value = text;
       }
     });
+    //todo
+    // dataStreamSubscription = ReceiveSharingIntent.getMediaStream()
+    //     .listen((List<SharedMediaFile>? media) async {
+    //   if (media != null) {
+    //     for (var i = 0; i < media.length; i++) {
+    //       sharedMediaPath.value = media[0].path;
+    //     }
+    //   }
+    // });
+    // ReceiveSharingIntent.getInitialMedia()
+    //     .then((List<SharedMediaFile>? media) async {
+    //   if (media != null) {
+    //     for (var i = 0; i < media.length; i++) {
+    //       sharedMediaPath.value = media[0].path;
+    //     }
+    //   }
+    // });
   }
 
   Future<void> addToWorkout(String workoutName, String index) async {

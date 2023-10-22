@@ -42,7 +42,8 @@ class ExerciseContrller extends GetxController {
           merge: true,
         ),
       )
-          .whenComplete(() {
+          .then((_) {
+        update();
         Get.back();
         weightsController.clear();
         repsController.clear();

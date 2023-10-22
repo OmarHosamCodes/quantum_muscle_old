@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import '../../../library.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -13,49 +11,10 @@ class _SettingsPageState extends State<SettingsPage> {
   final firebaseAuth = FirebaseAuth.instance;
   final firebaseFirestore = FirebaseFirestore.instance;
   late final uid = firebaseAuth.currentUser!.uid;
-  late File imagePicked;
-
   final heightTextController = TextEditingController();
   final weightTextController = TextEditingController();
   final bioTextController = TextEditingController();
   int heightAndWeightIndex = 0;
-  Future<void> openGallery(SettingsController controller) async {
-    ImagePicker picker = ImagePicker();
-    var pickedFile = await picker.pickImage(
-        source: ImageSource.gallery,
-        maxWidth: 512,
-        maxHeight: 512,
-        imageQuality: 100);
-    if (pickedFile != null) {
-      setState(() {
-        imagePicked = File(pickedFile.path);
-      });
-      Get.back();
-      controller.changeImage(imagePicked);
-    }
-  }
-
-  Future<void> openCamera(SettingsController controller) async {
-    var status = await Permission.camera.status;
-    if (status.isGranted) {
-      ImagePicker picker = ImagePicker();
-      var pickedFile = await picker.pickImage(
-          source: ImageSource.camera,
-          maxWidth: 512,
-          maxHeight: 512,
-          imageQuality: 100);
-      if (pickedFile != null) {
-        setState(() {
-          imagePicked = File(pickedFile.path);
-        });
-        Get.back();
-
-        controller.changeImage(imagePicked);
-      }
-    } else {
-      await Permission.camera.request();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,10 +61,14 @@ class _SettingsPageState extends State<SettingsPage> {
                                           MainAxisAlignment.spaceAround,
                                       children: [
                                         GestureDetector(
-                                          onTap: () => openDialog(
+                                          onTap: () => controller.openDialog(
                                             controller,
-                                            () => openCamera(controller),
-                                            () => openGallery(controller),
+                                            () => controller.openCamera(
+                                                controller,
+                                                ischangeUserImage: true),
+                                            () => controller.openGallery(
+                                                controller,
+                                                ischangeUserImage: true),
                                           ),
                                           child: Container(
                                             width: 300.w,
@@ -127,8 +90,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                         ),
                                         SizedBox(width: 30.w),
                                         GestureDetector(
-                                          onTap: () =>
-                                              changeHeightAndWeightDialog(
+                                          onTap: () => controller
+                                              .changeHeightAndWeightDialog(
                                                   controller,
                                                   heightTextController,
                                                   weightTextController,
@@ -147,10 +110,14 @@ class _SettingsPageState extends State<SettingsPage> {
                                           MainAxisAlignment.spaceAround,
                                       children: [
                                         GestureDetector(
-                                          onTap: () => openDialog(
+                                          onTap: () => controller.openDialog(
                                             controller,
-                                            () => openCamera(controller),
-                                            () => openGallery(controller),
+                                            () => controller.openCamera(
+                                                controller,
+                                                ischangeUserImage: true),
+                                            () => controller.openGallery(
+                                                controller,
+                                                ischangeUserImage: true),
                                           ),
                                           child: Container(
                                             width: 300.w,
@@ -165,8 +132,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                         ),
                                         SizedBox(width: 30.w),
                                         GestureDetector(
-                                          onTap: () =>
-                                              changeHeightAndWeightDialog(
+                                          onTap: () => controller
+                                              .changeHeightAndWeightDialog(
                                                   controller,
                                                   heightTextController,
                                                   weightTextController,
@@ -184,7 +151,8 @@ class _SettingsPageState extends State<SettingsPage> {
                             Flexible(
                               flex: 3,
                               child: GestureDetector(
-                                onTap: () => changeBioDialog(controller),
+                                onTap: () => controller.changeBioDialog(
+                                    controller, bioTextController),
                                 child: Container(
                                   width: double.maxFinite,
                                   height: double.maxFinite,
@@ -202,6 +170,49 @@ class _SettingsPageState extends State<SettingsPage> {
                                     style: Get.textTheme.titleSmall,
                                   ),
                                 ),
+                              ),
+                            ),
+                            //todo
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 25.w),
+                                width: double.infinity,
+                                height: 200.h,
+                                decoration: BoxDecoration(
+                                  color: Get.theme.primaryColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: doc['userJourney'] != null
+                                    ? ListView(
+                                        scrollDirection: Axis.horizontal,
+                                        children: [
+                                          for (var step in doc['userjourney']
+                                              .cast<String, String>()
+                                              .entries
+                                              .toList())
+                                            Image.network(step),
+                                          const Icon(EvaIcons.plusCircle)
+                                        ],
+                                      )
+                                    : GestureDetector(
+                                        onTap: () => controller.openDialog(
+                                          controller,
+                                          () => controller.openCamera(
+                                              controller,
+                                              ischangeUserImage: true),
+                                          () => controller.openGallery(
+                                              controller,
+                                              ischangeUserImage: true),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            "Coming Soon",
+                                            style: Get.textTheme.titleSmall!
+                                                .copyWith(letterSpacing: 0),
+                                          ),
+                                        ),
+                                      ),
                               ),
                             ),
                             Flexible(
@@ -249,103 +260,4 @@ class _SettingsPageState extends State<SettingsPage> {
           }),
     );
   }
-
-  Future<void> changeBioDialog(SettingsController controller) {
-    return Get.dialog(
-      barrierDismissible: true,
-      Dialog(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 500.h,
-              child: QFTextField(
-                  maxLength: 100,
-                  hasNext: false,
-                  isExpanded: true,
-                  controller: bioTextController,
-                  hintText: "Bio ( 100 characters max! )"),
-            ),
-            SizedBox(height: 25.h),
-            QFSuperButton(
-              text: PublicConstants.SAVE,
-              onTap: () => controller.changeBio(bioTextController.text),
-              icon: EvaIcons.folder,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-void openDialog(SettingsController controller,
-    Future<void> Function() openCamera, Future<void> Function() openGallery) {
-  Get.dialog(
-    barrierDismissible: true,
-    Dialog(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          QFSuperButton(
-            text: PublicConstants.OPENCAMERA,
-            onTap: () => openCamera(),
-            icon: EvaIcons.battery,
-          ),
-          SizedBox(height: 25.h),
-          QFSuperButton(
-            text: PublicConstants.OPENGALLERY,
-            onTap: () => openGallery(),
-            icon: EvaIcons.folder,
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
-void changeHeightAndWeightDialog(
-  SettingsController controller,
-  TextEditingController heightTextController,
-  TextEditingController weightTextController,
-  int heightAndWeightIndex,
-) {
-  Get.dialog(
-    barrierDismissible: true,
-    Dialog(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          QFTextField(
-              maxLength: 5,
-              hasNext: true,
-              controller: heightTextController,
-              keyboardType: TextInputType.number,
-              hintText: "Height in cm or in"),
-          QFTextField(
-              maxLength: 5,
-              hasNext: false,
-              keyboardType: TextInputType.number,
-              controller: weightTextController,
-              hintText: "weight in kg or lb"),
-          SizedBox(height: 25.h),
-          QFSuperButton(
-            text: PublicConstants.SAVE,
-            onTap: () => controller.changeHeightAndWeight(
-                heightTextController.text,
-                weightTextController.text,
-                heightAndWeightIndex.toString()),
-            icon: EvaIcons.folder,
-          ),
-        ],
-      ),
-    ),
-  );
 }

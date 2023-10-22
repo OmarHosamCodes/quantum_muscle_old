@@ -15,7 +15,7 @@ class ExercisesPage extends StatelessWidget {
 
     return GetBuilder<ExerciseContrller>(
       init: ExerciseContrller(),
-      autoRemove: false,
+      autoRemove: true,
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
@@ -64,7 +64,10 @@ class ExercisesPage extends StatelessWidget {
                 .collection('workouts')
                 .doc(docRef)
                 .collection(index)
-                .snapshots(),
+                .get(const GetOptions(
+                  source: Source.serverAndCache,
+                ))
+                .asStream(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 if (controller.viewIndex == 0) {
