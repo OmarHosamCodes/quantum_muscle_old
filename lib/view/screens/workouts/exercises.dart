@@ -15,7 +15,7 @@ class ExercisesPage extends StatelessWidget {
 
     return GetBuilder<ExerciseContrller>(
       init: ExerciseContrller(),
-      autoRemove: true,
+      autoRemove: false,
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
@@ -57,17 +57,14 @@ class ExercisesPage extends StatelessWidget {
               );
             },
           ),
-          body: StreamBuilder<QuerySnapshot>(
+          body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
             stream: FirebaseFirestore.instance
                 .collection('users')
                 .doc(uid)
                 .collection('workouts')
                 .doc(docRef)
                 .collection(index)
-                .get(const GetOptions(
-                  source: Source.serverAndCache,
-                ))
-                .asStream(),
+                .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 if (controller.viewIndex == 0) {
@@ -75,13 +72,14 @@ class ExercisesPage extends StatelessWidget {
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (ctx, i) {
                       DocumentSnapshot doc = snapshot.data!.docs[i];
+
                       DocumentReference<Map<String, dynamic>> setsDocRef =
                           FirebaseFirestore.instance
                               .collection('users')
                               .doc(uid)
                               .collection('workouts')
                               .doc(docRef)
-                              .collection(index)
+                              .collection(i.toString())
                               .doc(doc['exerciseName']);
                       Map<String, String> setsMap =
                           doc['sets'].cast<String, String>();

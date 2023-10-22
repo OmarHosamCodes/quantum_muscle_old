@@ -1,5 +1,6 @@
 import 'library.dart';
 
+final _intentController = Get.put(IntentController());
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -7,7 +8,7 @@ void main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  // IntentController().intentHandler();
+  _intentController.intentHandler();
   await GetStorage.init();
   runApp(const MyApp());
 }
@@ -15,23 +16,14 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  void doOnce() {
-    final _ = GetStorage();
-    _.writeIfNull("mealsView", 0);
-    _.writeIfNull("workoutsView", 0);
-  }
-
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(1080, 1920),
       builder: (_, child) {
         return GetMaterialApp(
-          onInit: () {
-            FlutterNativeSplash.remove();
-            doOnce();
-          },
-          // onDispose: () => IntentController().dataStreamSubscription!.cancel(),
+          onInit: () => FlutterNativeSplash.remove(),
+          onDispose: () => _intentController.dataStreamSubscription!.cancel(),
           initialRoute: RoutesConstants.MASTERPAGE,
           darkTheme: darkTheme,
           themeMode: ThemeMode.dark,

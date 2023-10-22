@@ -13,6 +13,7 @@ class RoutesConstants {
   static const MEALSPAGE = '/meals-page';
   static const CREATEMEALPAGE = '/create-meal-page';
   static const MEALEXPANDEDPAGE = '/meal-expanded-page';
+  static const INTENTPAGE = '/intent-page';
 }
 
 class ClearRoutesConstants {

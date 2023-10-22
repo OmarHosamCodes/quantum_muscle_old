@@ -12,7 +12,7 @@ class WorkoutsController extends GetxController {
     if (user != null) {
       try {
         workoutModel.workoutName = workoutName;
-        workoutModel.isPinned = false;
+        // workoutModel.isPinned = false;
         Get.back();
         update();
         await firebaseFirestore
@@ -41,7 +41,12 @@ class WorkoutsController extends GetxController {
             .doc(user!.uid)
             .collection('workouts')
             .doc(workoutName)
-            .delete();
+            .delete()
+            .onError((e, stackTrace) => Get.rawSnackbar(
+                  title: PublicConstants.ERROR,
+                  message: e.toString(),
+                ));
+
         Get.reloadAll(force: true);
       } catch (e) {
         Get.rawSnackbar(
@@ -52,49 +57,49 @@ class WorkoutsController extends GetxController {
     }
   }
 
-  Future<void> pinWorkoutToTrue(String workoutName) async {
-    if (user != null) {
-      try {
-        changeControllerSize();
-        await firebaseFirestore
-            .collection("users")
-            .doc(user!.uid)
-            .collection('workouts')
-            .doc(workoutName)
-            .update({
-          "isPinned": true,
-        });
-        update();
-      } catch (e) {
-        Get.rawSnackbar(
-          title: PublicConstants.ERROR,
-          message: e.toString(),
-        );
-      }
-    }
-  }
+  // Future<void> pinWorkoutToTrue(String workoutName) async {
+  //   if (user != null) {
+  //     try {
+  //       changeControllerSize();
+  //       await firebaseFirestore
+  //           .collection("users")
+  //           .doc(user!.uid)
+  //           .collection('workouts')
+  //           .doc(workoutName)
+  //           .update({
+  //         "isPinned": true,
+  //       });
+  //       update();
+  //     } catch (e) {
+  //       Get.rawSnackbar(
+  //         title: PublicConstants.ERROR,
+  //         message: e.toString(),
+  //       );
+  //     }
+  //   }
+  // }
 
-  Future<void> pinWorkoutTofalse(String workoutName) async {
-    if (user != null) {
-      try {
-        changeControllerSize();
-        await firebaseFirestore
-            .collection("users")
-            .doc(user!.uid)
-            .collection('workouts')
-            .doc(workoutName)
-            .update({
-          "isPinned": false,
-        });
-        update();
-      } catch (e) {
-        Get.rawSnackbar(
-          title: PublicConstants.ERROR,
-          message: e.toString(),
-        );
-      }
-    }
-  }
+  // Future<void> pinWorkoutTofalse(String workoutName) async {
+  //   if (user != null) {
+  //     try {
+  //       changeControllerSize();
+  //       await firebaseFirestore
+  //           .collection("users")
+  //           .doc(user!.uid)
+  //           .collection('workouts')
+  //           .doc(workoutName)
+  //           .update({
+  //         "isPinned": false,
+  //       });
+  //       update();
+  //     } catch (e) {
+  //       Get.rawSnackbar(
+  //         title: PublicConstants.ERROR,
+  //         message: e.toString(),
+  //       );
+  //     }
+  //   }
+  // }
 
   void changeControllerSize() {
     isContainerExpanded ? containerHeight = 200.h : containerHeight = 500.h;

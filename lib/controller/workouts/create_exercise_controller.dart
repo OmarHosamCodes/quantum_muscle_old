@@ -24,7 +24,7 @@ class CreateExerciseController {
             .ref()
             .child(user!.uid)
             .child("ExercisesImages")
-            .child("$workoutName$exerciseName$exerciseTarget$UniqueKey");
+            .child("$workoutName$exerciseName$exerciseTarget${UniqueKey()}");
         UploadTask uploadeTask = storageReference.putFile(imageFile);
         await uploadeTask
             .then((_) async => exerciseModel.exerciseImage =

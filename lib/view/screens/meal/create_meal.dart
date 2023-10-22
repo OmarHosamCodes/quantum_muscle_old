@@ -110,19 +110,17 @@ class _CreateMealPageState extends State<CreateMealPage> {
 
     return Scaffold(
       extendBody: true,
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.only(
-                  left: 65.w,
-                  right: 65.w,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 75.w),
                 child: Container(
                   height: 400.h,
-                  width: 400.w,
+                  width: double.maxFinite,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15.r),
                       border:

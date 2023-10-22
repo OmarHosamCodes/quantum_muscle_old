@@ -1,20 +1,23 @@
 class WorkoutModel {
   String? workoutName;
-  bool? isPinned;
+  // bool? isPinned;
 
-  WorkoutModel({this.workoutName, this.isPinned});
+  WorkoutModel({
+    this.workoutName,
+    // this.isPinned,
+  });
 
   factory WorkoutModel.fromMap(map) {
     return WorkoutModel(
       workoutName: map['workoutName'],
-      isPinned: map['isPinned'],
+      // isPinned: map['isPinned'],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'workoutName': workoutName,
-      'isPinned': isPinned,
+      // 'isPinned': isPinned,
     };
   }
 }

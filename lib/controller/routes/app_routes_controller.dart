@@ -55,4 +55,10 @@ final List<GetPage> appRoutes = <GetPage>[
     transition: Transition.fadeIn,
     transitionDuration: 200.milliseconds,
   ),
+  GetPage(
+    name: RoutesConstants.INTENTPAGE,
+    page: () => const IntentPage(),
+    transition: Transition.native,
+    transitionDuration: 200.milliseconds,
+  ),
 ];

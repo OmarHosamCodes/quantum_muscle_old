@@ -1,10 +1,9 @@
 import '/library.dart';
 
 class ExerciseContrller extends GetxController {
-  final getStorage = GetStorage();
   final firebaseFirestore = FirebaseFirestore.instance;
   int viewIndex = 0;
-  final storageKey = ('workoutsView');
+
   bool visibiltyIndexCondition = true;
 
   BorderRadius borderRadius(List<String> sets, int setsIndex) {
@@ -168,9 +167,8 @@ class ExerciseContrller extends GetxController {
     );
   }
 
-  Future changeView() async {
-    getStorage.write(storageKey, (viewIndex + 1) % 3);
-    viewIndex = await getStorage.read(storageKey);
+  void changeView() async {
+    viewIndex = (viewIndex + 1) % 3;
     visibiltyIndexCondition = viewIndex == 2 ? false : true;
     update();
   }

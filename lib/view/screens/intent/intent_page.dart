@@ -6,18 +6,21 @@ class IntentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
+    final arguments = Get.arguments;
+    final sharedText = arguments[0];
     return GetBuilder<IntentController>(
+      autoRemove: false,
       init: IntentController(),
       builder: (controller) {
         return Scaffold(
           body: SafeArea(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
+            child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              future: FirebaseFirestore.instance
                   .collection('users')
                   .doc(user!.uid)
                   .collection('workouts')
                   .orderBy('isPinned', descending: true)
-                  .snapshots(),
+                  .get(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
@@ -33,7 +36,10 @@ class IntentPage extends StatelessWidget {
 
                       return GestureDetector(
                         onTap: () => controller.addToWorkout(
-                            doc['workoutName'], i.toString()),
+                          doc['workoutName'],
+                          i.toString(),
+                          sharedText,
+                        ),
                         child: Padding(
                           padding: EdgeInsets.only(bottom: 30.h),
                           child: AnimatedContainer(

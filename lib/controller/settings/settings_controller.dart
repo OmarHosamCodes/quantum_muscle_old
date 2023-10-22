@@ -38,27 +38,28 @@ class SettingsController extends GetxController {
   }
 
   //TODO
-  Future<void> addJourneyStep(String journeyStep, String index) async {
-    if (user != null) {
-      try {
-        await firebaseFirestore.collection("users").doc(user!.uid).set(
-          {
-            "userJourney": {index: journeyStep},
-          },
-          SetOptions(
-            merge: true,
-          ),
-        );
-        Get.back();
-        update();
-      } catch (e) {
-        Get.rawSnackbar(
-          title: PublicConstants.ERROR,
-          message: e.toString(),
-        );
-      }
-    }
-  }
+
+  // Future<void> addJourneyStep(String journeyStep, String index) async {
+  //   if (user != null) {
+  //     try {
+  //       await firebaseFirestore.collection("users").doc(user!.uid).set(
+  //         {
+  //           "userJourney": {index: journeyStep},
+  //         },
+  //         SetOptions(
+  //           merge: true,
+  //         ),
+  //       );
+  //       Get.back();
+  //       update();
+  //     } catch (e) {
+  //       Get.rawSnackbar(
+  //         title: PublicConstants.ERROR,
+  //         message: e.toString(),
+  //       );
+  //     }
+  //   }
+  // }
 
   Future<void> changeBio(String newBio) async {
     if (user != null) {

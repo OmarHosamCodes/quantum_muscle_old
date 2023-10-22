@@ -106,6 +106,7 @@ class _CreateExercisePageState extends State<CreateExercisePage> {
 
     return Scaffold(
       extendBody: true,
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(

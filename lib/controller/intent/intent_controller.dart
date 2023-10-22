@@ -2,10 +2,10 @@ import '/library.dart';
 
 class IntentController extends GetxController {
   StreamSubscription<dynamic>? dataStreamSubscription;
-  static const String sharedTextKey = "sharedTextKey";
-  late RxString sharedText = ''.obs;
-  late RxString sharedMediaPath = ''.obs;
-  Rx<SharedMediaFile>? sharedFile;
+  // static const String sharedTextKey = "sharedTextKey";
+  // late RxString sharedText = ''.obs;
+  // late RxString sharedMediaPath = ''.obs;
+  // Rx<SharedMediaFile>? sharedFile;
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   ExerciseModel exerciseModel = ExerciseModel();
@@ -15,13 +15,15 @@ class IntentController extends GetxController {
     dataStreamSubscription =
         ReceiveSharingIntent.getTextStream().listen((String? text) async {
       if (text != null) {
-        sharedText.value = text;
+        // sharedText.value = text;
+        Get.toNamed(RoutesConstants.INTENTPAGE, arguments: [text]);
       }
     });
 
     ReceiveSharingIntent.getInitialText().then((String? text) async {
       if (text != null) {
-        sharedText.value = text;
+        // sharedText.value = text;
+        Get.toNamed(RoutesConstants.INTENTPAGE, arguments: [text]);
       }
     });
     //todo
@@ -43,27 +45,25 @@ class IntentController extends GetxController {
     // });
   }
 
-  Future<void> addToWorkout(String workoutName, String index) async {
-    final textToJson = jsonDecode(sharedText.value);
-    sharedText.value = '';
-    final exerciseAsMap = ExerciseModel.fromMap(textToJson);
-
-    late User? user = firebaseAuth.currentUser;
+  Future<void> addToWorkout(
+      String workoutName, String index, String sharedText) async {
     if (user != null) {
-      exerciseModel.exerciseName = exerciseAsMap.exerciseName;
-      exerciseModel.exerciseImage = exerciseAsMap.exerciseImage;
-      exerciseModel.exerciseTarget = exerciseAsMap.exerciseTarget;
-      exerciseModel.sets = exerciseAsMap.sets;
-
       try {
+        final textToJson = jsonDecode(sharedText);
+        final exerciseAsMap = ExerciseModel.fromMap(textToJson);
+        exerciseModel.exerciseName = exerciseAsMap.exerciseName;
+        exerciseModel.exerciseImage = exerciseAsMap.exerciseImage;
+        exerciseModel.exerciseTarget = exerciseAsMap.exerciseTarget;
+        exerciseModel.sets = exerciseAsMap.sets;
         await firebaseFirestore
             .collection('users')
-            .doc(user.uid)
+            .doc(user!.uid)
             .collection('workouts')
             .doc(workoutName)
             .collection(index)
             .doc(exerciseModel.exerciseName)
-            .set(exerciseModel.toMap());
+            .set(exerciseModel.toMap())
+            .then((value) => Get.offAndToNamed(RoutesConstants.MASTERPAGE));
       } catch (e) {
         Get.rawSnackbar(
           title: PublicConstants.ERROR,
